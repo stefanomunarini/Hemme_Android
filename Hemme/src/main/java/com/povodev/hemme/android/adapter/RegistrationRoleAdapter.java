@@ -36,7 +36,7 @@ public class RegistrationRoleAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override

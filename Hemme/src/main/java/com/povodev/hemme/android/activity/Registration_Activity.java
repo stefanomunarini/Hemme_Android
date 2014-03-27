@@ -1,5 +1,6 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.RegistrationRoleAdapter;
@@ -32,13 +34,20 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     @InjectView(R.id.registration_button)   private Button mRegistrationButton;
     @InjectView(R.id.role_spinner)          private Spinner mRoleSpinner;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        this.context = this;
+
+        //new Registration_HttpRequest(this).execute();
+
 
         initComponents();
-        populateSpinner();
+        //populateSpinner();
     }
 
     private void populateSpinner() {
@@ -51,10 +60,17 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
 
     @Override
     public void onClick(View v) {
+
         int id = v.getId();
+        Toast toast = Toast.makeText(getApplicationContext(),"onClick id:" + id,Toast.LENGTH_SHORT);
+        toast.show();
+
         switch (id){
             case R.id.registration_button:
+                //Toast toast = Toast.makeText(getApplicationContext(),"B.Pressed",Toast.LENGTH_SHORT);
+                //toast.show();
                 getValues();
+                new Registration_HttpRequest(context).execute();
                 break;
         }
     }
@@ -81,14 +97,20 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
 
     private class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
+        public Registration_HttpRequest(Context context){
+            progressDialog = new ProgressDialog(context);
+        }
+
+        ProgressDialog progressDialog;
+
         @Override
         protected User doInBackground(Void... params) {
             try {
                 final String url = "http://rest-service.guides.spring.io/greeting";
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                User user = restTemplate.getForObject(url, User.class);
-                return user;
+                //User user = restTemplate.getForObject(url, User.class);
+                return null;
             } catch (Exception e) {
                 Log.e("MyActivity", e.getMessage(), e);
             }
@@ -98,12 +120,14 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
 
         @Override
         protected void onPreExecute(){
+            progressDialog.setMessage("Registrazione in corso.");
+            progressDialog.show();
             //showLoadingProgressDialog();
         }
 
         @Override
         protected void onPostExecute(User user) {
-
+            //if (progressDialog.isShowing()) progressDialog.dismiss();
         }
 
     }

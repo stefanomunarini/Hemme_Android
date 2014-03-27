@@ -71,6 +71,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     private void redirect(Intent intent) {
         startActivity(intent);
-        getActivity().finish();
+        //getActivity().finish();
     }
 }

@@ -34,8 +34,21 @@
                 android:value="com.povodev.hemme.android.ClinicalEventListActivity" />
         </activity>
 
-        <activity android:name=".activity.Login_Activity"/>
-        <activity android:name=".activity.Registration_Activity"/>
+        <activity
+            android:name=".activity.Login_Activity"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
+        </activity>
+
+        <activity
+            android:name=".activity.Registration_Activity"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
+        </activity>
 
     </application>
 
