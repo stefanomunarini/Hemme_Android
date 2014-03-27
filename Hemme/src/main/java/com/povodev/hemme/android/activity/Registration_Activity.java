@@ -1,8 +1,10 @@
 package com.povodev.hemme.android.activity;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,10 @@ import android.widget.Spinner;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.RegistrationRoleAdapter;
+import com.povodev.hemme.android.bean.User;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
@@ -17,7 +23,7 @@ import roboguice.inject.InjectView;
 /**
  * Created by Stefano on 27/03/14.
  */
-public class RegistrationActivity extends RoboFragmentActivity implements View.OnClickListener {
+public class Registration_Activity extends RoboFragmentActivity implements View.OnClickListener {
 
     @InjectView(R.id.name_edittext)         private EditText mNameEditText;
     @InjectView(R.id.surname_edittext)      private EditText mSurnameEditText;
@@ -71,5 +77,34 @@ public class RegistrationActivity extends RoboFragmentActivity implements View.O
     private String getImei() {
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getDeviceId();
+    }
+
+    private class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
+
+        @Override
+        protected User doInBackground(Void... params) {
+            try {
+                final String url = "http://rest-service.guides.spring.io/greeting";
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                User user = restTemplate.getForObject(url, User.class);
+                return user;
+            } catch (Exception e) {
+                Log.e("MyActivity", e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            //showLoadingProgressDialog();
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+
+        }
+
     }
 }

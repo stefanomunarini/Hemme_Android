@@ -11,7 +11,7 @@ import roboguice.activity.RoboFragmentActivity;
 /**
  * Created by Stefano on 27/03/14.
  */
-public class Activity_Home extends RoboFragmentActivity {
+public class Home_Activity extends RoboFragmentActivity {
 
     //@InjectView(R.id.activity_home_title) TextView titolo;
 
@@ -24,7 +24,7 @@ public class Activity_Home extends RoboFragmentActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_home_container,fragment_home)
+                .add(R.id.fragment_home_container, fragment_home)
                 .commit();
 
 

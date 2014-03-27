@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.activity.LoginActivity;
-import com.povodev.hemme.android.activity.RegistrationActivity;
+import com.povodev.hemme.android.activity.Login_Activity;
+import com.povodev.hemme.android.activity.Registration_Activity;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -54,15 +54,15 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         Intent intent;
         switch (id){
             case R.id.login_button:
-                intent = new Intent(this.getActivity(),LoginActivity.class);
+                intent = new Intent(this.getActivity(),Login_Activity.class);
                 redirect(intent);
                 break;
             case R.id.registration_button:
-                intent = new Intent(this.getActivity(),RegistrationActivity.class);
+                intent = new Intent(this.getActivity(),Registration_Activity.class);
                 redirect(intent);
                 break;
             case R.id.password_forget_textview:
-                intent = new Intent(this.getActivity(),LoginActivity.class);
+                intent = new Intent(this.getActivity(),Login_Activity.class);
                 redirect(intent);
                 break;
 
