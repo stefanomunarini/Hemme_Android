@@ -1,26 +1,32 @@
 package com.povodev.hemme.android.activity;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.fragment.Fragment_Home;
 
-import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
+import roboguice.activity.RoboFragmentActivity;
 
 /**
  * Created by Stefano on 27/03/14.
  */
-public class Activity_Home extends RoboActivity {
+public class Activity_Home extends RoboFragmentActivity {
 
-    @InjectView(R.id.activity_home_title) TextView titolo;
+    //@InjectView(R.id.activity_home_title) TextView titolo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Fragment fragment_home = new Fragment_Home();
 
-        //titolo.setText("Prova");
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_home_container,fragment_home)
+                .commit();
+
+
     }
 }
