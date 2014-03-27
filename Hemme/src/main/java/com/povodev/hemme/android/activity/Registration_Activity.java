@@ -144,7 +144,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
             //progressDialog.setTitle("Benvenuto in HeMMe");
             progressDialog.setMessage("Registrazione in corso...");
         }
-
         ProgressDialog progressDialog;
 
         @Override
