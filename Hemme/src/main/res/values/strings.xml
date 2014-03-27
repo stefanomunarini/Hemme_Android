@@ -3,5 +3,6 @@
 
     <string name="app_name">Hemme_Android</string>
     <string name="title_clinicalevent_detail">ClinicalEvent Detail</string>
+    <string name="app_welcome_message">Benvenuti in Hemme</string>
 
 </resources>
