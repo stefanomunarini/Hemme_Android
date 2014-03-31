@@ -21,9 +21,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 /**
@@ -37,6 +37,12 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     @InjectView(R.id.password_edittext)     private EditText mPasswordEditText;
     @InjectView(R.id.registration_button)   private Button mRegistrationButton;
     @InjectView(R.id.role_spinner)          private Spinner mRoleSpinner;
+    @InjectResource(R.array.array_roles)    private ArrayList SpinnerArray;
+
+    //List<String> SpinnerArray =  new ArrayList<String>();
+    //SpinnerArray.add("Tutor");
+    //SpinnerArray.add("Dottore");
+    //SpinnerArray.get(R.array.array_roles);
 
     private Context context;
 
@@ -58,10 +64,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     }
 
     private void initSpinner() {
-
-        List<String> SpinnerArray =  new ArrayList<String>();
-        SpinnerArray.add("Tutor");
-        SpinnerArray.add("Dottore");
 
         ArrayAdapter<String> adapter = new SpinnerAdapter(this, android.R.layout.simple_spinner_item, SpinnerArray);
 
