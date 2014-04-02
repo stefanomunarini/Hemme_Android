@@ -20,9 +20,21 @@
     <string name="note_label">Note</string>
     <string name="insert_label">Inserisci</string>
 
+
+
+<!-- DOCUMENT -->
+    <string name="new_document_label">Nuovo Documento</string>
+    <string name="filename_label">File da inserire</string>
+    <string name="upload_label">Carica file</string>
+
+
     <array name="array_roles">
         <item>Tutor</item>
         <item>Dottore</item>
     </array>
+
+    <string name="title_activity_new__document">New_Document</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
