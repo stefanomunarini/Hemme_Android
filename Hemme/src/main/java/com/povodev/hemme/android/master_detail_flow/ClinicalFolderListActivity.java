@@ -35,6 +35,7 @@ public class ClinicalFolderListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clinicalfolder_list);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (findViewById(R.id.clinicalfolder_detail_container) != null) {
             // The detail container view will be present only in the

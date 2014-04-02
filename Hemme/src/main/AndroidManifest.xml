@@ -25,7 +25,11 @@
 
         <activity
             android:name="com.povodev.hemme.android.master_detail_flow.ClinicalFolderListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
 
         <activity

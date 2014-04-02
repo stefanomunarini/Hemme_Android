@@ -3,7 +3,6 @@ package com.povodev.hemme.android.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.Document;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -32,6 +30,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     @InjectView(R.id.insert_new_document_button)            private Button mInserNewDocumentButton;
 
     private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
