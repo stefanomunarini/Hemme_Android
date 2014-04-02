@@ -79,6 +79,7 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
         ClinicalEvent clinicalEvent = new ClinicalEvent();
         clinicalEvent.setTherapy(therapy);
         clinicalEvent.setNote(note);
+        clinicalEvent.setAuthor(1);
         return clinicalEvent;
     }
 
