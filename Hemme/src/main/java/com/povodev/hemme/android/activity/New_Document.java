@@ -2,6 +2,8 @@ package com.povodev.hemme.android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +21,18 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.net.HttpURLConnection;
+
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
 public class New_Document extends RoboActivity implements View.OnClickListener{
 
     private final String TAG = "NewDocument_Activity";
+    final int ACTIVITY_CHOOSE_FILE = 1;
+
 
     @InjectView(R.id.file_edittext)                         private EditText mFileEditText;
     @InjectView(R.id.insert_new_document_button)            private Button mInserNewDocumentButton;
@@ -74,19 +82,34 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         int id = v.getId();
 
         switch (id){
-            case R.id.insert_new_clinicalevent_button:
+            case R.id.insert_new_document_button:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent,ACTIVITY_CHOOSE_FILE);
                 new NewDocument_HttpRequest(context,getDocument()).execute();
                 break;
         }
 
     }
-    private Document getDocument() {
-        return getDocumentValues();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        switch(requestCode){
+            case ACTIVITY_CHOOSE_FILE:
+                if(resultCode==RESULT_OK){
+                    String FilePath = data.getData().getPath();
+                    mFileEditText.setText(FilePath);
+                }
+                break;
+        }
     }
 
 
+    private Document getDocument() {
+        return getDocumentValues();
+    }
     private String file;
-
     private Document getDocumentValues() {
         file = mFileEditText.getText().toString();
         return setUserValues(file);
@@ -144,4 +167,29 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
             else Log.d(TAG,"Failed to insert new document");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
