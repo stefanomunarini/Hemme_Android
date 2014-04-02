@@ -5,6 +5,7 @@ package com.povodev.hemme.android.bean;
  */
 public class User {
 
+    private int id;
     private String name;
     private String surname;
     private String email;
@@ -59,5 +60,13 @@ public class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

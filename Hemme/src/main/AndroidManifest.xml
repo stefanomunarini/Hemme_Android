@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.povodev.hemme.android" >
 
-    <!-- PER PRENDERE L'IMEI NECESSARIO PER REGISTRARE I DISPOSITIVI-->
+    <!-- PER PRENDERE L'IMEI NECESSARIO PER REGISTRARE I DISPOSITIVI -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- PER EFFETTUARE RICHIESTE AL SERVER -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -44,6 +46,14 @@
 
         <activity
             android:name=".activity.Registration_Activity"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
+        </activity>
+
+        <activity
+            android:name=".activity.New_ClinicaEvent"
             android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

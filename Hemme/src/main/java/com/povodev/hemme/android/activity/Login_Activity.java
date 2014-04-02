@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.User;
 
@@ -23,6 +24,8 @@ import roboguice.inject.InjectView;
  */
 public class Login_Activity extends RoboFragmentActivity implements View.OnClickListener{
 
+    private final String TAG = "Login_Activity";
+
     @InjectView(R.id.username_edittext) private EditText mUsernameEditText;
     @InjectView(R.id.password_edittext) private EditText mPasswordEditText;
     @InjectView(R.id.login_button)      private Button mLoginButton;
@@ -35,6 +38,11 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         setContentView(R.layout.activity_login);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
+
+
+        // AUtocompilazione per comodita' (da eliminare alla fine del test)
+        mUsernameEditText.setText("ste");
+        mPasswordEditText.setText("ste");
 
         setComponentsListener();
 
@@ -79,14 +87,16 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
 
         @Override
         protected User doInBackground(Void... params) {
+            Log.d(TAG,"Login di " + username + " / passw: " + password);
             try {
-                final String url = "http://rest-service.guides.spring.io/greeting";
+                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password;
+                Log.d(TAG,"Request URL4Login: " + url);
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 User user = restTemplate.getForObject(url, User.class);
-                return null;
+                return user;
             } catch (Exception e) {
-                Log.e("MyActivity", e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             }
 
             return null;
@@ -100,6 +110,8 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         @Override
         protected void onPostExecute(User user) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
+            if (user!=null) Log.d(TAG,"Username: " + user.getEmail() + " / Imei: " + user.getImei());
+            else Log.d(TAG,"Failed to Login");
         }
     }
 }

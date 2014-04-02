@@ -13,6 +13,12 @@
     <string name="surname">Cognome</string>
     <string name="email">Email</string>
     <string name="role">Ruolo</string>
+    <string name="new_clinicalevent_label">Nuovo Evento Clinico</string>
+    <string name="data">Data</string>
+    <string name="therapy_label">Terapia</string>
+    <string name="note">Note</string>
+    <string name="note_label">Note</string>
+    <string name="insert_label">Inserisci</string>
 
     <array name="array_roles">
         <item>Tutor</item>
