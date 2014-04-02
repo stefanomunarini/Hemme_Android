@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.dummy;
+package com.povodev.hemme.android.master_detail_flow.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

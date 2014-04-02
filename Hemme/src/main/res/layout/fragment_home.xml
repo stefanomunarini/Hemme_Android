@@ -71,6 +71,35 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+            <Button
+                android:id="@+id/clinicalfolder_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clinicalfolder_label"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/document_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_document_label"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/password_forget_textview"
                 android:layout_width="fill_parent"

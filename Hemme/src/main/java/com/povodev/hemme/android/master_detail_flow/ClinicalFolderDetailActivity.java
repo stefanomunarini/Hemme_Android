@@ -1,27 +1,27 @@
-package com.povodev.hemme.android;
+package com.povodev.hemme.android.master_detail_flow;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-
+import com.povodev.hemme.android.R;
 
 /**
- * An activity representing a single ClinicalEvent detail screen. This
+ * An activity representing a single ClinicalFolder detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link ClinicalEventListActivity}.
+ * in a {@link ClinicalFolderListActivity}.
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link ClinicalEventDetailFragment}.
+ * more than a {@link ClinicalFolderDetailFragment}.
  */
-public class ClinicalEventDetailActivity extends FragmentActivity {
+public class ClinicalFolderDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clinicalevent_detail);
+        setContentView(R.layout.activity_clinicalfolder_detail);
 
         // Show the Up button in the action bar.
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -39,12 +39,12 @@ public class ClinicalEventDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ClinicalEventDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ClinicalEventDetailFragment.ARG_ITEM_ID));
-            ClinicalEventDetailFragment fragment = new ClinicalEventDetailFragment();
+            arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID));
+            ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.clinicalevent_detail_container, fragment)
+                    .add(R.id.clinicalfolder_detail_container, fragment)
                     .commit();
         }
     }
@@ -60,7 +60,7 @@ public class ClinicalEventDetailActivity extends FragmentActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, ClinicalEventListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, ClinicalFolderListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

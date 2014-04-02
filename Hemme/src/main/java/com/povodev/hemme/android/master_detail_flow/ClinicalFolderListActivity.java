@@ -1,29 +1,29 @@
-package com.povodev.hemme.android;
+package com.povodev.hemme.android.master_detail_flow;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-
+import com.povodev.hemme.android.R;
 
 /**
- * An activity representing a list of ClinicalFolder. This activity
+ * An activity representing a list of ClinicalEvents. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ClinicalEventDetailActivity} representing
+ * lead to a {@link ClinicalFolderDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link ClinicalEventListFragment} and the item details
- * (if present) is a {@link ClinicalEventDetailFragment}.
+ * {@link ClinicalFolderListFragment} and the item details
+ * (if present) is a {@link ClinicalFolderDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link ClinicalEventListFragment.Callbacks} interface
+ * {@link ClinicalFolderListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ClinicalEventListActivity extends FragmentActivity
-        implements ClinicalEventListFragment.Callbacks {
+public class ClinicalFolderListActivity extends FragmentActivity
+        implements ClinicalFolderListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -34,9 +34,9 @@ public class ClinicalEventListActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clinicalevent_list);
+        setContentView(R.layout.activity_clinicalfolder_list);
 
-        if (findViewById(R.id.clinicalevent_detail_container) != null) {
+        if (findViewById(R.id.clinicalfolder_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
             // res/values-sw600dp). If this view is present, then the
@@ -45,8 +45,8 @@ public class ClinicalEventListActivity extends FragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ClinicalEventListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.clinicalevent_list))
+            ((ClinicalFolderListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.clinicalfolder_list))
                     .setActivateOnItemClick(true);
         }
 
@@ -54,7 +54,7 @@ public class ClinicalEventListActivity extends FragmentActivity
     }
 
     /**
-     * Callback method from {@link ClinicalEventListFragment.Callbacks}
+     * Callback method from {@link ClinicalFolderListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override
@@ -64,18 +64,18 @@ public class ClinicalEventListActivity extends FragmentActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ClinicalEventDetailFragment.ARG_ITEM_ID, id);
-            ClinicalEventDetailFragment fragment = new ClinicalEventDetailFragment();
+            arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
+            ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.clinicalevent_detail_container, fragment)
+                    .replace(R.id.clinicalfolder_detail_container, fragment)
                     .commit();
 
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent detailIntent = new Intent(this, ClinicalEventDetailActivity.class);
-            detailIntent.putExtra(ClinicalEventDetailFragment.ARG_ITEM_ID, id);
+            Intent detailIntent = new Intent(this, ClinicalFolderDetailActivity.class);
+            detailIntent.putExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

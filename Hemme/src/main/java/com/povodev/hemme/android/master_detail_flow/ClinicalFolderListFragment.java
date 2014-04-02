@@ -1,25 +1,38 @@
-package com.povodev.hemme.android;
+package com.povodev.hemme.android.master_detail_flow;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.bean.ClinicalFolder;
+import com.povodev.hemme.android.master_detail_flow.dummy.DummyContent;
 
-import com.povodev.hemme.android.dummy.DummyContent;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
 
 /**
- * A list fragment representing a list of ClinicalFolder. This fragment
+ * A list fragment representing a list of ClinicalEvents. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ClinicalEventDetailFragment}.
+ * currently being viewed in a {@link ClinicalFolderDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class ClinicalEventListFragment extends ListFragment {
+public class ClinicalFolderListFragment extends ListFragment {
+
+    private final static String TAG = "ClinicalFolderListFragment";
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -64,12 +77,17 @@ public class ClinicalEventListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ClinicalEventListFragment() {
+    public ClinicalFolderListFragment() {
     }
 
+    private int user_id;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user_id = 1;
+
+        new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
 
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
@@ -148,5 +166,50 @@ public class ClinicalEventListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+
+    private class ClinicalFolderLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<ClinicalEvent>> {
+
+
+        private int user_id;
+        public ClinicalFolderLoader_HttpRequest(Context context, int user_id){
+            progressDialog = new ProgressDialog(context);
+            //progressDialog.setTitle("Benvenuto in HeMMe");
+            progressDialog.setMessage("Registrazione in corso...");
+            this.user_id = user_id;
+        }
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected ArrayList<ClinicalEvent> doInBackground(Void... params) {
+
+            try {
+                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getClinicalFolder?user_id="+user_id;
+
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                return restTemplate.getForObject(url, ClinicalFolder.class);
+
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ClinicalEvent> clinicalFolder) {
+            if (progressDialog.isShowing()) progressDialog.dismiss();
+
+            Log.d(TAG,"ArrayList size: "+clinicalFolder.size());
+        }
     }
 }

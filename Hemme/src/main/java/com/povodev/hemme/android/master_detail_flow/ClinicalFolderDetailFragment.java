@@ -1,4 +1,4 @@
-package com.povodev.hemme.android;
+package com.povodev.hemme.android.master_detail_flow;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,17 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.povodev.hemme.android.R;
 
-
-import com.povodev.hemme.android.dummy.DummyContent;
+import com.povodev.hemme.android.master_detail_flow.dummy.DummyContent;
 
 /**
- * A fragment representing a single ClinicalEvent detail screen.
- * This fragment is either contained in a {@link ClinicalEventListActivity}
- * in two-pane mode (on tablets) or a {@link ClinicalEventDetailActivity}
+ * A fragment representing a single ClinicalFolder detail screen.
+ * This fragment is either contained in a {@link ClinicalFolderListActivity}
+ * in two-pane mode (on tablets) or a {@link ClinicalFolderDetailActivity}
  * on handsets.
  */
-public class ClinicalEventDetailFragment extends Fragment {
+public class ClinicalFolderDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -32,7 +32,7 @@ public class ClinicalEventDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ClinicalEventDetailFragment() {
+    public ClinicalFolderDetailFragment() {
     }
 
     @Override
@@ -50,11 +50,11 @@ public class ClinicalEventDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_clinicalevent_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_clinicalfolder_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.clinicalevent_detail)).setText(mItem.content);
+            ((TextView) rootView.findViewById(R.id.clinicalfolder_detail)).setText(mItem.content);
         }
 
         return rootView;

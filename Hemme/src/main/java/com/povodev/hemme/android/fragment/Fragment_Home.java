@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
+import com.povodev.hemme.android.activity.New_Document;
 import com.povodev.hemme.android.activity.Registration_Activity;
+import com.povodev.hemme.android.master_detail_flow.ClinicalFolderListActivity;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -24,6 +26,8 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.login_button)                  private Button mLoginButton;
     @InjectView(R.id.registration_button)           private Button mRegistrationButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
+    @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
+    @InjectView(R.id.document_button)               private Button mDocumentButton;
     @InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
 
     @Override
@@ -36,6 +40,8 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         mRegistrationButton.setOnClickListener(this);
         mPasswordForgetTextView.setOnClickListener(this);
         mNewClinicalEventButton.setOnClickListener(this);
+        mClinicalFolderButton.setOnClickListener(this);
+        mDocumentButton.setOnClickListener(this);
     }
 
     @Override
@@ -64,12 +70,20 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 intent = new Intent(this.getActivity(),Registration_Activity.class);
                 redirect(intent);
                 break;
+            case R.id.newclinicalevent_button:
+                intent = new Intent(this.getActivity(),New_ClinicaEvent.class);
+                redirect(intent);
+                break;
+            case R.id.clinicalfolder_button:
+                intent = new Intent(this.getActivity(),ClinicalFolderListActivity.class);
+                redirect(intent);
+                break;
             case R.id.password_forget_textview:
                 intent = new Intent(this.getActivity(),Login_Activity.class);
                 redirect(intent);
                 break;
-            case R.id.newclinicalevent_button:
-                intent = new Intent(this.getActivity(),New_ClinicaEvent.class);
+            case R.id.document_button:
+                intent = new Intent(this.getActivity(),New_Document.class);
                 redirect(intent);
                 break;
 
