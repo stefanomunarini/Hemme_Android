@@ -93,7 +93,6 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
             this.clinicalEvent = clinicalEvent;
         }
 
-
         ProgressDialog progressDialog;
 
         @Override
