@@ -8,6 +8,8 @@ import java.util.Collection;
  */
 public class ClinicalFolder extends ArrayList<ClinicalEvent> {
 
+    public ClinicalFolder(){}
+
     public ClinicalFolder(Collection<? extends ClinicalEvent> c){
         super(c);
     }
