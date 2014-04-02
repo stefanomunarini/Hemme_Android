@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.ClinicalFolder;
-import com.povodev.hemme.android.master_detail_flow.dummy.DummyContent;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -89,12 +89,7 @@ public class ClinicalFolderListFragment extends ListFragment {
 
         new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+
     }
 
     @Override
@@ -134,7 +129,7 @@ public class ClinicalFolderListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(""+position);
     }
 
     @Override
@@ -168,15 +163,20 @@ public class ClinicalFolderListFragment extends ListFragment {
         mActivatedPosition = position;
     }
 
+    /**
+     * Used to set the list adapter for this fragment
+     */
+    private void populateListView(ArrayList<ClinicalEvent> clinicalFolder) {
+        ArrayAdapter adapter = new ClinicalFolderAdapter(getActivity(),android.R.id.text1,clinicalFolder);
+        this.setListAdapter(adapter);
+    }
 
     private class ClinicalFolderLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<ClinicalEvent>> {
-
 
         private int user_id;
         public ClinicalFolderLoader_HttpRequest(Context context, int user_id){
             progressDialog = new ProgressDialog(context);
-            //progressDialog.setTitle("Benvenuto in HeMMe");
-            progressDialog.setMessage("Registrazione in corso...");
+            progressDialog.setMessage("Caricamento in corso...");
             this.user_id = user_id;
         }
 
@@ -209,7 +209,16 @@ public class ClinicalFolderListFragment extends ListFragment {
         protected void onPostExecute(ArrayList<ClinicalEvent> clinicalFolder) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
+            ClinicalFolderListFragment.clinicalFolder = clinicalFolder;
+            populateListView(clinicalFolder);
+
             Log.d(TAG,"ArrayList size: "+clinicalFolder.size());
         }
+    }
+
+    private static ArrayList<ClinicalEvent> clinicalFolder;
+
+    public static ArrayList<ClinicalEvent> getClinicalFolder(){
+        return clinicalFolder;
     }
 }

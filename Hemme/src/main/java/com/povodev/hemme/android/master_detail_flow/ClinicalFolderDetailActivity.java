@@ -39,8 +39,9 @@ public class ClinicalFolderDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable("clinical_event",getIntent().getSerializableExtra("clinical_event"));
+            //arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID,
+                    //getIntent().getStringExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID));
             ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

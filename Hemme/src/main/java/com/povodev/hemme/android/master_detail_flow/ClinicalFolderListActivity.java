@@ -58,13 +58,15 @@ public class ClinicalFolderListActivity extends FragmentActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(String position) {
+        int realPosition = Integer.parseInt(position);
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
+            arguments.putSerializable("clinical_event",ClinicalFolderListFragment.getClinicalFolder().get(realPosition));
+            //arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
             ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -75,7 +77,8 @@ public class ClinicalFolderListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ClinicalFolderDetailActivity.class);
-            detailIntent.putExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra("clinical_event",ClinicalFolderListFragment.getClinicalFolder().get(realPosition));
+            //detailIntent.putExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

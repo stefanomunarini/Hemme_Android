@@ -1,13 +1,14 @@
 package com.povodev.hemme.android.bean;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Stefano on 01/04/14.
  */
-public class ClinicalEvent {
+public class ClinicalEvent implements Serializable {
 
-    private int id;
+    public int id;
     private int author;
     private Date date;
     private String therapy;

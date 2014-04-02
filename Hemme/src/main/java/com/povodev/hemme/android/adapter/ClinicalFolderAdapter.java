@@ -1,39 +1,49 @@
 package com.povodev.hemme.android.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.povodev.hemme.android.bean.ClinicalEvent;
+
+import java.util.ArrayList;
 
 /**
  * Created by Stefano on 02/04/14.
  */
 public class ClinicalFolderAdapter extends ArrayAdapter<ClinicalEvent> {
 
-    ArrayAdapter<ClinicalEvent> clinicalFolder;
 
-    public ClinicalFolderAdapter(Context context, int resource) {
-        super(context, resource);
+    private Context context;
+
+    public ClinicalFolderAdapter(Context context, int textViewResourceId, ArrayList<ClinicalEvent> items) {
+        super(context, textViewResourceId, items);
+        this.context = context;
     }
 
-    @Override
-    public int getCount() {
-        return 1;
-    }
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(android.R.layout.simple_list_item_activated_2, null);
+        }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        ClinicalEvent item = getItem(position);
+        if (item!= null) {
+            TextView theraphyView = (TextView) view.findViewById(android.R.id.text1);
+            TextView dateView = (TextView) view.findViewById(android.R.id.text2);
+            if (theraphyView != null) {
+                theraphyView.setText(item.getTherapy());
+            }
+            if (dateView != null) {
+                dateView.setText(item.getDate()+"");
+            }
+        }
 
-    @Override
-    public int getViewTypeCount() {
-        return 1;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
+        return view;
     }
 
 
