@@ -1,11 +1,12 @@
 package com.povodev.hemme.android.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Stefano on 03/04/14.
  */
-public class Result {
+public class Result implements Serializable {
 
     private int id;
     private String grade;

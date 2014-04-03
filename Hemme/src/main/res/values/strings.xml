@@ -20,18 +20,17 @@
     <string name="note_label">Note</string>
     <string name="insert_label">Inserisci</string>
 
-
-
     <!-- DOCUMENT -->
     <string name="new_document_label">Nuovo Documento</string>
     <string name="filename_label">File da inserire</string>
     <string name="upload_label">Carica file</string>
     <string name="document_button">Carica file</string>
-
-
     <string name="title_activity_new__document">New_Document</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="clinicalfolder_label">Cartella Clinica</string>
+    <string name="title_test_list">Result</string>
+    <string name="title_test_detail">Test Detail</string>
+    <string name="test_label">Test</string>
 
 </resources>

@@ -1,28 +1,27 @@
-package com.povodev.hemme.android.activity.clinicalFolder;
+package com.povodev.hemme.android.activity.gameTest;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-
 import com.povodev.hemme.android.R;
 
 /**
- * An activity representing a single ClinicalFolder detail screen. This
+ * An activity representing a single Test detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link ClinicalFolderListActivity}.
+ * in a {@link TestListActivity}.
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link ClinicalFolderDetailFragment}.
+ * more than a {@link TestDetailFragment}.
  */
-public class ClinicalFolderDetailActivity extends FragmentActivity {
+public class TestDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clinicalfolder_detail);
+        setContentView(R.layout.activity_test_detail);
 
         // Show the Up button in the action bar.
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,11 +39,11 @@ public class ClinicalFolderDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putSerializable("clinical_event",getIntent().getSerializableExtra("clinical_event"));
-            ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
+            arguments.putSerializable("result",getIntent().getSerializableExtra("result"));
+            TestDetailFragment fragment = new TestDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.clinicalfolder_detail_container, fragment)
+                    .add(R.id.test_detail_container, fragment)
                     .commit();
         }
     }
@@ -60,7 +59,7 @@ public class ClinicalFolderDetailActivity extends FragmentActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, ClinicalFolderListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, TestListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

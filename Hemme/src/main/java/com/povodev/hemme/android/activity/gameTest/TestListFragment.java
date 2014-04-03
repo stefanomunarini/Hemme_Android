@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.activity.clinicalFolder;
+package com.povodev.hemme.android.activity.gameTest;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
-import com.povodev.hemme.android.bean.ClinicalEvent;
-import com.povodev.hemme.android.bean.ClinicalFolder;
+import com.povodev.hemme.android.activity.gameTest.dummy.DummyContent;
+import com.povodev.hemme.android.adapter.TestAdapter;
+import com.povodev.hemme.android.bean.Result;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -22,17 +22,17 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 
 /**
- * A list fragment representing a list of ClinicalEvents. This fragment
+ * A list fragment representing a list of Result. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ClinicalFolderDetailFragment}.
+ * currently being viewed in a {@link TestDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class ClinicalFolderListFragment extends ListFragment {
+public class TestListFragment extends ListFragment {
 
-    private final static String TAG = "ClinicalFolderListFragment";
+    private final static String TAG = "TestListFragment";
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -77,7 +77,7 @@ public class ClinicalFolderListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ClinicalFolderListFragment() {
+    public TestListFragment() {
     }
 
     private int user_id;
@@ -88,9 +88,7 @@ public class ClinicalFolderListFragment extends ListFragment {
         //TODO sostituire user_id con quello presente in sessione
         user_id = 1;
 
-        new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
-
-
+        new TestLoader_HttpRequest(getActivity(),user_id).execute();
     }
 
     @Override
@@ -130,7 +128,7 @@ public class ClinicalFolderListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(""+position);
+        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
     @Override
@@ -167,32 +165,33 @@ public class ClinicalFolderListFragment extends ListFragment {
     /**
      * Used to set the list adapter for this fragment
      */
-    private void populateListView(ArrayList<ClinicalEvent> clinicalFolder) {
-        ArrayAdapter adapter = new ClinicalFolderAdapter(getActivity(),android.R.id.text1,clinicalFolder);
+    private void populateListView(ArrayList<Result> test) {
+        ArrayAdapter adapter = new TestAdapter(getActivity(),android.R.id.text1,test);
         this.setListAdapter(adapter);
     }
 
-    private class ClinicalFolderLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<ClinicalEvent>> {
+    private class TestLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<Result>> {
 
         private int user_id;
-        public ClinicalFolderLoader_HttpRequest(Context context, int user_id){
+        public TestLoader_HttpRequest(Context context, int user_id){
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage("Caricamento in corso...");
+
             this.user_id = user_id;
         }
 
         ProgressDialog progressDialog;
 
         @Override
-        protected ArrayList<ClinicalEvent> doInBackground(Void... params) {
+        protected ArrayList<Result> doInBackground(Void... params) {
 
             try {
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getClinicalFolder?user_id="+user_id;
+                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getTest?user_id="+user_id;
 
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-                return restTemplate.getForObject(url, ClinicalFolder.class);
+                return restTemplate.getForObject(url, com.povodev.hemme.android.bean.Test.class);
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
@@ -207,19 +206,19 @@ public class ClinicalFolderListFragment extends ListFragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<ClinicalEvent> clinicalFolder) {
+        protected void onPostExecute(ArrayList<Result> test) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
-            ClinicalFolderListFragment.clinicalFolder = clinicalFolder;
-            populateListView(clinicalFolder);
+            TestListFragment.test = test;
+            populateListView(test);
 
-            Log.d(TAG,"ArrayList size: "+clinicalFolder.size());
+            Log.d(TAG, "ArrayList size: "+ test.size());
         }
     }
 
-    private static ArrayList<ClinicalEvent> clinicalFolder;
+    private static ArrayList<Result> test;
 
-    public static ArrayList<ClinicalEvent> getClinicalFolder(){
-        return clinicalFolder;
+    public static ArrayList<Result> getTest(){
+        return test;
     }
 }

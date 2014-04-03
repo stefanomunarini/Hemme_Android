@@ -14,6 +14,7 @@ import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.New_Document;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
+import com.povodev.hemme.android.activity.gameTest.TestListActivity;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -28,6 +29,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
     @InjectView(R.id.document_button)               private Button mDocumentButton;
+    @InjectView(R.id.test_button)                   private Button mTestButton;
     @InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
 
     @Override
@@ -42,6 +44,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         mNewClinicalEventButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
         mDocumentButton.setOnClickListener(this);
+        mTestButton.setOnClickListener(this);
     }
 
     @Override
@@ -86,7 +89,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 intent = new Intent(this.getActivity(),New_Document.class);
                 redirect(intent);
                 break;
-
+            case R.id.test_button:
+                intent = new Intent(this.getActivity(),TestListActivity.class);
+                redirect(intent);
+                break;
         }
     }
 

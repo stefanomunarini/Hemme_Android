@@ -84,6 +84,7 @@
                 android:layout_gravity="center"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:padding="16dp"
             android:orientation="horizontal"
@@ -95,6 +96,21 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/new_document_label"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/test_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/test_label"
                 android:layout_gravity="center"/>
 
         </LinearLayout>
