@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.master_detail_flow;
+package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,8 +50,6 @@ public class ClinicalFolderListActivity extends FragmentActivity
                     .findFragmentById(R.id.clinicalfolder_list))
                     .setActivateOnItemClick(true);
         }
-
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
     /**
@@ -67,7 +65,6 @@ public class ClinicalFolderListActivity extends FragmentActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putSerializable("clinical_event",ClinicalFolderListFragment.getClinicalFolder().get(realPosition));
-            //arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
             ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -79,7 +76,6 @@ public class ClinicalFolderListActivity extends FragmentActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ClinicalFolderDetailActivity.class);
             detailIntent.putExtra("clinical_event",ClinicalFolderListFragment.getClinicalFolder().get(realPosition));
-            //detailIntent.putExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

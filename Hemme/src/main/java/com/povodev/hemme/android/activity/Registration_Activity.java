@@ -1,11 +1,8 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,14 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.SpinnerAdapter;
+import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
-
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +35,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     @InjectView(R.id.password_edittext)     private EditText mPasswordEditText;
     @InjectView(R.id.registration_button)   private Button mRegistrationButton;
     @InjectView(R.id.role_spinner)          private Spinner mRoleSpinner;
-    //@InjectResource(R.array.array_roles)    private ArrayList SpinnerArray;
-
-    //SpinnerArray.get(R.array.array_roles);
 
     private Context context;
 
@@ -58,12 +48,11 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         Random random = new Random();
         int randomNumber = random.nextInt();
 
+        //TODO eliminare queste righe
         mNameEditText.setText("prova"+randomNumber);
         mSurnameEditText.setText("prova"+randomNumber);
         mEmailEditText.setText("prova"+randomNumber);
         mPasswordEditText.setText("prova"+randomNumber);
-
-        //new Registration_HttpRequest(this).execute();
 
         initComponents();
         setComponentsListener();
@@ -74,7 +63,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     }
 
     private void initSpinner() {
-
         List<String> SpinnerArray =  new ArrayList<String>();
         SpinnerArray.add("Tutor");
         SpinnerArray.add("Dottore");
@@ -93,7 +81,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     public void onClick(View v) {
 
         int id = v.getId();
-
         switch (id){
             case R.id.registration_button:
                 new Registration_HttpRequest(context,getUser()).execute();
@@ -145,59 +132,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
 
     // Spinner listener
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    private class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
-
-        private User user;
-
-        public Registration_HttpRequest(Context context, User user){
-            progressDialog = new ProgressDialog(context);
-            //progressDialog.setTitle("Benvenuto in HeMMe");
-            progressDialog.setMessage("Registrazione in corso...");
-            this.user = user;
-
-
-            Log.d(TAG,"Name: "+user.getName()+" surname: "+user.getSurname() + " ");
-        }
-
-
-        ProgressDialog progressDialog;
-
-        @Override
-        protected User doInBackground(Void... params) {
-
-            try {
-
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-                return restTemplate.postForObject(url, user, User.class);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            progressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-            if (progressDialog.isShowing()) progressDialog.dismiss();
-            if (user!=null) Log.d(TAG, "Utente registrato: " + user.getEmail() + " / Imei: " + user.getImei());
-            else Log.d(TAG,"Failed to register/login");
-        }
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

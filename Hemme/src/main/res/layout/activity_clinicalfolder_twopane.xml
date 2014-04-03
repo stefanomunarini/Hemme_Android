@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.povodev.hemme.android.master_detail_flow.ClinicalFolderListActivity">
+    tools:context="com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity">
 
     <!--
     This layout is a two-pane layout for the ClinicalEvents
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/clinicalfolder_list"
-        android:name="com.povodev.hemme.android.master_detail_flow.ClinicalFolderListFragment"
+        android:name="com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class ClinicalFolderAdapter extends ArrayAdapter<ClinicalEvent> {
 
-
     private Context context;
 
     public ClinicalFolderAdapter(Context context, int textViewResourceId, ArrayList<ClinicalEvent> items) {

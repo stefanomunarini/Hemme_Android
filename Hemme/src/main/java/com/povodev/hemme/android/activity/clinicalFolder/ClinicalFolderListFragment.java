@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.master_detail_flow;
+package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

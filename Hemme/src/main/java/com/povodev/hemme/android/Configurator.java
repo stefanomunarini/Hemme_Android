@@ -5,7 +5,8 @@ package com.povodev.hemme.android;
  */
 public class Configurator {
 
-    public static String ip = "172.24.17.192:8080";
-    public static String project_name = "Hemme_Backend";
+    //TODO sostituire il giusto ip e nome del progetto
+    public static String ip = "172.24.17.177:8080";
+    public static String project_name = "Hemme_Backend_GitHub";
 
 }

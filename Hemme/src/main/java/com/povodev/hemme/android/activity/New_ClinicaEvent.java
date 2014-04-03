@@ -1,21 +1,14 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.NewClinicalEvent_HttpRequest;
 import com.povodev.hemme.android.bean.ClinicalEvent;
-
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -26,6 +19,10 @@ import roboguice.inject.InjectView;
 public class New_ClinicaEvent extends RoboActivity implements View.OnClickListener {
 
     private final String TAG = "NewClinicalEvent_Activity";
+
+
+    //TODO set the right user_id
+    private int user_id = 1;
 
     @InjectView(R.id.therapy_edittext)                      private EditText mTherapyEditText;
     @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
@@ -56,7 +53,7 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
 
         switch (id){
             case R.id.insert_new_clinicalevent_button:
-                new NewClinicalEvent_HttpRequest(context,getClinicalEvent()).execute();
+                new NewClinicalEvent_HttpRequest(context,getClinicalEvent(),user_id).execute();
                 break;
         }
     }
@@ -83,7 +80,7 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
         return clinicalEvent;
     }
 
-    private class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
+    /*private class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
         private ClinicalEvent clinicalEvent;
 
@@ -125,9 +122,6 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
 
             if (created) Log.d(TAG, "Evento clinico inserito.");
             else Log.d(TAG,"Failed to insert new clinical event");
-
-            //if (clinicalEvent!=null) Log.d(TAG, "Evento clinico inserito. Terapia: " + clinicalEvent.getTherapy() + " / Note: " + clinicalEvent.getNote());
-            //else Log.d(TAG,"Failed to insert new clinical event");
         }
-    }
+    }*/
 }

@@ -13,7 +13,7 @@ import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.New_Document;
 import com.povodev.hemme.android.activity.Registration_Activity;
-import com.povodev.hemme.android.master_detail_flow.ClinicalFolderListActivity;
+import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;

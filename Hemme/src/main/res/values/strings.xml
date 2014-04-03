@@ -22,18 +22,12 @@
 
 
 
-<!-- DOCUMENT -->
+    <!-- DOCUMENT -->
     <string name="new_document_label">Nuovo Documento</string>
     <string name="filename_label">File da inserire</string>
     <string name="upload_label">Carica file</string>
     <string name="document_button">Carica file</string>
 
-
-
-    <array name="array_roles">
-        <item>Tutor</item>
-        <item>Dottore</item>
-    </array>
 
     <string name="title_activity_new__document">New_Document</string>
     <string name="hello_world">Hello world!</string>

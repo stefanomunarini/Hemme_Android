@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.master_detail_flow;
+package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -65,7 +65,6 @@ public class ClinicalFolderDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.clinicalfolder_therapy)).setText(clinicalEvent.getTherapy());
             ((TextView) rootView.findViewById(R.id.clinicalfolder_note)).setText(clinicalEvent.getNote());
             ((TextView) rootView.findViewById(R.id.clinicalfolder_date)).setText(clinicalEvent.getDate()+"");
-            //((TextView) rootView.findViewById(R.id.clinicalfolder_author)).setText(author);
         }
         return rootView;
     }
@@ -79,7 +78,7 @@ public class ClinicalFolderDetailFragment extends Fragment {
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage("Caricamento in corso...");
             this.user_id = user_id;
-            Log.d(TAG,"user_id: "+user_id);
+            Log.d(TAG,"Getting doctor name... user_id: "+user_id);
         }
 
         @Override
@@ -88,7 +87,6 @@ public class ClinicalFolderDetailFragment extends Fragment {
             try {
                 final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getAuthor?user_id="+user_id;
                 RestTemplate restTemplate = new RestTemplate();
-                //restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
                 return restTemplate.getForObject(url, String.class);
@@ -108,7 +106,7 @@ public class ClinicalFolderDetailFragment extends Fragment {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
             if (authorName!=null){
-                Log.d(TAG, "Autore: " + authorName);
+                Log.d(TAG, "Author: " + authorName);
                 ClinicalFolderDetailFragment.author = authorName;
                 ((TextView) getView().findViewById(R.id.clinicalfolder_author)).setText(author);
             }

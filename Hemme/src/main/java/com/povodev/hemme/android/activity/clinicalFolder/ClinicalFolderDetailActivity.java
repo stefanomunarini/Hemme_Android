@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.master_detail_flow;
+package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,8 +40,6 @@ public class ClinicalFolderDetailActivity extends FragmentActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putSerializable("clinical_event",getIntent().getSerializableExtra("clinical_event"));
-            //arguments.putString(ClinicalFolderDetailFragment.ARG_ITEM_ID,
-                    //getIntent().getStringExtra(ClinicalFolderDetailFragment.ARG_ITEM_ID));
             ClinicalFolderDetailFragment fragment = new ClinicalFolderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context="com.povodev.hemme.android.master_detail_flow.ClinicalFolderDetailFragment">
+    tools:context="com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderDetailFragment">
 
     <TextView
         android:id="@+id/clinicalfolder_therapy"
