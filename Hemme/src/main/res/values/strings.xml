@@ -32,5 +32,9 @@
     <string name="title_test_list">Result</string>
     <string name="title_test_detail">Test Detail</string>
     <string name="test_label">Test</string>
+    <string name="new_result_label">Nuovo Risultato</string>
+    <string name="grade_label">Grade</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
 
 </resources>

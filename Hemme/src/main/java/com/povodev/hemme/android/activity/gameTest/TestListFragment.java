@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.activity.gameTest.dummy.DummyContent;
 import com.povodev.hemme.android.adapter.TestAdapter;
 import com.povodev.hemme.android.bean.Result;
 
@@ -128,7 +127,7 @@ public class TestListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(""+position);
     }
 
     @Override
