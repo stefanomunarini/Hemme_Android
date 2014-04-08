@@ -9,7 +9,6 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,7 +42,6 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/insertResult?user_id=" + user_id;
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
             return restTemplate.postForObject(url, result, Boolean.class);
         } catch (Exception e) {

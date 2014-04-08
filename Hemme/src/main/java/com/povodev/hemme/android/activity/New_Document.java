@@ -87,11 +87,10 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         switch (id){
             case R.id.insert_new_document_button:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
+                intent.setType("*/*");
                 startActivityForResult(intent,ACTIVITY_CHOOSE_FILE);
                 break;
         }
-
     }
 
     String filePath;
@@ -99,7 +98,6 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
