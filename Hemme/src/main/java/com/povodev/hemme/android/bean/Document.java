@@ -9,7 +9,7 @@ public class Document {
 
     private Date date;
     private String file;
-
+    private String note;
 
     public Date getDate() { return date; }
 
@@ -19,4 +19,11 @@ public class Document {
 
     public void setFile(String file) { this.file = file; }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
