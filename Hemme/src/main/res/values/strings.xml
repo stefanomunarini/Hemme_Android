@@ -23,9 +23,13 @@
     <!-- DOCUMENT -->
     <string name="new_document_label">Nuovo Documento</string>
     <string name="filename_label">File da inserire</string>
-    <string name="upload_label">Carica file</string>
+    <string name="upload_label">Scegli il file</string>
+    <string name="note_label_document">Inserisci la nota</string>
     <string name="document_button">Carica file</string>
     <string name="title_activity_new__document">New_Document</string>
+
+
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="clinicalfolder_label">Cartella Clinica</string>

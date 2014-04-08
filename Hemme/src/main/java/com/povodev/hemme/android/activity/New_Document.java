@@ -37,8 +37,9 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     final int ACTIVITY_CHOOSE_FILE = 1;
 
 
-    @InjectView(R.id.file_edittext)                         private EditText mFileEditText;
-    @InjectView(R.id.insert_new_document_button)            private Button mInserNewDocumentButton;
+    @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
+    @InjectView(R.id.insert_new_file_button)                private Button mInserNewFileButton;
+
 
     private Context context;
 
@@ -51,12 +52,11 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
 
-        mFileEditText.setText("Path del documento da caricare");
         setComponentsListener();
     }
 
     private void setComponentsListener() {
-        mInserNewDocumentButton.setOnClickListener(this);
+        mInserNewFileButton.setOnClickListener(this);
     }
 
 
@@ -85,16 +85,25 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         int id = v.getId();
 
         switch (id){
-            case R.id.insert_new_document_button:
+            case R.id.insert_new_file_button:{
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(intent,ACTIVITY_CHOOSE_FILE);
-                break;
+            }
+            break;
+
+            case R.id.insert_new_document_button:{
+            //    new NewDocument_HttpRequest(context,getDocument()).execute();
+            }
+            break;
+
         }
+
     }
 
     String filePath;
     String file;
+    String note;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -103,9 +112,10 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                 if(resultCode==RESULT_OK){
                     Uri uri = data.getData();
                     filePath = FileManager.getRealPathFromURI(context,uri);
-                    Log.d(TAG,filePath);
-                    mFileEditText.setText(filePath);
                     new NewDocument_HttpRequest(context,getDocument()).execute();
+
+//                    Log.d(TAG,filePath);
+//                    mFileEditText.setText(filePath);
                 }
             break;
         }
@@ -115,13 +125,14 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         return getDocumentValues();
     }
     private Document getDocumentValues() {
-        file = mFileEditText.getText().toString();
-        return setUserValues(file);
+        note = mNoteEditText.getText().toString();
+        return setUserValues(filePath,note);
     }
 
-    private Document setUserValues(String file) {
+    private Document setUserValues(String file,String note) {
         Document document =  new Document();
         document.setFile(file);
+        document.setNote(note);
         return document;
     }
 
@@ -137,8 +148,8 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
         public NewDocument_HttpRequest(Context context, Document document){
             progressDialog = new CustomProgressDialog(context,message);
-
             this.document = document;
+            Log.d(TAG,"_______________--nota del documento--__________" + document.getNote());
         }
 
         @Override
