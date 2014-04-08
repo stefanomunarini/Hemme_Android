@@ -3,6 +3,8 @@ package com.povodev.hemme.android.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,13 +19,30 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.Document;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -86,11 +105,13 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent,ACTIVITY_CHOOSE_FILE);
-                new NewDocument_HttpRequest(context,getDocument()).execute();
                 break;
         }
 
     }
+
+    String filePath;
+    String file;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -98,23 +119,21 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
-                    String FilePath = data.getData().getPath();
-                    mFileEditText.setText(FilePath);
+                    filePath = data.getData().getPath();
+                    mFileEditText.setText(filePath);
+                    new NewDocument_HttpRequest(context,getDocument()).execute();
                 }
-                break;
+            break;
         }
     }
-
 
     private Document getDocument() {
         return getDocumentValues();
     }
-    private String file;
     private Document getDocumentValues() {
         file = mFileEditText.getText().toString();
         return setUserValues(file);
     }
-
 
     private Document setUserValues(String file) {
         Document document =  new Document();
@@ -135,24 +154,76 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         }
 
         ProgressDialog progressDialog;
-
         @Override
         protected Boolean doInBackground(Void... params) {
 
             try {
 
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newDocument?user_id=1";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/uploadDocument";
 
-                return restTemplate.postForObject(url, document, Boolean.class);
+                MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
+                para.add("file",new FileSystemResource(filePath));
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Content-Type","multipart/form-data");
+                headers.set("enctype","multipart/form-data");
+                headers.set("method","post");
+
+                HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para,headers);
+
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                return restTemplate.postForObject(url,requestEntity,boolean.class);
+
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
-
-            return null;
+            return false;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         @Override
         protected void onPreExecute(){
