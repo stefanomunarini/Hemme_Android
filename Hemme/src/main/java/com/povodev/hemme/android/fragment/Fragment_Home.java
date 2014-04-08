@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.activity.Game_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.New_Document;
@@ -34,6 +35,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.document_button)               private Button mDocumentButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
     @InjectView(R.id.insert_new_result_button)      private Button mNewResultButton;
+    @InjectView(R.id.new_game_button)               private Button mNewGameButton;
     @InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
 
 
@@ -54,6 +56,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         mDocumentButton.setOnClickListener(this);
         mTestButton.setOnClickListener(this);
         mNewResultButton.setOnClickListener(this);
+        mNewGameButton.setOnClickListener(this);
 
         User user = SessionManagement.getUserInSession(getActivity());
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
@@ -107,6 +110,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 break;
             case R.id.insert_new_result_button:
                 intent = new Intent(this.getActivity(),New_Result.class);
+                redirect(intent);
+                break;
+            case R.id.new_game_button:
+                intent = new Intent(this.getActivity(),Game_Activity.class);
                 redirect(intent);
                 break;
         }

@@ -81,6 +81,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
+        <activity
+            android:name="com.povodev.hemme.android.activity.Game_Activity"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
+        </activity>
     </application>
 
 </manifest>

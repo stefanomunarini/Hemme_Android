@@ -133,8 +133,6 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         return document;
     }
 
-
-
     private class NewDocument_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
         private Document document;
