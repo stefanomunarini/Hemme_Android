@@ -36,10 +36,9 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     private final String TAG = "NewDocument_Activity";
     final int ACTIVITY_CHOOSE_FILE = 1;
 
-
     @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
     @InjectView(R.id.insert_new_file_button)                private Button mInserNewFileButton;
-
+    @InjectView(R.id.insert_new_document_button)            private Button mInsertNewDocumentButton;
 
     private Context context;
 
@@ -57,6 +56,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
     private void setComponentsListener() {
         mInserNewFileButton.setOnClickListener(this);
+        mInsertNewDocumentButton.setOnClickListener(this);
     }
 
 
@@ -93,7 +93,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
             break;
 
             case R.id.insert_new_document_button:{
-            //    new NewDocument_HttpRequest(context,getDocument()).execute();
+                  new NewDocument_HttpRequest(context,getDocument()).execute();
             }
             break;
 
@@ -110,14 +110,11 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
-                    Uri uri = data.getData();
-                    filePath = FileManager.getRealPathFromURI(context,uri);
-                    new NewDocument_HttpRequest(context,getDocument()).execute();
-
-//                    Log.d(TAG,filePath);
-//                    mFileEditText.setText(filePath);
+                    String uri = data.getData().getPath();
+                    filePath = uri;
+                    break;
                 }
-            break;
+
         }
     }
 
@@ -157,7 +154,8 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
             try {
 
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/uploadDocument";
+                String note = document.getNote();
+                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/uploadDocument?nota="+note;
 
                 MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
                 para.add("file",new FileSystemResource(filePath));
