@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.bean.User;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,16 +27,17 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private String username;
     private String password;
 
+    private final String message = "Login in corso...";
+
+    private ProgressDialog progressDialog;
+
     public Login_HttpRequest(Context context, String username, String password){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Login in corso...");
+        progressDialog = new CustomProgressDialog(context,message);
 
         this.context = context;
         this.username = username;
         this.password = password;
     }
-
-    ProgressDialog progressDialog;
 
     @Override
     protected User doInBackground(Void... params) {

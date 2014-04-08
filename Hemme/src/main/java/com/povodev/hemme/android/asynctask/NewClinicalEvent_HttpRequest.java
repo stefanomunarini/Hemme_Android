@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,15 +24,17 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
 
     private int user_id;
 
+    private final String message = "Inserimento evento clinico in corso...";
+
+    private ProgressDialog progressDialog;
+
     public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent, int user_id){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Inserimento evento clinico in corso...");
+        progressDialog = new CustomProgressDialog(context,message);
 
         this.clinicalEvent = clinicalEvent;
         this.user_id = user_id;
     }
 
-    ProgressDialog progressDialog;
 
     @Override
     protected Boolean doInBackground(Void... params) {

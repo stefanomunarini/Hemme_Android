@@ -85,13 +85,13 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
         private ClinicalEvent clinicalEvent;
 
         public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent){
-            progressDialog = new ProgressDialog(context);
-            //progressDialog.setTitle("Benvenuto in HeMMe");
-            progressDialog.setMessage("Inserimento evento clinico in corso...");
+            CustomProgressDialog = new ProgressDialog(context);
+            //CustomProgressDialog.setTitle("Benvenuto in HeMMe");
+            CustomProgressDialog.setMessage("Inserimento evento clinico in corso...");
             this.clinicalEvent = clinicalEvent;
         }
 
-        ProgressDialog progressDialog;
+        ProgressDialog CustomProgressDialog;
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -113,12 +113,12 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
 
         @Override
         protected void onPreExecute(){
-            progressDialog.show();
+            CustomProgressDialog.show();
         }
 
         @Override
         protected void onPostExecute(Boolean created) {
-            if (progressDialog.isShowing()) progressDialog.dismiss();
+            if (CustomProgressDialog.isShowing()) CustomProgressDialog.dismiss();
 
             if (created) Log.d(TAG, "Evento clinico inserito.");
             else Log.d(TAG,"Failed to insert new clinical event");

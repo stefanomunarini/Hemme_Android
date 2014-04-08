@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -20,17 +21,20 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
     private final static String TAG = "NewResult_AsyncTask";
 
     private Result result;
+
     private int user_id;
 
+    private final String message = "Caricamento file in corso...";
+
+    private ProgressDialog progressDialog;
+
     public NewResult_HttpRequest(Context context, Result result, int user_id){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Caricamento file in corso");
+        progressDialog = new CustomProgressDialog(context,message);
 
         this.result = result;
         this.user_id = user_id;
     }
 
-    ProgressDialog progressDialog;
 
     @Override
     protected Boolean doInBackground(Void... params) {

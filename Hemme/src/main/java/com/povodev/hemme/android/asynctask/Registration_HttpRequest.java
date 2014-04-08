@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.bean.User;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -24,19 +25,20 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private User user;
 
+    private final String message = "Registrazione in corso...";
+
+    private final String title = "Benvenuto in HeMMe";
+
+    private ProgressDialog progressDialog;
+
     public Registration_HttpRequest(Context context, User user){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("Benvenuto in HeMMe");
-        progressDialog.setMessage("Registrazione in corso...");
+        progressDialog = new CustomProgressDialog(context,title,message);
 
         this.user = user;
         this.context = context;
 
         Log.d(TAG, "Registering user... username: " + user.getEmail() + " / name: " + user.getName() + " / surname: " + user.getSurname());
     }
-
-
-    ProgressDialog progressDialog;
 
     @Override
     protected User doInBackground(Void... params) {

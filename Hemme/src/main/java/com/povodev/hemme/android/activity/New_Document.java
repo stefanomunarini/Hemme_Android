@@ -3,8 +3,6 @@ package com.povodev.hemme.android.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,31 +16,17 @@ import android.widget.EditText;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.Document;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.FileManager;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -119,7 +103,9 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
-                    filePath = data.getData().getPath();
+                    Uri uri = data.getData();
+                    filePath = FileManager.getRealPathFromURI(context,uri);
+                    Log.d(TAG,filePath);
                     mFileEditText.setText(filePath);
                     new NewDocument_HttpRequest(context,getDocument()).execute();
                 }
@@ -147,13 +133,16 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
         private Document document;
 
+        private final String message = "Caricamento file in corso...";
+
+        private ProgressDialog progressDialog;
+
         public NewDocument_HttpRequest(Context context, Document document){
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Caricamento file in corso");
+            progressDialog = new CustomProgressDialog(context,message);
+
             this.document = document;
         }
 
-        ProgressDialog progressDialog;
         @Override
         protected Boolean doInBackground(Void... params) {
 
@@ -183,48 +172,6 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
             return false;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         @Override
         protected void onPreExecute(){
             progressDialog.show();
@@ -238,29 +185,4 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
             else Log.d(TAG,"Failed to insert new document");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
