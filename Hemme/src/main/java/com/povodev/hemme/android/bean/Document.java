@@ -11,7 +11,6 @@ public class Document {
     private Date date;
     private String file;
     private String note;
-    private File uploadFile;
 
     public Date getDate() { return date; }
 

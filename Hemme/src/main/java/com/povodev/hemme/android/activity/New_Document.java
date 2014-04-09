@@ -12,11 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.Document;
+import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.FileManager;
 
 import org.springframework.core.io.FileSystemResource;
@@ -27,6 +31,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -39,9 +46,10 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
     @InjectView(R.id.insert_new_file_button)                private Button mInserNewFileButton;
     @InjectView(R.id.insert_new_document_button)            private Button mInsertNewDocumentButton;
+    @InjectView(R.id.nomi_file)                             private TextView mNomiFile;
 
     private Context context;
-
+    private int countFileToUpload = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +70,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new__document, menu);
         return true;
@@ -86,14 +94,20 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
         switch (id){
             case R.id.insert_new_file_button:{
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent,ACTIVITY_CHOOSE_FILE);
+                if(countFileToUpload<3) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("*/*");
+                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+                }else{
+                    Toast toast;
+                    toast =  Toast.makeText(context,"PUOI INSERIRE MASSIMO 3 FILE", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
             break;
 
             case R.id.insert_new_document_button:{
-                  new NewDocument_HttpRequest(context,getDocument()).execute();
+                new NewDocument_HttpRequest(context,getDocument()).execute();
             }
             break;
 
@@ -102,19 +116,21 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     }
 
     String filePath;
-    String file;
     String note;
+    ArrayList<FileSystemResource> fileToUpload = new ArrayList<FileSystemResource>();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
-                    String uri = data.getData().getPath();
-                    filePath = uri;
+                    String filePath = data.getData().getPath();
+                    FileSystemResource fsr = new FileSystemResource(filePath);
+                    fileToUpload.add(fsr);
+                    countFileToUpload++;
+                    mNomiFile.append("  \n" + fsr.getFilename());
                     break;
                 }
-
         }
     }
 
@@ -136,40 +152,46 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     private class NewDocument_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
         private Document document;
-
         private final String message = "Caricamento file in corso...";
-
         private ProgressDialog progressDialog;
+        private User user;
 
         public NewDocument_HttpRequest(Context context, Document document){
             progressDialog = new CustomProgressDialog(context,message);
             this.document = document;
-            Log.d(TAG,"_______________--nota del documento--__________" + document.getNote());
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
 
             try {
+                Iterator it = fileToUpload.iterator();
 
-                String note = document.getNote();
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/uploadDocument?nota="+note;
+                while(it.hasNext())
+                {
+                    FileSystemResource fsr = (FileSystemResource) it.next();
 
-                MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
-                para.add("file",new FileSystemResource(filePath));
+                    String note = document.getNote();
+                    User user = SessionManagement.getUserInSession(context);
+                    /*--------------------------------------------------------
+                        DA ELIMINARE QUANDO SI AVRA' LA GESTIONE DI SESSIONE
+                    ----------------------------------------------------------*/
+                    user.setId(1);
+                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=" + user.getId();
+                    MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
+                    para.add("file", fsr);
 
-                HttpHeaders headers = new HttpHeaders();
-                headers.set("Content-Type","multipart/form-data");
-                headers.set("enctype","multipart/form-data");
-                headers.set("method","post");
-
-                HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para,headers);
-
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-                return restTemplate.postForObject(url,requestEntity,boolean.class);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.set("Content-Type", "multipart/form-data");
+                    headers.set("enctype", "multipart/form-data");
+                    headers.set("method", "post");
+                    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
+                    RestTemplate restTemplate = new RestTemplate();
+                    restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+                    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                    restTemplate.postForObject(url, requestEntity, boolean.class);
+                }
+                return true;
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
@@ -188,6 +210,10 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
             if (created) Log.d(TAG, "Inserito file correttamente");
             else Log.d(TAG,"Failed to insert new document");
+
+            countFileToUpload = 0;
+            fileToUpload.clear();
+            mNomiFile.setText("FINITO!");
         }
     }
 }

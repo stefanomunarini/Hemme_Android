@@ -51,4 +51,12 @@
         android:layout_height="wrap_content"
         android:text="CARICA TUTTO"/>
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="nomi dei file"
+        android:id="@+id/nomi_file" />
+
 </LinearLayout>
