@@ -45,9 +45,11 @@
     <string name="difficulty_title">Difficolta\'</string>
     <string name="new_game_label">Nuovo gioco</string>
     <array name="difficulty">
-        <item>Facile</item>
-        <item>Medio</item>
-        <item>Difficile</item>
+        <item>Facile (2)</item>
+        <item>Facile (3)</item>
+        <item>Medio (4)</item>
+        <item>Medio (5)</item>
+        <item>Difficile (6)</item>
     </array>
 
 

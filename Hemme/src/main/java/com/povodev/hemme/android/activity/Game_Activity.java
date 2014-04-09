@@ -8,21 +8,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.cardgame.CardSet;
 import com.povodev.hemme.android.dialog.ListDialog;
-import com.povodev.hemme.android.utils.NumberUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectResource;
 
 /**
- * Created by Stefano on 08/04/14.
+ * Created by Stefano on 09/04/14.
  */
 public class Game_Activity extends RoboActivity implements View.OnClickListener, ListDialog.OnDifficultySelectedListener {
 
-    private final String TAG = "Game_Activity";
+    public static final String TAG = "Game_Activity";
     private Context context;
 
     @Override
@@ -53,40 +50,44 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
     // Counts the number of cards flipped
     private int counter = 0;
 
-    // The previous card id
-    int previousCardId;
+    private final String button_label = "Click me!";
 
+    int currentPosition = -1;
+    int previousPosition = -1;
     @Override
     public void onClick(View view) {
         counter++;
 
-        // The current card (button) id
-        int currentCardid = view.getId();
-
-        switch (currentCardid){
+        if (counter%3==0){
+            cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(button_label);
+            cardSet.get(cardSet.getArrayPosition(previousPosition)).setText(button_label);
         }
 
-        Toast toast;
+        if (currentPosition!=-1){
+            previousPosition = currentPosition;
+        }
+
+        currentPosition = view.getId();
+        cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
+
         if (counter%2==0){
-            if (cards.get(currentCardid) == cards.get(previousCardId)){
-                toast =  Toast.makeText(context,"Corretto! " +  cards.get(currentCardid)+"-"+cards.get(previousCardId),Toast.LENGTH_SHORT);
-            } else {
-                toast =  Toast.makeText(context,"Ritenta! " + cards.get(currentCardid)+" "+cards.get(previousCardId),Toast.LENGTH_SHORT);
+            if(!cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)))){
+                /*cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(button_label);
+                cardSet.get(cardSet.getArrayPosition(previousPosition)).setText(button_label);*/
+            } else if (cardSet.size()==0){
+                Toast toast = Toast.makeText(context,"HAI VINTO!",Toast.LENGTH_SHORT);
+                toast.show();
             }
-            toast.show();
-        } else {
-            previousCardId = currentCardid;
         }
     }
-
-    // Used to combine cards (button) ids with their values in the game
-    HashMap<Integer,Integer> cards;
 
     // The Activity layout
     ViewGroup activity_layout;
 
-    // The size for the HashMap based on the difficulty choosed
+    // The size for the CardSet based on the difficulty choosed
     int size;
+
+    CardSet cardSet;
 
     // Get the event touch from ListDialog
     // Called when a user select the game difficulty
@@ -94,43 +95,22 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
     @Override
     public void onDifficultySelected(int difficulty) {
         size = getSize(difficulty);
-        cards = new HashMap(size);
-        populateValuesArray(size);
+        cardSet = new CardSet(this, size);
+
         activity_layout = (ViewGroup) findViewById(R.id.game_activity_container);
-        startGame(size,cards);
+        startGame(size);
     }
-
-    // Populate the array used for card values
-    private void populateValuesArray(int size) {
-        values = new ArrayList<Integer>(size);
-        for (int i=0; i<size/2; i++){
-            values.add(i);
-            values.add(i);
-        }
-    }
-
-    // pseudo random array with cards values
-    ArrayList <Integer> values;
 
     // Init the game
-    private void startGame(int size, HashMap<Integer, Integer> cards) {
+    private void startGame(int size) {
         for (int i=0; i<size; i++){
 
-            // Min position from where to take the value
-            int min = 0;
-            // Max position from where to take the value
-            int max = size - i - 1;
-            // remove a random value from the values array
-            int value = values.remove(NumberUtils.randInt(min, max));
+            cardSet.get(i).setCardPosition(i);
+            cardSet.get(i).setId(i);
 
-            // add the random value just removed from the array and add it to the HashMap
-            cards.put(i,value);
-
-            Button button = new Button(this);
-            button.setId(i);
-            setComponentListener(button);
-            button.setText("Click me");
-            activity_layout.addView(button);
+            setComponentListener(cardSet.get(i));
+            cardSet.get(i).setText(button_label);
+            activity_layout.addView(cardSet.get(i));
         }
     }
 
@@ -145,8 +125,12 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
             return 4;
         } else if (difficulty==2){
             return 6;
-        } else {
+        } else if (difficulty==3){
             return 8;
+        } else if (difficulty==4){
+            return 10;
+        } else {
+            return 12;
         }
     }
 }
