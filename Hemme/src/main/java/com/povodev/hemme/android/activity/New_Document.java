@@ -3,9 +3,11 @@ package com.povodev.hemme.android.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -95,9 +99,11 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         switch (id){
             case R.id.insert_new_file_button:{
                 if(countFileToUpload<3) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    Intent intent = new Intent();
                     intent.setType("*/*");
-                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+//                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
                 }else{
                     Toast toast;
                     toast =  Toast.makeText(context,"PUOI INSERIRE MASSIMO 3 FILE", Toast.LENGTH_SHORT);
@@ -119,18 +125,30 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
     String note;
     ArrayList<FileSystemResource> fileToUpload = new ArrayList<FileSystemResource>();
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
             case ACTIVITY_CHOOSE_FILE:
                 if(resultCode==RESULT_OK){
-                    String filePath = data.getData().getPath();
-                    FileSystemResource fsr = new FileSystemResource(filePath);
+                    Uri selectedImageURI = data.getData();
+                    FileSystemResource fsr = new FileSystemResource (getRealPathFromURI(selectedImageURI));
                     fileToUpload.add(fsr);
                     countFileToUpload++;
-                    mNomiFile.append("  \n" + fsr.getFilename());
+                    mNomiFile.append("  \n- "+ fsr.getFilename());
                     break;
                 }
+        }
+    }
+    private String getRealPathFromURI(Uri contentURI) {
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
         }
     }
 
