@@ -27,9 +27,6 @@
     <string name="note_label_document">Inserisci la nota</string>
     <string name="document_button">Carica file</string>
     <string name="title_activity_new__document">New_Document</string>
-
-
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="clinicalfolder_label">Cartella Clinica</string>
@@ -41,9 +38,10 @@
     <string name="time">Time</string>
     <string name="date">Date</string>
 
-    <!--GAME-->
+    <!-- GAME -->
     <string name="difficulty_title">Difficolta\'</string>
     <string name="new_game_label">Nuovo gioco</string>
+
     <array name="difficulty">
         <item>Facile (2)</item>
         <item>Facile (3)</item>
@@ -52,5 +50,6 @@
         <item>Difficile (6)</item>
     </array>
 
+    <string name="title_activity_diary">Diary</string>
 
 </resources>

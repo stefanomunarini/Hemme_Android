@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,6 @@ import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
-import com.povodev.hemme.android.utils.FileManager;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -34,8 +34,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.net.URI;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -74,7 +73,6 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new__document, menu);
         return true;
@@ -98,7 +96,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
         switch (id){
             case R.id.insert_new_file_button:{
-                if(countFileToUpload<3) {
+                if(countFileToUpload < 3) {
                     Intent intent = new Intent();
                     intent.setType("*/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -116,9 +114,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                 new NewDocument_HttpRequest(context,getDocument()).execute();
             }
             break;
-
         }
-
     }
 
     String filePath;
@@ -134,6 +130,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                 if(resultCode==RESULT_OK){
                     Uri selectedImageURI = data.getData();
                     FileSystemResource fsr = new FileSystemResource (getRealPathFromURI(selectedImageURI));
+                    Log.d(TAG,"___" + getRealPathFromURI(selectedImageURI));
                     fileToUpload.add(fsr);
                     countFileToUpload++;
                     mNomiFile.append("  \n- "+ fsr.getFilename());
@@ -195,19 +192,27 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                         DA ELIMINARE QUANDO SI AVRA' LA GESTIONE DI SESSIONE
                     ----------------------------------------------------------*/
                     user.setId(1);
+
+
+
                     final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=" + user.getId();
                     MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
                     para.add("file", fsr);
 
                     HttpHeaders headers = new HttpHeaders();
+
                     headers.set("Content-Type", "multipart/form-data");
                     headers.set("enctype", "multipart/form-data");
                     headers.set("method", "post");
+
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
+
                     RestTemplate restTemplate = new RestTemplate();
                     restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
                     restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                    restTemplate.postForObject(url, requestEntity, boolean.class);
+                    if(!restTemplate.postForObject(url, requestEntity, boolean.class)){
+                        return false;
+                    }
                 }
                 return true;
 
@@ -217,6 +222,17 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
             return false;
         }
 
+        public HttpHeaders createHeaders ( final String username, final String password ) throws UnsupportedEncodingException {
+            return new HttpHeaders(){
+                {
+                    String auth = username + ":" + password;
+                    byte[] data = auth.getBytes("UTF-8");
+                    String base64 = Base64.encodeToString(data,Base64.DEFAULT);
+                    String authHeader = "Basic " + new String( base64 );
+                    set( "Authorization", authHeader );
+                }
+            };
+        }
         @Override
         protected void onPreExecute(){
             progressDialog.show();

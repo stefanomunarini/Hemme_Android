@@ -8,9 +8,11 @@ import java.sql.Date;
  */
 public class Document {
 
+    private int id;
     private Date date;
     private String file;
     private String note;
+    private File uploaded;
 
     public Date getDate() { return date; }
 
@@ -26,5 +28,21 @@ public class Document {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public File getUploaded() {
+        return uploaded;
+    }
+
+    public void setUploaded(File uploaded) {
+        this.uploaded = uploaded;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

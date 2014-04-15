@@ -26,7 +26,5 @@ public class Home_Activity extends RoboFragmentActivity {
                 .beginTransaction()
                 .add(R.id.fragment_home_container, fragment_home)
                 .commit();
-
-
     }
 }
