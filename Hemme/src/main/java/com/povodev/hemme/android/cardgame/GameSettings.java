@@ -97,7 +97,7 @@ public class GameSettings implements View.OnClickListener{
 
         currentPosition = view.getId();
         //cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
-        cardSet.get(currentPosition).setim;
+        cardSet.get(currentPosition);
 
         if (counter%2==0){
             cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)));
