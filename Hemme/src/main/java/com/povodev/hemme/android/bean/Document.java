@@ -1,5 +1,7 @@
 package com.povodev.hemme.android.bean;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 import java.sql.Date;
 
@@ -13,6 +15,7 @@ public class Document {
     private String file;
     private String note;
     private File uploaded;
+    private Bitmap file_immagine;
 
     public Date getDate() { return date; }
 
@@ -44,5 +47,13 @@ public class Document {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Bitmap getFile_immagine() {
+        return file_immagine;
+    }
+
+    public void setFile_immagine(Bitmap file_immagine) {
+        this.file_immagine = file_immagine;
     }
 }
