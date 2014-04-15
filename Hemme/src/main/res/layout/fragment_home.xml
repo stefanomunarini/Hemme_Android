@@ -146,21 +146,6 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/insert_new_result_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/new_result_label"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <Button
                 android:id="@+id/new_game_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

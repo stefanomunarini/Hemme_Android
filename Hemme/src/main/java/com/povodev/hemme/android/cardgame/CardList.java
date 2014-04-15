@@ -11,11 +11,11 @@ import java.util.ArrayList;
 /**
  * Created by Stefano on 09/04/14.
  */
-public class CardSet extends ArrayList<Card> {
+public class CardList extends ArrayList<Card> {
 
     private static final String TAG = "Game_Activity";
 
-    protected CardSet(Context context, int size){
+    protected CardList(Context context, int size){
         super(size);
         for (int i=0;i<size;i++){
             Card card = new Card(context);
@@ -97,6 +97,7 @@ public class CardSet extends ArrayList<Card> {
      * @param cardId
      * @return the position where that card is
      */
+    @Deprecated
     protected int getArrayPosition(int cardId){
         for (int i=0; i<this.size()/2; i++){
             if (get(i).getCardPosition()==cardId){

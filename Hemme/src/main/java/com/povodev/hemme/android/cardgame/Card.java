@@ -1,12 +1,12 @@
 package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * Created by Stefano on 09/04/14.
  */
-public class Card extends Button {
+public class Card extends ImageButton {
 
     protected Card(Context context) {
         super(context);

@@ -36,6 +36,22 @@ public class SessionManagement {
     }
 
     /*
+     * Close the session
+     */
+    public static void closeSession(Context context){
+        SharedPreferences preferences = getPreferences(context);
+        removeSessionSharedPreferences(preferences);
+    }
+
+    /*
+     * Get the user stored in the current session
+     */
+    public static User getUserInSession(Context context){
+        SharedPreferences preferences = getPreferences(context);
+        return getUserInSharedPreferences(preferences);
+    }
+
+    /*
      * Retrieve SharedPreferences
      */
     private static SharedPreferences getPreferences(Context context) {
@@ -58,14 +74,6 @@ public class SessionManagement {
     }
 
     /*
-     * Close the session
-     */
-    public static void closeSession(Context context){
-        SharedPreferences preferences = getPreferences(context);
-        removeSessionSharedPreferences(preferences);
-    }
-
-    /*
      * Remove user infos in SharedPreferences
      */
     private static void removeSessionSharedPreferences(SharedPreferences preferences) {
@@ -78,14 +86,6 @@ public class SessionManagement {
                 .remove(SESSION_IMEI)
                 .remove(SESSION_ROLE)
                 .putBoolean(IS_LOGGED_IN,false).commit();
-    }
-
-    /*
-     * Get the user stored in the current session
-     */
-    public static User getUserInSession(Context context){
-        SharedPreferences preferences = getPreferences(context);
-        return getUserInSharedPreferences(preferences);
     }
 
     /*

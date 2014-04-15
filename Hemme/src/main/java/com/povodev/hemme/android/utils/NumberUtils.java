@@ -28,5 +28,4 @@ public class NumberUtils {
 
         return randomNum;
     }
-
 }

@@ -14,7 +14,6 @@ import com.povodev.hemme.android.activity.Game_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.New_Document;
-import com.povodev.hemme.android.activity.New_Result;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.activity.gameTest.TestListActivity;
@@ -35,7 +34,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
     @InjectView(R.id.document_button)               private Button mDocumentButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
-    @InjectView(R.id.insert_new_result_button)      private Button mNewResultButton;
     @InjectView(R.id.new_game_button)               private Button mNewGameButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
 
@@ -58,7 +56,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         mClinicalFolderButton.setOnClickListener(this);
         mDocumentButton.setOnClickListener(this);
         mTestButton.setOnClickListener(this);
-        mNewResultButton.setOnClickListener(this);
         mNewGameButton.setOnClickListener(this);
         mDiaryButton.setOnClickListener(this);
         User user = SessionManagement.getUserInSession(getActivity());
@@ -109,10 +106,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 break;
             case R.id.test_button:
                 intent = new Intent(this.getActivity(),TestListActivity.class);
-                redirect(intent);
-                break;
-            case R.id.insert_new_result_button:
-                intent = new Intent(this.getActivity(),New_Result.class);
                 redirect(intent);
                 break;
             case R.id.new_game_button:

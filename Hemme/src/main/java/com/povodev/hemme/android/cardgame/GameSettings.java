@@ -30,20 +30,20 @@ public class GameSettings implements View.OnClickListener{
 
     public void initAndStartGame(int difficulty){
         setSize(difficulty);
-        cardSet = new CardSet(context, size);
+        cardSet = new CardList(context, size);
         startGame();
     }
 
     /*
-     * The size for the CardSet based on the difficulty choosed
+     * The size for the CardList based on the difficulty choosed
      */
     private int size;
 
     /*
-     * The CardSet used for the game
-     * {@See CardSet}
+     * The CardList used for the game
+     * {@See CardList}
      */
-    private CardSet cardSet;
+    private CardList cardSet;
 
     private ViewGroup activity_layout;
 
@@ -96,7 +96,8 @@ public class GameSettings implements View.OnClickListener{
         }
 
         currentPosition = view.getId();
-        cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
+        //cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
+        cardSet.get(currentPosition).setim;
 
         if (counter%2==0){
             cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)));
