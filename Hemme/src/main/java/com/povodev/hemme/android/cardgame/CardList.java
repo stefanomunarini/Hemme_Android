@@ -15,8 +15,11 @@ public class CardList extends ArrayList<Card> {
 
     private static final String TAG = "Game_Activity";
 
+    private Context context;
+
     protected CardList(Context context, int size){
         super(size);
+        this.context = context;
         for (int i=0;i<size;i++){
             Card card = new Card(context);
             this.add(i, card);
@@ -86,7 +89,7 @@ public class CardList extends ArrayList<Card> {
                 second.setVisibility(View.INVISIBLE);
                 return true;
             } else {
-                new CardFlipper().startRunner(first,second);
+                new CardFlipper().startRunner(context,first,second);
             }
         }
         return false;

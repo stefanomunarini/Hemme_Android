@@ -1,6 +1,9 @@
 package com.povodev.hemme.android.cardgame;
 
+import android.content.Context;
 import android.os.Handler;
+
+import com.povodev.hemme.android.R;
 
 /**
  * Created by Stefano on 15/04/14.
@@ -15,17 +18,21 @@ public class CardFlipper extends Handler {
 
     /*
      * Card flip timing
-     * 100 millisec (1sec)
+     * 1000 millisec (1sec)
      */
     private int cardFlipTiming = 1000;
 
 
-    protected void startRunner(final Card first, final Card second){
+    protected void startRunner(final Context context, final Card first, final Card second){
 
         postDelayed(new Runnable() {
             public void run() {
-                first.setText(button_label);
-                second.setText(button_label);
+
+                first.setImageDrawable(context.getResources().getDrawable(R.drawable.one));
+                second.setImageDrawable(context.getResources().getDrawable(R.drawable.one));
+
+                /*first.setText(button_label);
+                second.setText(button_label);*/
             }
         }, cardFlipTiming);
     }

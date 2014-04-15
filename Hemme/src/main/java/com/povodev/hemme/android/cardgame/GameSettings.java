@@ -1,9 +1,10 @@
 package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
@@ -59,10 +60,37 @@ public class GameSettings implements View.OnClickListener{
             cardSet.get(i).setCardPosition(i);
             cardSet.get(i).setId(i);
             setComponentListener(cardSet.get(i));
-            cardSet.get(i).setText(button_label);
+
+//            cardSet.get(i).setText(button_label);
+
+            setImageToCard(cardSet.get(i));
+
             activity_layout.addView(cardSet.get(i));
         }
         startTimer();
+    }
+
+    private void setImageToCard(Card card) {
+        int value = card.getCardValue();
+        Drawable image = getDrawable(value);
+        card.setImageDrawable(image);
+    }
+
+    private Drawable getDrawable(int value) {
+        if(value==1){
+            return context.getResources().getDrawable(R.drawable.one);
+        } else if(value==2){
+            return context.getResources().getDrawable(R.drawable.two);
+        } else if(value==3){
+            return context.getResources().getDrawable(R.drawable.three);
+        } else if(value==4){
+            return context.getResources().getDrawable(R.drawable.four);
+        } else if(value==5){
+            return context.getResources().getDrawable(R.drawable.five);
+        } else if(value==6){
+            return context.getResources().getDrawable(R.drawable.six);
+        }
+        return context.getResources().getDrawable(R.drawable.one);
     }
 
 
@@ -187,8 +215,8 @@ public class GameSettings implements View.OnClickListener{
     /*
      * Set the listener to the cards
      */
-    private void setComponentListener(Button button) {
-        button.setOnClickListener(this);
+    private void setComponentListener(ImageButton card) {
+        card.setOnClickListener(this);
     }
 
 }
