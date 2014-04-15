@@ -31,15 +31,15 @@ public class GameTimer extends Handler {
         }
     };
 
-    public void startRunner(){
+    protected void startRunner(){
         runnable.run();
     }
 
-    public void stopRunner(){
+    protected void stopRunner(){
         removeCallbacks(runnable);
     }
 
-    public int getTiming(){
+    protected int getTiming(){
         return timer;
     }
 }

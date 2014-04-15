@@ -15,7 +15,7 @@ public class CardSet extends ArrayList<Card> {
 
     private static final String TAG = "Game_Activity";
 
-    public CardSet(Context context, int size){
+    protected CardSet(Context context, int size){
         super(size);
         for (int i=0;i<size;i++){
             Card card = new Card(context);
@@ -67,21 +67,27 @@ public class CardSet extends ArrayList<Card> {
         return false;
     }
 
+    /*
+     * The number of pairs found
+     */
     private int pairsCounter = 0;
     /*
      * Delete the two cards from the ArrayList (after have
      * checked via {@See checkForPairs} if their values are equal}
      * @See checkForPairs to see when cards get removed
      */
-    public boolean deletePairs(Card first, Card second){
-        if (checkForPairs(first,second)){
-            //remove(getArrayPosition(first.getId()));
-            //remove(getArrayPosition(second.getId()));
-            pairsCounter ++;
-            pairsCounter ++;
-            first.setVisibility(View.INVISIBLE);
-            second.setVisibility(View.INVISIBLE);
-            return true;
+    protected boolean deletePairs(final Card first, Card second){
+        if (first!=second) {
+            if (checkForPairs(first, second)) {
+                //remove(getArrayPosition(first.getId()));
+                //remove(getArrayPosition(second.getId()));
+                pairsCounter++;
+                first.setVisibility(View.INVISIBLE);
+                second.setVisibility(View.INVISIBLE);
+                return true;
+            } else {
+                new CardFlipper().startRunner(first,second);
+            }
         }
         return false;
     }
@@ -91,8 +97,8 @@ public class CardSet extends ArrayList<Card> {
      * @param cardId
      * @return the position where that card is
      */
-    public int getArrayPosition(int cardId){
-        for (int i=0; i<this.size(); i++){
+    protected int getArrayPosition(int cardId){
+        for (int i=0; i<this.size()/2; i++){
             if (get(i).getCardPosition()==cardId){
                 return i;
             }
@@ -103,7 +109,7 @@ public class CardSet extends ArrayList<Card> {
     /*
      * Return true if the game is won
      */
-    public boolean winnerWinnerChickenDinner(){
+    protected boolean winnerWinnerChickenDinner(){
         if (pairsCounter==size()){
             return true;
         }

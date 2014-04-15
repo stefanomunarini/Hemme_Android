@@ -8,7 +8,7 @@ import android.widget.Button;
  */
 public class Card extends Button {
 
-    public Card(Context context) {
+    protected Card(Context context) {
         super(context);
     }
 
@@ -18,19 +18,19 @@ public class Card extends Button {
     // The card value
     private int cardValue;
 
-    public int getCardPosition() {
+    protected int getCardPosition() {
         return cardPosition;
     }
 
-    public void setCardPosition(int cardPosition) {
+    protected void setCardPosition(int cardPosition) {
         this.cardPosition = cardPosition;
     }
 
-    public int getCardValue() {
+    protected int getCardValue() {
         return cardValue;
     }
 
-    public void setCardValue(int cardValue) {
+    protected void setCardValue(int cardValue) {
         this.cardValue = cardValue;
     }
 }
