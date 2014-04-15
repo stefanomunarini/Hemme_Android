@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.Document_Adapter;
+import com.povodev.hemme.android.asynctask.NewDocument_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
@@ -74,177 +75,12 @@ public class Diary extends RoboActivity {
 
     public static final String URL = "http://andreariscassi.files.wordpress.com/2011/12/sabato-6-novembre-2010-big-babol-party-discoteca-shango-roma.jpg";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Loading..");
-        new NewDocument_HttpRequest(this).execute();
-    }
-
-
-
-
-    /**
-     *    DOWNLOAD DELL'IMMAGINE E IMMAGAZZINAMENTO NEL SINGOLO DOCUMENT
-     */
-    class bitmapDownload extends AsyncTask<Void, Void, Void> {
-
-        ArrayList<Document> d;
-
-        public bitmapDownload( ArrayList<Document> d){
-            this.d = d;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-            mProgressDialog.show();
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            // TODO Auto-generated method stub
-            try {
-                image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-            mProgressDialog.dismiss();
-
-            Iterator i = diario.iterator();
-
-            while (i.hasNext()){
-                Document doc = (Document)i.next();
-                doc.setFile_immagine(image);
-            }
-
-            ArrayAdapter adapter= new Document_Adapter(context,R.layout.diary_row_layout,diario);
-            mListView.setAdapter(adapter);
-            //mImageView.setImageBitmap(image);
-        }
-    }
-
-
-
-    private Bitmap downloadBitmap(String url) {
-        // initilize the default HTTP client object
-        final DefaultHttpClient client = new DefaultHttpClient();
-
-        //forming a HttoGet request
-        final HttpGet getRequest = new HttpGet(url);
-        try {
-
-            HttpResponse response = client.execute(getRequest);
-
-            //check 200 OK for success
-            final int statusCode = response.getStatusLine().getStatusCode();
-
-            if (statusCode != HttpStatus.SC_OK) {
-                Log.w("ImageDownloader", "Error " + statusCode +
-                        " while retrieving bitmap from " + url);
-                return null;
-
-            }
-
-            final org.apache.http.HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                InputStream inputStream = null;
-                try {
-                    // getting contents from the stream
-                    inputStream = entity.getContent();
-
-                    // decoding stream data back into image Bitmap that android understands
-                    image = BitmapFactory.decodeStream(inputStream);
-
-
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    entity.consumeContent();
-                }
-            }
-        } catch (Exception e) {
-            // You Could provide a more explicit error message for IOException
-            getRequest.abort();
-            Log.e("ImageDownloader", "Something went wrong while" +
-                    " retrieving bitmap from " + url + e.toString());
-        }
-
-        return image;
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.diary, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-    /**
-     *    CREAZIONE ARRAY DI DOCUMENTI PRESENTI NEL DATABASE
-     */
-    private class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>> {
-
-        private final String message = "Creazione Array in corso";
-        private ProgressDialog progressDialog;
-
-        public NewDocument_HttpRequest(Context context) {
-            progressDialog = new CustomProgressDialog(context, message);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected ArrayList<Document> doInBackground(Void... params) {
-            try {
-                final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getDiary?user_id=1";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                diario = restTemplate.getForObject(url, com.povodev.hemme.android.bean.Diary.class);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Document> result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-            new bitmapDownload(diario).execute();
-            //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp
-
-        }
+        new NewDocument_HttpRequest(context).execute();
     }
 }
