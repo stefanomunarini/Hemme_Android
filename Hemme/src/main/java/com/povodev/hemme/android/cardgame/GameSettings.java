@@ -128,7 +128,7 @@ public class GameSettings implements View.OnClickListener{
         cardSet.get(currentPosition);
 
         if (counter%2==0){
-            cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)));
+            cardSet.deletePairs(cardSet.get(/*cardSet.getArrayPosition(*/currentPosition/*)*/),cardSet.get(/*cardSet.getArrayPosition(*/previousPosition/*)*/));
 
             if (cardSet.winnerWinnerChickenDinner()) {
                 Toast toast = Toast.makeText(context,"HAI VINTO!",Toast.LENGTH_SHORT);

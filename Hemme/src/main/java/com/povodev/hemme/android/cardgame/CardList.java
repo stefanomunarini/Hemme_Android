@@ -114,7 +114,7 @@ public class CardList extends ArrayList<Card> {
      * Return true if the game is won
      */
     protected boolean winnerWinnerChickenDinner(){
-        if (pairsCounter==size()){
+        if (pairsCounter==size()/2){
             return true;
         }
         return false;

@@ -2,10 +2,12 @@ package com.povodev.hemme.android.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.gameTest.TestListActivity;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
@@ -26,10 +28,12 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
     private Result result;
     private int user_id;
     private ProgressDialog progressDialog;
+    private Context context;
 
     public NewResult_HttpRequest(Context context, Result result, int user_id){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
+        this.context = context;
         this.result = result;
         this.user_id = user_id;
     }
@@ -61,5 +65,8 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
         if (created) Log.d(TAG, "Result inserted correctly");
         else Log.d(TAG,"Failed to insert new result");
+
+        Intent intent = new Intent(context, TestListActivity.class);
+        context.startActivity(intent);
     }
 }
