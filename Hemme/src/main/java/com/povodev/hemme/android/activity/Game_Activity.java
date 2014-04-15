@@ -5,22 +5,49 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.NewResult_HttpRequest;
+import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.cardgame.CardSet;
+import com.povodev.hemme.android.cardgame.GameSettings;
+import com.povodev.hemme.android.cardgame.GameTimer;
 import com.povodev.hemme.android.dialog.ListDialog;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectResource;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Stefano on 09/04/14.
  */
 public class Game_Activity extends RoboActivity implements View.OnClickListener, ListDialog.OnDifficultySelectedListener {
 
-    public static final String TAG = "Game_Activity";
+    private static final String TAG = "Game_Activity";
     private Context context;
+
+    /*
+     * Timer TextView
+     */
+    @InjectView(R.id.timer_textview)                private TextView mTimerTextView;
+
+    /*
+     * Store the result of the game
+     */
+    private Result result;
+
+    /*
+     * Convenient class to help setting Result bean
+     * {@See GameSetting}
+     */
+    private GameSettings gameSettings;
+
+    private int user_id;
+
+    // The Activity container layout
+    private ViewGroup activity_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +55,14 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
         setContentView(R.layout.activity_game);
 
         this.context = this;
+        activity_layout = (ViewGroup) findViewById(R.id.game_activity_container);
+
+        gameSettings = new GameSettings();
+
+
+        //TODO change with correct user_id
+        user_id = 1;
+
         showStartingDialog();
     }
 
@@ -37,7 +72,9 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
     // Title for difficulty chooser dialog
     @InjectResource(R.string.difficulty_title)      private String title;
 
-    // Creates and shows the dialog that lets the user to choose the difficulty of the game
+    /*
+     * Creates and shows the dialog that lets the user choose the difficulty of the game
+     */
     private void showStartingDialog() {
         Bundle bundle = new Bundle();
         bundle.putString("title",title);
@@ -47,13 +84,27 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
         listDialog.show(getFragmentManager().beginTransaction(), "difficulty dialog");
     }
 
-    // Counts the number of cards flipped
+    /*
+     * The number of cards flipped
+     */
     private int counter = 0;
 
+    /*
+     * The label for the front side of the Card
+     * TODO change it
+     */
     private final String button_label = "Click me!";
 
+    /*
+     * The button just pressed id
+     */
     int currentPosition = -1;
+
+    /*
+     * The button previously pressed id
+     */
     int previousPosition = -1;
+
     @Override
     public void onClick(View view) {
         counter++;
@@ -71,37 +122,45 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
         cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
 
         if (counter%2==0){
-            if(!cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)))){
-                /*cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(button_label);
-                cardSet.get(cardSet.getArrayPosition(previousPosition)).setText(button_label);*/
-            } else if (cardSet.size()==0){
+            /*if(!*/cardSet.deletePairs(cardSet.get(cardSet.getArrayPosition(currentPosition)),cardSet.get(cardSet.getArrayPosition(previousPosition)));//){
+
+
+            /*} else*/ if (cardSet.winnerWinnerChickenDinner()) {
                 Toast toast = Toast.makeText(context,"HAI VINTO!",Toast.LENGTH_SHORT);
                 toast.show();
+                stopTimer();
             }
         }
     }
 
-    // The Activity layout
-    ViewGroup activity_layout;
+    /*
+     * The size for the CardSet based on the difficulty choosed
+     */
+    private int size;
 
-    // The size for the CardSet based on the difficulty choosed
-    int size;
+    /*
+     * The CardSet used for the game
+     * {@See CardSet}
+     */
+    private CardSet cardSet;
 
-    CardSet cardSet;
-
-    // Get the event touch from ListDialog
-    // Called when a user select the game difficulty
-    //TO-DO start a Thread
+    /*
+     * Get the event touch from ListDialog
+     * Called when a user select the game difficulty
+     */
     @Override
     public void onDifficultySelected(int difficulty) {
-        size = getSize(difficulty);
+
+        gameSettings.setSize(difficulty);
+        size = gameSettings.getSize();
         cardSet = new CardSet(this, size);
 
-        activity_layout = (ViewGroup) findViewById(R.id.game_activity_container);
         startGame(size);
     }
 
-    // Init the game
+    /*
+     * Init the game
+     */
     private void startGame(int size) {
         for (int i=0; i<size; i++){
 
@@ -112,25 +171,42 @@ public class Game_Activity extends RoboActivity implements View.OnClickListener,
             cardSet.get(i).setText(button_label);
             activity_layout.addView(cardSet.get(i));
         }
+        startTimer();
     }
 
-    // Set the listener to the object passed
+    private GameTimer gameTimer;
+    /*
+     * Called to start the runnable.
+     * This allows to have a auto-refreshing timer
+     * for the game activity
+     */
+    private void startTimer() {
+        gameTimer = new GameTimer(this);
+        gameTimer.startRunner();
+    }
+
+    /*
+     * Called to stop the runnable
+     */
+    private void stopTimer(){
+        gameTimer.stopRunner();
+        gameSettings.setTiming(gameTimer);
+        result = gameSettings.getResult();
+        new NewResult_HttpRequest(context,result,user_id).execute();
+    }
+
+    /*
+     * Set the listener to the objects (the cards)
+     */
     private void setComponentListener(Button button) {
         button.setOnClickListener(this);
     }
 
-    // Get the size of the map for the choosen difficulty
-    private int getSize(int difficulty) {
-        if (difficulty==1){
-            return 4;
-        } else if (difficulty==2){
-            return 6;
-        } else if (difficulty==3){
-            return 8;
-        } else if (difficulty==4){
-            return 10;
-        } else {
-            return 12;
-        }
+    /*
+     * Called by GameTimer (Handler for Runnable)
+     * to increment game timer
+     */
+    public void setTvText(String str){
+        mTimerTextView.setText(str);
     }
 }

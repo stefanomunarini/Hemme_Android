@@ -19,22 +19,21 @@ import org.springframework.web.client.RestTemplate;
 public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
     private final String TAG = "NewClinicalEvent_AsyncTask";
+    /*
+     * Loading dialog message
+     */
+    private final String mDialogLoadingMessage = "Inserimento evento clinico in corso...";
 
     private ClinicalEvent clinicalEvent;
-
     private int user_id;
-
-    private final String message = "Inserimento evento clinico in corso...";
-
     private ProgressDialog progressDialog;
 
     public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent, int user_id){
-        progressDialog = new CustomProgressDialog(context,message);
+        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.clinicalEvent = clinicalEvent;
         this.user_id = user_id;
     }
-
 
     @Override
     protected Boolean doInBackground(Void... params) {

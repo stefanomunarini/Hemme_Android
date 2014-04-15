@@ -21,18 +21,18 @@ import org.springframework.web.client.RestTemplate;
 public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private final String TAG = "Login_AsyncTask";
+    /*
+     * Loading dialog message
+     */
+    private final String mDialogLoadingMessage = "Login in corso...";
 
     private Context context;
-
     private String username;
     private String password;
-
-    private final String message = "Login in corso...";
-
     private ProgressDialog progressDialog;
 
     public Login_HttpRequest(Context context, String username, String password){
-        progressDialog = new CustomProgressDialog(context,message);
+        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.context = context;
         this.username = username;
@@ -44,7 +44,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         Log.d(TAG, "Login di " + username + " / passw: " + password);
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password;
-            Log.d(TAG,"Request URL4Login: " + url);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             User user = restTemplate.getForObject(url, User.class);
@@ -61,19 +60,22 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         progressDialog.show();
     }
 
+    private final String mDialogErrorTitle = "Errore";
+    private final String mDialogErrorMessage = "Rieffettuare il login o procedere con una nuova registrazione.";
+
     @Override
     protected void onPostExecute(User user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
         if (user!=null){
             SessionManagement.createLoginSession(context, user);
-            Log.d(TAG, "User has been logged in succesfully");
+            Log.d(TAG, "User has been logged succesfully");
             Log.d(TAG,"Username: " + user.getEmail());
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Errore!")
-                    .setMessage("Rieffettuare il login o procedere con una nuova registrazione.");
+            builder.setTitle(mDialogErrorTitle)
+                    .setMessage(mDialogErrorMessage);
             builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

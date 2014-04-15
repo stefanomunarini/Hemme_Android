@@ -20,31 +20,32 @@ import org.springframework.web.client.RestTemplate;
 public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private final String TAG = "Registration_AsyncTask";
+    /*
+     * Loading dialog message
+     */
+    private final String mDialogLoadingMessage = "Registrazione in corso...";
+    /*
+     * Loading dialog title
+     */
+    private final String mDialogTitle = "Benvenuto in HeMMe";
 
     private Context context;
-
     private User user;
-
-    private final String message = "Registrazione in corso...";
-
-    private final String title = "Benvenuto in HeMMe";
-
     private ProgressDialog progressDialog;
 
     public Registration_HttpRequest(Context context, User user){
-        progressDialog = new CustomProgressDialog(context,title,message);
+        progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
 
         this.user = user;
         this.context = context;
 
-        Log.d(TAG, "Registering user... username: " + user.getEmail() + " / name: " + user.getName() + " / surname: " + user.getSurname());
+        Log.d(TAG, "Registering user...  username: " + user.getEmail() + " / name: " + user.getName() + " / surname: " + user.getSurname());
     }
 
     @Override
     protected User doInBackground(Void... params) {
 
         try {
-
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -67,9 +68,9 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     protected void onPostExecute(User user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
         if (user!=null){
-            Log.d(TAG,"User has been registered and logged in succesfully");
+            Log.d(TAG,"User has been registered and logged succesfully");
             SessionManagement.createLoginSession(context, user);
-            Log.d(TAG, "User username registered: " + user.getEmail());
+            Log.d(TAG, "Username registered: " + user.getEmail());
         }
         else Log.d(TAG,"Failed to register/login");
     }

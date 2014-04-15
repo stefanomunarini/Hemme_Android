@@ -45,7 +45,7 @@ public class TestDetailFragment extends Fragment {
         // Show the content as text in TextViews
         if (result != null) {
             ((TextView) rootView.findViewById(R.id.test_grade)).setText(result.getGrade());
-            ((TextView) rootView.findViewById(R.id.test_time)).setText(result.getTime()+"");
+            ((TextView) rootView.findViewById(R.id.test_time)).setText(result.getTime()/1000+"");
             ((TextView) rootView.findViewById(R.id.test_date)).setText(result.getDate()+"");
         }
 

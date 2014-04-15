@@ -18,22 +18,21 @@ import org.springframework.web.client.RestTemplate;
 public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
     private final static String TAG = "NewResult_AsyncTask";
+    /*
+     * Loading dialog message
+     */
+    private final String mDialogLoadingMessage = "Caricamento file in corso...";
 
     private Result result;
-
     private int user_id;
-
-    private final String message = "Caricamento file in corso...";
-
     private ProgressDialog progressDialog;
 
     public NewResult_HttpRequest(Context context, Result result, int user_id){
-        progressDialog = new CustomProgressDialog(context,message);
+        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.result = result;
         this.user_id = user_id;
     }
-
 
     @Override
     protected Boolean doInBackground(Void... params) {
