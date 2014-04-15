@@ -24,9 +24,13 @@ public class GameSettings implements View.OnClickListener{
 
     private Context context;
 
+    private Drawable image;
+
     public GameSettings(Context context){
         this.context = context;
         result = new Result();
+
+        image = context.getResources().getDrawable(R.drawable.flipme);
     }
 
     public void initAndStartGame(int difficulty){
@@ -63,7 +67,8 @@ public class GameSettings implements View.OnClickListener{
 
 //            cardSet.get(i).setText(button_label);
 
-            setImageToCard(cardSet.get(i));
+            cardSet.get(i).setImageDrawable(image);
+            //setImageToCard(cardSet.get(i));
 
             activity_layout.addView(cardSet.get(i));
         }
@@ -125,6 +130,9 @@ public class GameSettings implements View.OnClickListener{
 
         currentPosition = view.getId();
         //cardSet.get(cardSet.getArrayPosition(currentPosition)).setText(cardSet.get(cardSet.getArrayPosition(currentPosition)).getCardValue()+"");
+
+        setImageToCard(cardSet.get(currentPosition));
+
         cardSet.get(currentPosition);
 
         if (counter%2==0){

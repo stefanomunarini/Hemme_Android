@@ -1,6 +1,7 @@
 package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
 import com.povodev.hemme.android.R;
@@ -25,11 +26,13 @@ public class CardFlipper extends Handler {
 
     protected void startRunner(final Context context, final Card first, final Card second){
 
+        final Drawable image = context.getResources().getDrawable(R.drawable.flipme);
+
         postDelayed(new Runnable() {
             public void run() {
 
-                first.setImageDrawable(context.getResources().getDrawable(R.drawable.one));
-                second.setImageDrawable(context.getResources().getDrawable(R.drawable.one));
+                first.setImageDrawable(image);
+                second.setImageDrawable(image);
 
                 /*first.setText(button_label);
                 second.setText(button_label);*/
