@@ -54,7 +54,6 @@ public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Doc
 
     @Override
     protected void onPostExecute(ArrayList<Document> result) {
-        // TODO Auto-generated method stub
         super.onPostExecute(result);
         new bitmapDownload(diario,context).execute();
         //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp

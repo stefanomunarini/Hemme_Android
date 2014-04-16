@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.Game_Activity;
 import com.povodev.hemme.android.activity.gameTest.TestListActivity;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
@@ -73,5 +74,6 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
         Intent intent = new Intent(context, TestListActivity.class);
         context.startActivity(intent);
+        ((Game_Activity)context).finish();
     }
 }

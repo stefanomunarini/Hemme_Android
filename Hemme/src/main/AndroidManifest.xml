@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- PER EFFETTUARE RICHIESTE AL SERVER -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- PER -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -72,7 +73,11 @@
         </activity>
         <activity
             android:name="com.povodev.hemme.android.activity.gameTest.TestListActivity"
-            android:label="@string/title_test_list" >
+            android:label="@string/title_test_list"
+            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
         <activity
             android:name="com.povodev.hemme.android.activity.gameTest.TestDetailActivity"
@@ -81,13 +86,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.povodev.hemme.android.activity.gameTest.TestListActivity" />
-        </activity>
-        <activity
-            android:name="com.povodev.hemme.android.activity.New_Result"
-            android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
         <activity
             android:name="com.povodev.hemme.android.activity.Game_Activity"

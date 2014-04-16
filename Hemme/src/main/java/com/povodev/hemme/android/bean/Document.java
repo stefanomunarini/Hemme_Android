@@ -2,6 +2,8 @@ package com.povodev.hemme.android.bean;
 
 import android.graphics.Bitmap;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.File;
 import java.sql.Date;
 
@@ -15,7 +17,7 @@ public class Document {
     private String file;
     private String note;
     private File uploaded;
-    private Bitmap file_immagine;
+    @JsonIgnore private Bitmap file_immagine;
 
     public Date getDate() { return date; }
 
