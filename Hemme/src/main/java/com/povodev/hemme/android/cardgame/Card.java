@@ -1,29 +1,26 @@
 package com.povodev.hemme.android.cardgame;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
 /**
  * Created by Stefano on 09/04/14.
  */
-public class Card extends ImageButton {
+public class Card extends ImageView {
 
     protected Card(Context context) {
         super(context);
 
-        ViewGroup.LayoutParams params = new ActionBar.LayoutParams(
-                300,
+        /*ViewGroup.LayoutParams params = new ActionBar.LayoutParams(
+                150,
                 300
         );
 
 
         this.setLayoutParams(params);
         this.setScaleType(ImageView.ScaleType.FIT_START);
-
+*/
     }
 
     // The id corresponding to the position in the ArrayList

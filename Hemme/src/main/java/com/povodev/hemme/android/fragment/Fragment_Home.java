@@ -16,7 +16,7 @@ import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.New_Document;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
-import com.povodev.hemme.android.activity.gameTest.TestListActivity;
+import com.povodev.hemme.android.activity.testResults.TestListActivity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 

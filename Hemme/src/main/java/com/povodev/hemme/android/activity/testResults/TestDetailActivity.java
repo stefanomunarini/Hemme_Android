@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.activity.gameTest;
+package com.povodev.hemme.android.activity.testResults;
 
 import android.content.Intent;
 import android.os.Bundle;

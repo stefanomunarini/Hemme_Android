@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- PER EFFETTUARE RICHIESTE AL SERVER -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- PER -->
+    <!-- PER LETTURA E SCRITTURA FILE (IMMAGINI,VIDEO,AUDIO) -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <!-- PER PERMETTERE DI CONTINUARE A SCARICARE DATI SE LO SCHERMO DOVESSE ANDARE IN BLOCCO -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
@@ -72,7 +72,7 @@
                 android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
         <activity
-            android:name="com.povodev.hemme.android.activity.gameTest.TestListActivity"
+            android:name="com.povodev.hemme.android.activity.testResults.TestListActivity"
             android:label="@string/title_test_list"
             android:parentActivityName="com.povodev.hemme.android.activity.Home_Activity" >
             <meta-data
@@ -80,9 +80,9 @@
                 android:value="com.povodev.hemme.android.activity.Home_Activity" />
         </activity>
         <activity
-            android:name="com.povodev.hemme.android.activity.gameTest.TestDetailActivity"
+            android:name="com.povodev.hemme.android.activity.testResults.TestDetailActivity"
             android:label="@string/title_test_detail"
-            android:parentActivityName="com.povodev.hemme.android.activity.gameTest.TestListActivity" >
+            android:parentActivityName="com.povodev.hemme.android.activity.testResults.TestListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.povodev.hemme.android.activity.gameTest.TestListActivity" />

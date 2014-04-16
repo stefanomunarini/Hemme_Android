@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Game_Activity;
-import com.povodev.hemme.android.activity.gameTest.TestListActivity;
+import com.povodev.hemme.android.activity.testResults.TestListActivity;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 

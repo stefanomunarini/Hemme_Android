@@ -1,9 +1,11 @@
 package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 
+import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.utils.NumberUtils;
 
 import java.util.ArrayList;
@@ -17,9 +19,12 @@ public class CardList extends ArrayList<Card> {
 
     private Context context;
 
+    private Drawable image;
+
     protected CardList(Context context, int size){
         super(size);
         this.context = context;
+        image = context.getResources().getDrawable(R.drawable.flipme);
         for (int i=0;i<size;i++){
             Card card = new Card(context);
             this.add(i, card);
@@ -44,6 +49,9 @@ public class CardList extends ArrayList<Card> {
             Log.d(TAG,"Position [" + i + "] : " + value);
 
             get(i).setCardValue(value);
+            get(i).setCardPosition(i);
+            get(i).setId(i);
+            get(i).setImageDrawable(image);
         }
     }
 

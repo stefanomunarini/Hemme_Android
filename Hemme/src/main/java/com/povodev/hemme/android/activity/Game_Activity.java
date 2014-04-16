@@ -1,10 +1,10 @@
 package com.povodev.hemme.android.activity;
 
 import android.os.Bundle;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.cardgame.GameSettings;
 import com.povodev.hemme.android.dialog.ListDialog;
 
@@ -15,9 +15,9 @@ import roboguice.inject.InjectView;
 /**
  * Created by Stefano on 09/04/14.
  */
-public class Game_Activity extends RoboActivity implements  ListDialog.OnDifficultySelectedListener {
+public class Game_Activity extends RoboActivity implements ListDialog.OnDifficultySelectedListener {
 
-    private static final String TAG = "Game_Activity";
+    public static final String TAG = "Game_Activity";
 
     /*
      * Timer TextView
@@ -25,9 +25,9 @@ public class Game_Activity extends RoboActivity implements  ListDialog.OnDifficu
     @InjectView(R.id.timer_textview)                private TextView mTimerTextView;
 
     /*
-     * The object that store the result of the game
+     * Game grid
      */
-    private Result result;
+    @InjectView(R.id.gridview)                      private GridView mGridView;
 
     /*
      * Convenient class to help settings Result bean
