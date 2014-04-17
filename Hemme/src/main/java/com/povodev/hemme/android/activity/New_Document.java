@@ -182,21 +182,26 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     headers.set("Content-Type", "multipart/form-data");
                     headers.set("enctype", "multipart/form-data");
                     headers.set("method", "post");
+                    headers.set("username","miousername");
 
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
 
                     RestTemplate restTemplate = new RestTemplate();
                     restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
                     restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
                     if(!restTemplate.postForObject(url, requestEntity, boolean.class)){
                         return false;
                     }
+
+
                 }
                 return true;
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
+
             return false;
         }
 
