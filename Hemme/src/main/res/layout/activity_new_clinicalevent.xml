@@ -10,11 +10,23 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/new_clinicalevent_label"
+        android:fontFamily="sans-serif-regular"
         android:layout_gravity="center_horizontal" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <ScrollView
+        android:padding="16dp"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:padding="8dp"
+        android:background="@drawable/card_shadow_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -22,41 +34,52 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/therapy_label"
+            android:fontFamily="sans-serif-regular"
+            android:padding="8dp"
             android:id="@+id/therapy_textview" />
 
         <EditText
             android:id="@+id/therapy_edittext"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/therapy_textview"
+            android:singleLine="false"
             android:minEms="8"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/note_label"
+            android:fontFamily="sans-serif-regular"
+            android:layout_below="@id/therapy_edittext"
+            android:padding="8dp"
             android:id="@+id/note_textview" />
 
         <EditText
             android:id="@+id/note_edittext"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/therapy_textview"
+            android:layout_below="@id/therapy_edittext"
+            android:maxLength="1000"
             android:minEms="8"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/insert_new_clinicalevent_button"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/insert_label"/>
+        <Button
+            android:id="@+id/insert_new_clinicalevent_button"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector"
+            android:text="@string/insert_label"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>

@@ -3,7 +3,7 @@ package com.povodev.hemme.android.cardgame;
 import android.content.Context;
 import android.os.Handler;
 
-import com.povodev.hemme.android.activity.Game_Activity;
+import com.povodev.hemme.android.activity.NewGame_Activity;
 
 /**
  * Created by Stefano on 15/04/14.
@@ -17,7 +17,7 @@ public class GameTimer extends Handler {
     public GameTimer(Context context){
         this.context =  context;
         startRunner();
-        ((Game_Activity)context).setTvText(timer+"");
+        ((NewGame_Activity)context).setTvText(timer+"");
     }
 
     private Runnable runnable = new Runnable() {
@@ -27,7 +27,7 @@ public class GameTimer extends Handler {
             postDelayed(this,1000);
 
             timer += increment;
-            ((Game_Activity)context).setTvText(timer/1000+"");
+            ((NewGame_Activity)context).setTvText(timer/1000+"");
         }
     };
 

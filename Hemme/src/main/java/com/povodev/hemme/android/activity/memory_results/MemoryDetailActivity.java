@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.activity.testResults;
+package com.povodev.hemme.android.activity.memory_results;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +11,12 @@ import com.povodev.hemme.android.R;
  * An activity representing a single Test detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link TestListActivity}.
+ * in a {@link MemoryResultsListActivity}.
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link TestDetailFragment}.
+ * more than a {@link MemoryDetailFragment}.
  */
-public class TestDetailActivity extends FragmentActivity {
+public class MemoryDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class TestDetailActivity extends FragmentActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putSerializable("result",getIntent().getSerializableExtra("result"));
-            TestDetailFragment fragment = new TestDetailFragment();
+            MemoryDetailFragment fragment = new MemoryDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.test_detail_container, fragment)
@@ -59,7 +59,7 @@ public class TestDetailActivity extends FragmentActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, TestListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, MemoryResultsListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -10,13 +10,10 @@ import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Diary;
-import com.povodev.hemme.android.activity.Game_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
-import com.povodev.hemme.android.activity.New_Document;
-import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
-import com.povodev.hemme.android.activity.testResults.TestListActivity;
+import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 
@@ -29,37 +26,59 @@ import roboguice.inject.InjectView;
 public class Fragment_Home extends RoboFragment implements View.OnClickListener {
 
     @InjectView(R.id.login_button)                  private Button mLoginButton;
-    @InjectView(R.id.registration_button)           private Button mRegistrationButton;
+    //@InjectView(R.id.registration_button)           private Button mRegistrationButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
-    @InjectView(R.id.document_button)               private Button mDocumentButton;
+    //@InjectView(R.id.document_button)               private Button mDocumentButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
-    @InjectView(R.id.new_game_button)               private Button mNewGameButton;
+    //@InjectView(R.id.new_game_button)               private Button mNewGameButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
 
-    @InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
-
+    //@InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
 
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
+
+    private User user;
+
+    /*
+     * true if user is logged in, false otherwise
+     */
+    private boolean isUserLoggedIn = false;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = SessionManagement.getUserInSession(getActivity());
+
+        isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
+
+        if (!isUserLoggedIn){
+            Intent intent = new Intent(getActivity(),Login_Activity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
     }
 
     private void initComponents() {
         mLoginButton.setOnClickListener(this);
-        mRegistrationButton.setOnClickListener(this);
-        mPasswordForgetTextView.setOnClickListener(this);
+        //mRegistrationButton.setOnClickListener(this);
+        //mPasswordForgetTextView.setOnClickListener(this);
         mNewClinicalEventButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
-        mDocumentButton.setOnClickListener(this);
+        //mDocumentButton.setOnClickListener(this);
         mTestButton.setOnClickListener(this);
-        mNewGameButton.setOnClickListener(this);
+        //mNewGameButton.setOnClickListener(this);
         mDiaryButton.setOnClickListener(this);
-        User user = SessionManagement.getUserInSession(getActivity());
+
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
+
+        if (isUserLoggedIn){
+            mLoginButton.setText("Logout");
+        }
+
+
     }
 
     @Override
@@ -81,13 +100,17 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         Intent intent;
         switch (id){
             case R.id.login_button:
-                intent = new Intent(this.getActivity(),Login_Activity.class);
-                redirect(intent);
+                if (isUserLoggedIn){
+                    SessionManagement.closeSession(getActivity());
+                    intent = new Intent(this.getActivity(),Login_Activity.class);
+                    redirect(intent);
+                    getActivity().finish();
+                }
                 break;
-            case R.id.registration_button:
+            /*case R.id.registration_button:
                 intent = new Intent(this.getActivity(),Registration_Activity.class);
                 redirect(intent);
-                break;
+                break;*/
             case R.id.newclinicalevent_button:
                 intent = new Intent(this.getActivity(),New_ClinicaEvent.class);
                 redirect(intent);
@@ -96,22 +119,18 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 intent = new Intent(this.getActivity(),ClinicalFolderListActivity.class);
                 redirect(intent);
                 break;
-            case R.id.password_forget_textview:
-                intent = new Intent(this.getActivity(),Login_Activity.class);
-                redirect(intent);
-                break;
-            case R.id.document_button:
+            /*case R.id.document_button:
                 intent = new Intent(this.getActivity(),New_Document.class);
                 redirect(intent);
-                break;
+                break;*/
             case R.id.test_button:
-                intent = new Intent(this.getActivity(),TestListActivity.class);
+                intent = new Intent(this.getActivity(),MemoryResultsListActivity.class);
                 redirect(intent);
                 break;
-            case R.id.new_game_button:
-                intent = new Intent(this.getActivity(),Game_Activity.class);
+/*            case R.id.new_game_button:
+                intent = new Intent(this.getActivity(),NewGame_Activity.class);
                 redirect(intent);
-                break;
+                break;*/
             case R.id.visaulizza_diario:
                 intent = new Intent(this.getActivity(),Diary.class);
                 redirect(intent);

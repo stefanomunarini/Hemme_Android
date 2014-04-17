@@ -7,8 +7,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.activity.Game_Activity;
-import com.povodev.hemme.android.activity.testResults.TestListActivity;
+import com.povodev.hemme.android.activity.NewGame_Activity;
+import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by Stefano on 03/04/14.
  */
-public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
+public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
     private final static String TAG = "NewResult_AsyncTask";
     /*
@@ -32,7 +32,7 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
     private ProgressDialog progressDialog;
     private Context context;
 
-    public NewResult_HttpRequest(Context context, Result result, int user_id){
+    public NewMemoryResult_HttpRequest(Context context, Result result, int user_id){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.context = context;
@@ -72,8 +72,8 @@ public class NewResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
         if (created) Log.d(TAG, "Result inserted correctly");
         else Log.d(TAG,"Failed to insert new result");
 
-        Intent intent = new Intent(context, TestListActivity.class);
+        Intent intent = new Intent(context, MemoryResultsListActivity.class);
         context.startActivity(intent);
-        ((Game_Activity)context).finish();
+        ((NewGame_Activity)context).finish();
     }
 }

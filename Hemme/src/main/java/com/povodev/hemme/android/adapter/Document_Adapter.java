@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.BitmapDownload;
-import com.povodev.hemme.android.asynctask.NewDocument_HttpRequest;
+import com.povodev.hemme.android.asynctask.Diary_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
-import com.povodev.hemme.android.bean.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class Document_Adapter extends ArrayAdapter<Document> implements AbsListV
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-        ArrayList<Document> di = NewDocument_HttpRequest.diario;
+        ArrayList<Document> di = Diary_HttpRequest.diario;
         new BitmapDownload(di,context);
     }
 }

@@ -2,13 +2,17 @@ package com.povodev.hemme.android.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.New_ClinicaEvent;
+import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -27,10 +31,12 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
     private ClinicalEvent clinicalEvent;
     private int user_id;
     private ProgressDialog progressDialog;
+    private Context context;
 
     public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent, int user_id){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
+        this.context = context;
         this.clinicalEvent = clinicalEvent;
         this.user_id = user_id;
     }
@@ -43,6 +49,8 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+            //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
+            restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
             return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
         } catch (Exception e) {
@@ -61,7 +69,16 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
     protected void onPostExecute(Boolean created) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (created) Log.d(TAG, "Evento clinico inserito.");
+        if (created){
+            Log.d(TAG, "Evento clinico inserito.");
+            startActivity(context);
+        }
         else Log.d(TAG,"Failed to insert new clinical event");
+    }
+
+    private void startActivity(Context context) {
+        Intent intent = new Intent(context, ClinicalFolderListActivity.class);
+        context.startActivity(intent);
+        ((New_ClinicaEvent)context).finish();
     }
 }

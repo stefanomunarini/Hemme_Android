@@ -56,9 +56,36 @@
 
     <Button
         android:id="@+id/login_button"
+        android:background="@drawable/button_selector"
+        android:padding="18dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"/>
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/password_forget_button"
+            android:background="@drawable/button_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="18dp"
+            android:text="@string/password_forget"/>
+
+        <Button
+            android:id="@+id/registration_button"
+            android:background="@drawable/button_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="18dp"
+            android:text="@string/registration"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

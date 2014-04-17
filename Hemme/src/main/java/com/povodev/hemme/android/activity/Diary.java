@@ -1,17 +1,17 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.adapter.Document_Adapter;
-import com.povodev.hemme.android.asynctask.NewDocument_HttpRequest;
+import com.povodev.hemme.android.asynctask.Diary_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 
 import java.util.ArrayList;
@@ -28,10 +28,7 @@ public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
     private int visibleThreshold = 20;
     private int currentPage = 0;
 
-
-    @InjectView(R.id.note_image)        private TextView mNoteImageText;
     @InjectView(R.id.listview)          private ListView mListView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +36,7 @@ public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
         setContentView(R.layout.activity_diary);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
-        new NewDocument_HttpRequest(context).execute();
+        new Diary_HttpRequest(context).execute();
 
     }
 
@@ -57,5 +54,31 @@ public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
                 //scroll end reached
                 //Write your code here
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.diary_actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_new_document:
+                startNewDocumentActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startNewDocumentActivity() {
+        Intent intent = new Intent(this,New_Document.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -1,6 +1,7 @@
 package com.povodev.hemme.android.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +20,11 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
 
     private final String TAG = "Login_Activity";
 
-    @InjectView(R.id.username_edittext) private EditText mUsernameEditText;
-    @InjectView(R.id.password_edittext) private EditText mPasswordEditText;
-    @InjectView(R.id.login_button)      private Button mLoginButton;
+    @InjectView(R.id.username_edittext)         private EditText mUsernameEditText;
+    @InjectView(R.id.password_edittext)         private EditText mPasswordEditText;
+    @InjectView(R.id.login_button)              private Button mLoginButton;
+    @InjectView(R.id.registration_button)       private Button mRegistrationButton;
+    @InjectView(R.id.password_forget_button)    private Button mPasswordForgetButton;
 
     private Context context;
 
@@ -29,7 +32,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         this.context = this;
 
         //TODO eliminare queste due righe
@@ -41,6 +44,8 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
 
     private void setComponentsListener() {
         mLoginButton.setOnClickListener(this);
+        mRegistrationButton.setOnClickListener(this);
+        mPasswordForgetButton.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +54,14 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         switch (id){
             case R.id.login_button:
                 new Login_HttpRequest(context,getUsername(),getPassword()).execute();
+                break;
+            case R.id.registration_button:
+                Intent intent = new Intent(this,Registration_Activity.class);
+                startActivity(intent);
+                break;
+            case R.id.password_forget_button:
+                //Intent intent = new Intent(this,Registration_Activity.class);
+                //startActivity(intent);
                 break;
         }
     }

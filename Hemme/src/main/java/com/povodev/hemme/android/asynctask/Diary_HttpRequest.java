@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  *    CREAZIONE ARRAY DI DOCUMENTI PRESENTI NEL DATABASE
  */
-public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>> {
+public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>> {
 
     private String TAG = "NewDocumentHttpRequest";
     private final String message = "Recupero dati..";
@@ -27,14 +27,13 @@ public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Doc
     public static ArrayList<Document> diario;
     private Context context;
 
-    public NewDocument_HttpRequest(Context context) {
+    public Diary_HttpRequest(Context context) {
         this.context = context;
         progressDialog = new CustomProgressDialog(context, message);
     }
 
     @Override
     protected void onPreExecute() {
-        // TODO Auto-generated method stub
         super.onPreExecute();
         progressDialog.show();
     }

@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.activity.testResults;
+package com.povodev.hemme.android.activity.memory_results;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,14 +24,14 @@ import java.util.ArrayList;
  * A list fragment representing a list of Result. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link TestDetailFragment}.
+ * currently being viewed in a {@link MemoryDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class TestListFragment extends ListFragment {
+public class MemoryResultsListFragment extends ListFragment {
 
-    private final static String TAG = "TestListFragment";
+    private final static String TAG = "MemoryResultsListFragment";
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -76,7 +76,7 @@ public class TestListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TestListFragment() {
+    public MemoryResultsListFragment() {
     }
 
     private int user_id;
@@ -208,7 +208,7 @@ public class TestListFragment extends ListFragment {
         protected void onPostExecute(ArrayList<Result> test) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
-            TestListFragment.test = test;
+            MemoryResultsListFragment.test = test;
             populateListView(test);
 
             Log.d(TAG, "ArrayList size: "+ test.size());

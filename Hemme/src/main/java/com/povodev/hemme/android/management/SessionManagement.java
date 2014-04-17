@@ -52,6 +52,14 @@ public class SessionManagement {
     }
 
     /*
+     * Return true if user is logged, false otherwise
+     */
+    public static boolean isUserLoggedIn(Context context){
+        SharedPreferences preferences = getPreferences(context);
+        return preferences.getBoolean(IS_LOGGED_IN,false);
+    }
+
+    /*
      * Retrieve SharedPreferences
      */
     private static SharedPreferences getPreferences(Context context) {

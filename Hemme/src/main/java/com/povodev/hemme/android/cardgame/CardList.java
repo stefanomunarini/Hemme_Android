@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class CardList extends ArrayList<Card> {
 
-    private static final String TAG = "Game_Activity";
+    private static final String TAG = "NewGame_Activity";
 
     private Context context;
 

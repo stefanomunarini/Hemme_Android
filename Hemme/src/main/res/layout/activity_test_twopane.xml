@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.povodev.hemme.android.activity.testResults.TestListActivity">
+    tools:context="com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity">
 
     <!--
     This layout is a two-pane layout for the Result
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/test_list"
-        android:name="com.povodev.hemme.android.activity.testResults.TestListFragment"
+        android:name="com.povodev.hemme.android.activity.memory_results.MemoryResultsListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

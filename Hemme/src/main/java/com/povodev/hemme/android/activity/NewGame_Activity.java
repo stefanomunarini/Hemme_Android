@@ -1,7 +1,6 @@
 package com.povodev.hemme.android.activity;
 
 import android.os.Bundle;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
@@ -15,19 +14,14 @@ import roboguice.inject.InjectView;
 /**
  * Created by Stefano on 09/04/14.
  */
-public class Game_Activity extends RoboActivity implements ListDialog.OnDifficultySelectedListener {
+public class NewGame_Activity extends RoboActivity implements ListDialog.OnDifficultySelectedListener {
 
-    public static final String TAG = "Game_Activity";
+    public static final String TAG = "NewGame_Activity";
 
     /*
      * Timer TextView
      */
     @InjectView(R.id.timer_textview)                private TextView mTimerTextView;
-
-    /*
-     * Game grid
-     */
-    @InjectView(R.id.gridview)                      private GridView mGridView;
 
     /*
      * Convenient class to help settings Result bean
@@ -61,6 +55,7 @@ public class Game_Activity extends RoboActivity implements ListDialog.OnDifficul
         bundle.putStringArray("list",list);
         ListDialog listDialog = new ListDialog();
         listDialog.setArguments(bundle);
+        listDialog.setCancelable(false);
         listDialog.show(getFragmentManager().beginTransaction(), "difficulty dialog");
     }
 

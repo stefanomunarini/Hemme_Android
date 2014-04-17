@@ -1,6 +1,7 @@
 package com.povodev.hemme.android.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,13 @@ public class ClinicalFolderAdapter extends ArrayAdapter<ClinicalEvent> {
             TextView theraphyView = (TextView) view.findViewById(android.R.id.text1);
             TextView dateView = (TextView) view.findViewById(android.R.id.text2);
             if (theraphyView != null) {
+                theraphyView.setSingleLine(true);
+                theraphyView.setEllipsize(TextUtils.TruncateAt.END);
                 theraphyView.setText(item.getTherapy());
             }
             if (dateView != null) {
+                dateView.setSingleLine(true);
+                dateView.setEllipsize(TextUtils.TruncateAt.END);
                 dateView.setText(item.getDate()+"");
             }
         }

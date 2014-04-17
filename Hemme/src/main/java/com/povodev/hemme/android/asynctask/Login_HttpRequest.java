@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.Home_Activity;
+import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -71,6 +74,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             SessionManagement.createLoginSession(context, user);
             Log.d(TAG, "User has been logged succesfully");
             Log.d(TAG,"Username: " + user.getEmail());
+            startActivity(context);
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -85,5 +89,11 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             builder.create().show();
             Log.d(TAG, "Failed to Login");
         }
+    }
+
+    private void startActivity(Context context) {
+        Intent intent = new Intent(context, Home_Activity.class);
+        context.startActivity(intent);
+        ((Login_Activity)context).finish();
     }
 }

@@ -22,13 +22,14 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
 
 
     //TODO set the right user_id
-    private int user_id = 1;
+    private int user_id = 2;
 
     @InjectView(R.id.therapy_edittext)                      private EditText mTherapyEditText;
     @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
     @InjectView(R.id.insert_new_clinicalevent_button)       private Button mInserNewClinicalEventButton;
 
     private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
 
+        //TODO cancellare queste due righe (usate solo per test)
         mNoteEditText.setText("noteeee");
         mTherapyEditText.setText("terapiaaaa");
 
@@ -50,7 +52,6 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int id = v.getId();
-
         switch (id){
             case R.id.insert_new_clinicalevent_button:
                 new NewClinicalEvent_HttpRequest(context,getClinicalEvent(),user_id).execute();
@@ -76,52 +77,7 @@ public class New_ClinicaEvent extends RoboActivity implements View.OnClickListen
         ClinicalEvent clinicalEvent = new ClinicalEvent();
         clinicalEvent.setTherapy(therapy);
         clinicalEvent.setNote(note);
-        clinicalEvent.setAuthor(1);
+        clinicalEvent.setAuthor(user_id);
         return clinicalEvent;
     }
-
-    /*private class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
-
-        private ClinicalEvent clinicalEvent;
-
-        public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent){
-            CustomProgressDialog = new ProgressDialog(context);
-            //CustomProgressDialog.setTitle("Benvenuto in HeMMe");
-            CustomProgressDialog.setMessage("Inserimento evento clinico in corso...");
-            this.clinicalEvent = clinicalEvent;
-        }
-
-        ProgressDialog CustomProgressDialog;
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            try {
-
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=1";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-                return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            CustomProgressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean created) {
-            if (CustomProgressDialog.isShowing()) CustomProgressDialog.dismiss();
-
-            if (created) Log.d(TAG, "Evento clinico inserito.");
-            else Log.d(TAG,"Failed to insert new clinical event");
-        }
-    }*/
 }

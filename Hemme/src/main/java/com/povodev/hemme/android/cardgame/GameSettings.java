@@ -8,8 +8,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.activity.Game_Activity;
-import com.povodev.hemme.android.asynctask.NewResult_HttpRequest;
+import com.povodev.hemme.android.activity.NewGame_Activity;
+import com.povodev.hemme.android.asynctask.NewMemoryResult_HttpRequest;
 import com.povodev.hemme.android.bean.Result;
 
 /**
@@ -33,10 +33,15 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         this.context = context;
         result = new Result();
 
-        Game_Activity game_activity = (Game_Activity) context;
+        NewGame_Activity game_activity = (NewGame_Activity) context;
         mGridView = (GridView) game_activity.findViewById(R.id.gridview);
     }
 
+    /*
+     * Initialize cards, set the griView adapter,
+     * set listener to gridView and start the game
+     * (timer starts too)
+     */
     public void initAndStartGame(int difficulty){
         setSize(difficulty);
 
@@ -63,31 +68,11 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         startTimer();
     }
 
+    /*
+     * Set the gridView adapter
+     */
     private void setGridViewAdapter(int gridSize){
         mGridView.setAdapter(new ImageAdapter(context,gridSize,cardSet));
-    }
-
-    private void setImageToCard(Card card) {
-        int value = card.getCardValue();
-        Drawable image = getDrawable(value);
-        card.setImageDrawable(image);
-    }
-
-    private Drawable getDrawable(int value) {
-        if(value==1){
-            return context.getResources().getDrawable(R.drawable.one);
-        } else if(value==2){
-            return context.getResources().getDrawable(R.drawable.two);
-        } else if(value==3){
-            return context.getResources().getDrawable(R.drawable.three);
-        } else if(value==4){
-            return context.getResources().getDrawable(R.drawable.four);
-        } else if(value==5){
-            return context.getResources().getDrawable(R.drawable.five);
-        } else if(value==6){
-            return context.getResources().getDrawable(R.drawable.six);
-        }
-        return context.getResources().getDrawable(R.drawable.one);
     }
 
     private GameTimer gameTimer;
@@ -112,7 +97,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private void stopTimer(){
         stopRunner();
         setTiming();
-        new NewResult_HttpRequest(context,result,user_id).execute();
+        new NewMemoryResult_HttpRequest(context,result,user_id).execute();
     }
 
     /*
@@ -141,13 +126,17 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     /*
      * Those strings are used for game difficulty label
      */
-    private final static String gradeEasy = "Facile (4)";
-    private final static String gradeEasyMedium = "Facile (6)";
-    private final static String gradeMedium = "Medio (8)";
-    private final static String gradeMediumHard = "Medio (10)";
-    private final static String gradeHard = "Difficile (12)";
+    private final static String gradeEasy = "Facile (4 carte)";
+    private final static String gradeEasyMedium = "Facile (6 carte)";
+    private final static String gradeMedium = "Medio (8 carte)";
+    private final static String gradeMediumHard = "Medio (10 carte)";
+    private final static String gradeHard = "Difficile (12 carte)";
+    private final static String gradeHardPlus = "Difficile (14 carte)";
+    private final static String gradeHardPlusPlus = "Difficile (18 carte)";
 
-    // Get the size of the game-map for the choosen difficulty
+    /*
+     * Get the size of the game-map for the choosen difficulty
+     */
     private void setSize(int difficulty) {
         if (difficulty==1){
             setGrade(gradeEasy);
@@ -161,10 +150,52 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         } else if (difficulty==4){
             setGrade(gradeMediumHard);
             size = 10;
-        } else {
+        } else if(difficulty==5){
             setGrade(gradeHard);
             size = 12;
+        } else if(difficulty==6){
+            setGrade(gradeHardPlus);
+            size = 14;
+        } else if(difficulty==7){
+            setGrade(gradeHardPlusPlus);
+            size = 18;
         }
+    }
+
+    /*
+     * Set the Drawable to the card
+     */
+    private void setImageToCard(Card card) {
+        int value = card.getCardValue();
+        Drawable image = getDrawable(value);
+        card.setImageDrawable(image);
+    }
+
+    /*
+     * Used to get the Drawable for the
+     * corresponding value of the card
+     */
+    private Drawable getDrawable(int value) {
+        if(value==1){
+            return context.getResources().getDrawable(R.drawable.one);
+        } else if(value==2){
+            return context.getResources().getDrawable(R.drawable.two);
+        } else if(value==3){
+            return context.getResources().getDrawable(R.drawable.three);
+        } else if(value==4){
+            return context.getResources().getDrawable(R.drawable.four);
+        } else if(value==5){
+            return context.getResources().getDrawable(R.drawable.five);
+        } else if(value==6){
+            return context.getResources().getDrawable(R.drawable.six);
+        } else if(value==7){
+            return context.getResources().getDrawable(R.drawable.seven);
+        } else if(value==8){
+            return context.getResources().getDrawable(R.drawable.eight);
+        } else if(value==9){
+            return context.getResources().getDrawable(R.drawable.nine);
+        }
+        return context.getResources().getDrawable(R.drawable.one);
     }
 
     /*

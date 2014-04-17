@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.activity.testResults;
+package com.povodev.hemme.android.activity.memory_results;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +12,11 @@ import com.povodev.hemme.android.bean.Result;
 
 /**
  * A fragment representing a single Test detail screen.
- * This fragment is either contained in a {@link TestListActivity}
- * in two-pane mode (on tablets) or a {@link TestDetailActivity}
+ * This fragment is either contained in a {@link MemoryResultsListActivity}
+ * in two-pane mode (on tablets) or a {@link MemoryDetailActivity}
  * on handsets.
  */
-public class TestDetailFragment extends Fragment {
+public class MemoryDetailFragment extends Fragment {
 
     /**
      * The content this fragment is presenting.
@@ -27,7 +27,7 @@ public class TestDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TestDetailFragment() {
+    public MemoryDetailFragment() {
     }
 
     @Override

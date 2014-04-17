@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,7 +24,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by gbonadiman.stage on 15/04/2014.
@@ -55,13 +52,11 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
 
     @Override
     public void onPreExecute() {
-        // TODO Auto-generated method stub
         super.onPreExecute();
         mProgressDialog.show();
     }
     @Override
     public Void doInBackground(Void... params) {
-        // TODO Auto-generated method stub
         try {
             image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
         } catch (Exception e) {
@@ -71,15 +66,16 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
     }
     @Override
     public void onPostExecute(Void result) {
-        // TODO Auto-generated method stub
         super.onPostExecute(result);
         mProgressDialog.dismiss();
 
         diario_minus = new ArrayList<Document>();
-        for (int i = 0;i<5;i++){
-            Document doc = diario.get(i);
-            doc.setFile_immagine(image);
-            diario_minus.add(doc);
+        for (int i = 0; i<5; i++){
+            if (i < diario.size() ){
+                Document doc = diario.get(i);
+                doc.setFile_immagine(image);
+                diario_minus.add(doc);
+            }
         }
 
 /*
