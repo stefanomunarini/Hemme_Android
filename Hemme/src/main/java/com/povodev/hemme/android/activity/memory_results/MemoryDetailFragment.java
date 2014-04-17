@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.utils.Formatters;
 
 /**
  * A fragment representing a single Test detail screen.
@@ -45,10 +46,13 @@ public class MemoryDetailFragment extends Fragment {
         // Show the content as text in TextViews
         if (result != null) {
             ((TextView) rootView.findViewById(R.id.test_grade)).setText(result.getGrade());
-            ((TextView) rootView.findViewById(R.id.test_time)).setText(result.getTime()/1000+"");
-            ((TextView) rootView.findViewById(R.id.test_date)).setText(result.getDate()+"");
+            String time = Formatters.timeFormat(result.getTime());
+            ((TextView) rootView.findViewById(R.id.test_time)).setText(time);
+            String date = Formatters.timestampFormat(result.getDate());
+            ((TextView) rootView.findViewById(R.id.test_date)).setText(date);
         }
 
         return rootView;
     }
+
 }

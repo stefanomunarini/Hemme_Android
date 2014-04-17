@@ -2,10 +2,13 @@ package com.povodev.hemme.android.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.Home_Activity;
+import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -71,7 +74,14 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
             Log.d(TAG,"User has been registered and logged succesfully");
             SessionManagement.createLoginSession(context, user);
             Log.d(TAG, "Username registered: " + user.getEmail());
+            jumpIntoApp();
         }
         else Log.d(TAG,"Failed to register/login");
+    }
+
+    private void jumpIntoApp() {
+        Intent intent = new Intent(context, Home_Activity.class);
+        context.startActivity(intent);
+        ((Registration_Activity)context).finish();
     }
 }

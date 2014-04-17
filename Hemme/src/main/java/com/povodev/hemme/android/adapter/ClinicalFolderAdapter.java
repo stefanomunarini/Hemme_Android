@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.utils.Formatters;
 
 import java.util.ArrayList;
 
@@ -41,9 +42,10 @@ public class ClinicalFolderAdapter extends ArrayAdapter<ClinicalEvent> {
                 theraphyView.setText(item.getTherapy());
             }
             if (dateView != null) {
+                String date = Formatters.dateFormat(item.getDate());
                 dateView.setSingleLine(true);
                 dateView.setEllipsize(TextUtils.TruncateAt.END);
-                dateView.setText(item.getDate()+"");
+                dateView.setText(date);
             }
         }
 

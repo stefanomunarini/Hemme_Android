@@ -14,12 +14,10 @@ import android.widget.TextView;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.utils.Formatters;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 /**
  * A fragment representing a single ClinicalFolder detail screen.
@@ -67,15 +65,12 @@ public class ClinicalFolderDetailFragment extends Fragment {
         if (clinicalEvent != null) {
             ((TextView) rootView.findViewById(R.id.clinicalfolder_therapy)).setText(clinicalEvent.getTherapy());
             ((TextView) rootView.findViewById(R.id.clinicalfolder_note)).setText(clinicalEvent.getNote());
-            String date = dateFormat(clinicalEvent.getDate());
+            String date = Formatters.dateFormat(clinicalEvent.getDate());
             ((TextView) rootView.findViewById(R.id.clinicalfolder_date)).setText(date);
         }
         return rootView;
     }
 
-    private String dateFormat(Date date) {
-        return new SimpleDateFormat("dd-MM-yyyy").format(date);
-    }
 
     private class GetAuthor_HttpRequest extends AsyncTask<Void, Void, String> {
 

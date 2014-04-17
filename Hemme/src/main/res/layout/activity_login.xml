@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/login"
-        android:layout_gravity="center_horizontal" />
+        android:paddingBottom="8dp"
+        android:gravity="center" />
 
     <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/card_shadow_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -34,6 +48,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -54,10 +69,13 @@
 
     </LinearLayout>
 
+    </LinearLayout>
+
     <Button
         android:id="@+id/login_button"
         android:background="@drawable/button_selector"
-        android:padding="18dp"
+        android:padding="16dp"
+        android:layout_margin="8dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +92,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:padding="18dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:text="@string/password_forget"/>
 
         <Button
@@ -83,9 +102,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:padding="18dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:text="@string/registration"/>
 
     </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
