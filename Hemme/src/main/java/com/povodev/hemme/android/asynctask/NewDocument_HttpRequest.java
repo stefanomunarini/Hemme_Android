@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 
@@ -23,7 +24,7 @@ public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Doc
     private String TAG = "NewDocumentHttpRequest";
     private final String message = "Recupero dati..";
     private ProgressDialog progressDialog;
-    private ArrayList<Document> diario;
+    public static ArrayList<Document> diario;
     private Context context;
 
     public NewDocument_HttpRequest(Context context) {
@@ -45,8 +46,13 @@ public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Doc
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+
+            Diary.diario = restTemplate.getForObject(url, com.povodev.hemme.android.bean.Diary.class);
             diario = restTemplate.getForObject(url, com.povodev.hemme.android.bean.Diary.class);
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
         return null;
@@ -55,7 +61,11 @@ public class NewDocument_HttpRequest extends AsyncTask<Void, Void, ArrayList<Doc
     @Override
     protected void onPostExecute(ArrayList<Document> result) {
         super.onPostExecute(result);
-        new bitmapDownload(diario,context).execute();
+
+
+            new BitmapDownload(diario,context).execute();
+
+
         //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp
         if (progressDialog.isShowing()) progressDialog.dismiss();
     }

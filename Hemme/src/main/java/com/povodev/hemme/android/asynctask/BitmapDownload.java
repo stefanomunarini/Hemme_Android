@@ -8,8 +8,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Diary;
@@ -29,27 +31,36 @@ import java.util.Iterator;
 /**
  * Created by gbonadiman.stage on 15/04/2014.
  */
-class bitmapDownload extends AsyncTask<Void, Void, Void> {
+public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsListView.OnScrollListener{
 
+
+    private final String TAG = "Diary_Activity";
+
+    int control = 0;
     Bitmap image;
     ArrayList<Document> diario;
     ProgressDialog mProgressDialog;
     Context context;
+    ListView mListView;
+    int max_view_element=8;
+    int min_view_element=5;
+    ArrayAdapter adapter;
+    ArrayList<Document> diario_minus;
 
-    public bitmapDownload( ArrayList<Document> diario,Context context){
+    public BitmapDownload(ArrayList<Document> diario, Context context){
         this.diario = diario;
         this.context = context;
         this.mProgressDialog = new CustomProgressDialog(context,"Creazione Diario in corso");
     }
 
     @Override
-    protected void onPreExecute() {
+    public void onPreExecute() {
         // TODO Auto-generated method stub
         super.onPreExecute();
         mProgressDialog.show();
     }
     @Override
-    protected Void doInBackground(Void... params) {
+    public Void doInBackground(Void... params) {
         // TODO Auto-generated method stub
         try {
             image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
@@ -59,28 +70,43 @@ class bitmapDownload extends AsyncTask<Void, Void, Void> {
         return null;
     }
     @Override
-    protected void onPostExecute(Void result) {
+    public void onPostExecute(Void result) {
         // TODO Auto-generated method stub
         super.onPostExecute(result);
         mProgressDialog.dismiss();
 
+        diario_minus = new ArrayList<Document>();
+        for (int i = 0;i<5;i++){
+            Document doc = diario.get(i);
+            doc.setFile_immagine(image);
+            diario_minus.add(doc);
+        }
+
+/*
+        for (int i = 0;i<5;i++){
+            Document doc = diario.get(i);
+            doc.setFile_immagine(image);
+        }
+*/
+/*
         Iterator i = diario.iterator();
         while (i.hasNext()){
             Document doc = (Document)i.next();
             doc.setFile_immagine(image);
         }
+*/
 
-        ArrayAdapter adapter= new Document_Adapter(context, R.layout.diary_row_layout,diario);
-
-
+        adapter = new Document_Adapter(context, R.layout.diary_row_layout,diario_minus);
         Diary diary = (Diary)context;
-        ListView mListView = (ListView)diary.findViewById(R.id.listview);
+
+        mListView = (ListView)diary.findViewById(R.id.listview);
         mListView.setAdapter(adapter);
-        //mImageView.setImageBitmap(image);
+        mListView.setOnScrollListener(this);
+
     }
 
 
-    private Bitmap downloadBitmap(String url) {
+    public Bitmap downloadBitmap(String url) {
         // initilize the default HTTP client object
         final DefaultHttpClient client = new DefaultHttpClient();
 
@@ -126,5 +152,40 @@ class bitmapDownload extends AsyncTask<Void, Void, Void> {
         }
 
         return image;
+    }
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
+
+
+        if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1
+                && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
+            if(max_view_element<=diario.size() && control == 0) {
+                Log.d(TAG, "entrato nella fine");
+                for (int j = min_view_element; j < max_view_element; j++) {
+                    Document doc = diario.get(j);
+                    doc.setFile_immagine(image);
+                    diario_minus.add(doc);
+                }
+                min_view_element += 3;
+                max_view_element += 4;
+                adapter.notifyDataSetChanged();
+            }else if( control==1 ){
+                Toast toast;
+                toast =  Toast.makeText(context,"Fine del Diario", Toast.LENGTH_SHORT);
+                toast.show();
+            }else{
+                for (int j = min_view_element; j < diario.size(); j++) {
+                    Document doc = diario.get(j);
+                    doc.setFile_immagine(image);
+                    diario_minus.add(doc);
+                }
+                adapter.notifyDataSetChanged();
+                control ++;
+            }
+        }
     }
 }

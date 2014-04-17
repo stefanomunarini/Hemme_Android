@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.BitmapDownload;
+import com.povodev.hemme.android.asynctask.NewDocument_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.Result;
 
@@ -18,7 +21,7 @@ import java.util.List;
 /**
  * Created by gbonadiman.stage on 15/04/2014.
  */
-public class Document_Adapter extends ArrayAdapter<Document> {
+public class Document_Adapter extends ArrayAdapter<Document> implements AbsListView.OnScrollListener{
 
     private Context context;
     private List<Document> documenti;
@@ -51,4 +54,14 @@ public class Document_Adapter extends ArrayAdapter<Document> {
     }
 
 
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+        ArrayList<Document> di = NewDocument_HttpRequest.diario;
+        new BitmapDownload(di,context);
+    }
 }
