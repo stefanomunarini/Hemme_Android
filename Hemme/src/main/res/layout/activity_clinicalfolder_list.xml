@@ -4,7 +4,6 @@
     android:name="com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_margin="16dp"
     tools:context="com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity"
     tools:layout="@android:layout/list_content" />

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.utils.Formatters;
 
@@ -29,13 +30,14 @@ public class ClinicalFolderAdapter extends ArrayAdapter<ClinicalEvent> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(android.R.layout.simple_list_item_activated_2, null);
+            view = inflater.inflate(R.layout.clinicalfolder_list_row, null);
         }
 
         ClinicalEvent item = getItem(position);
         if (item!= null) {
-            TextView theraphyView = (TextView) view.findViewById(android.R.id.text1);
-            TextView dateView = (TextView) view.findViewById(android.R.id.text2);
+            TextView theraphyView = (TextView) view.findViewById(R.id.clinicalfolder_row_therapy);
+            TextView dateView = (TextView) view.findViewById(R.id.clinicalfolder_row_date);
+
             if (theraphyView != null) {
                 theraphyView.setSingleLine(true);
                 theraphyView.setEllipsize(TextUtils.TruncateAt.END);

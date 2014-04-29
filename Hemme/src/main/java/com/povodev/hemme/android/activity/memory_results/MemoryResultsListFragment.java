@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.adapter.TestAdapter;
+import com.povodev.hemme.android.adapter.MemoryResultsAdapter;
 import com.povodev.hemme.android.bean.Result;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -99,6 +99,10 @@ public class MemoryResultsListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        ListView listView = getListView();
+        listView.setDivider(null);
+        listView.setDividerHeight(8);
     }
 
     @Override
@@ -165,7 +169,7 @@ public class MemoryResultsListFragment extends ListFragment {
      * Used to set the list adapter for this fragment
      */
     private void populateListView(ArrayList<Result> test) {
-        ArrayAdapter adapter = new TestAdapter(getActivity(),android.R.id.text1,test);
+        ArrayAdapter adapter = new MemoryResultsAdapter(getActivity(),android.R.id.text1,test);
         this.setListAdapter(adapter);
     }
 

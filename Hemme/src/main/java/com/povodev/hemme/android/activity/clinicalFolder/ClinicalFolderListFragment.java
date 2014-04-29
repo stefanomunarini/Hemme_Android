@@ -102,6 +102,10 @@ public class ClinicalFolderListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        ListView listView = getListView();
+        listView.setDivider(null);
+        listView.setDividerHeight(8);
     }
 
     @Override

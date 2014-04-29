@@ -43,6 +43,8 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
     @Override
     protected Boolean doInBackground(Void... params) {
 
+        Log.d(TAG,"Inserting result into database");
+
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/insertResult?user_id=" + user_id;
             RestTemplate restTemplate = new RestTemplate();

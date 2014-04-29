@@ -2,6 +2,7 @@ package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -101,7 +102,6 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private void stopTimer(){
         stopRunner();
         setTiming();
-        new NewMemoryResult_HttpRequest(context,result,user_id).execute();
     }
 
     /*
@@ -239,7 +239,13 @@ public class GameSettings implements AdapterView.OnItemClickListener{
                 Toast toast = Toast.makeText(context, "HAI VINTO!", Toast.LENGTH_SHORT);
                 toast.show();
                 stopTimer();
+                Log.d(NewGame_Activity.TAG,"winnerWinnerChickenDinner");
+                saveResult();
             }
         }
+    }
+
+    private void saveResult() {
+        new NewMemoryResult_HttpRequest(context,result,user_id).execute();
     }
 }

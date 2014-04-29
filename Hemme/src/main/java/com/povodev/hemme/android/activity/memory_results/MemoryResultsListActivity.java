@@ -38,7 +38,7 @@ public class MemoryResultsListActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_list);
+        setContentView(R.layout.activity_memoryresults_list);
 
         if (findViewById(R.id.test_detail_container) != null) {
             // The detail container view will be present only in the

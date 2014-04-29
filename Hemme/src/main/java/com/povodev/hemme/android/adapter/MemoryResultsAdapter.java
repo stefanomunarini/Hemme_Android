@@ -16,11 +16,11 @@ import java.util.ArrayList;
 /**
  * Created by Stefano on 03/04/14.
  */
-public class TestAdapter extends ArrayAdapter<Result> {
+public class MemoryResultsAdapter extends ArrayAdapter<Result> {
 
     private Context context;
 
-    public TestAdapter(Context context, int textViewResourceId, ArrayList<Result> items) {
+    public MemoryResultsAdapter(Context context, int textViewResourceId, ArrayList<Result> items) {
         super(context, textViewResourceId, items);
 
         this.context = context;
@@ -54,7 +54,7 @@ public class TestAdapter extends ArrayAdapter<Result> {
             }
 
             if (timeView != null) {
-                String time = Formatters.timeFormat(item.getTime());
+                String time = Formatters.timeFormat(item.getTime()) + "s";
                 timeView.setText(time);
             }
         }
