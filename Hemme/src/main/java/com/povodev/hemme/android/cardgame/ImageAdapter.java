@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.povodev.hemme.android.R;
 
 /**
+ * Adapter used to populate the game GridView
  * Created by Stefano on 16/04/14.
  */
 public class ImageAdapter extends BaseAdapter {

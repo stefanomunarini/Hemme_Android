@@ -11,6 +11,7 @@ import com.povodev.hemme.android.utils.NumberUtils;
 import java.util.ArrayList;
 
 /**
+ * The list of card used for the game
  * Created by Stefano on 09/04/14.
  */
 public class CardList extends ArrayList<Card> {
@@ -21,6 +22,12 @@ public class CardList extends ArrayList<Card> {
 
     private Drawable image;
 
+    /*
+     * Default constructor
+     * @param context
+     * @param size the size of the list
+     * (corresponding to the difficulty choosed)
+     */
     protected CardList(Context context, int size){
         super(size);
         this.context = context;

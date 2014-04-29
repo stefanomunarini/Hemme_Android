@@ -5,22 +5,13 @@ import android.widget.ImageView;
 
 
 /**
+ * The cards used by the game
  * Created by Stefano on 09/04/14.
  */
 public class Card extends ImageView {
 
     protected Card(Context context) {
         super(context);
-
-        /*ViewGroup.LayoutParams params = new ActionBar.LayoutParams(
-                150,
-                300
-        );
-
-
-        this.setLayoutParams(params);
-        this.setScaleType(ImageView.ScaleType.FIT_START);
-*/
     }
 
     // The id corresponding to the position in the ArrayList

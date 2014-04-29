@@ -13,6 +13,7 @@ import com.povodev.hemme.android.asynctask.NewMemoryResult_HttpRequest;
 import com.povodev.hemme.android.bean.Result;
 
 /**
+ * Use this class to init, start and stop the game
  * Created by Stefano on 15/04/14.
  */
 public class GameSettings implements AdapterView.OnItemClickListener{
@@ -29,6 +30,9 @@ public class GameSettings implements AdapterView.OnItemClickListener{
 
     private Context context;
 
+    /*
+     * Default constructor.
+     */
     public GameSettings(Context context){
         this.context = context;
         result = new Result();
@@ -45,9 +49,9 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     public void initAndStartGame(int difficulty){
         setSize(difficulty);
 
-        cardSet = new CardList(context, size);
+        cardSet = new CardList(context, getSize());
 
-        setGridViewAdapter(size);
+        setGridViewAdapter(getSize());
         mGridView.setOnItemClickListener(this);
 
         startGame();
@@ -160,6 +164,10 @@ public class GameSettings implements AdapterView.OnItemClickListener{
             setGrade(gradeHardPlusPlus);
             size = 18;
         }
+    }
+
+    public int getSize() {
+        return size;
     }
 
     /*

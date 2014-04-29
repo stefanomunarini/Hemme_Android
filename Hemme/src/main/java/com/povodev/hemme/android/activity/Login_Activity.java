@@ -1,6 +1,8 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.GetPassword_HttpRequest;
 import com.povodev.hemme.android.asynctask.Login_HttpRequest;
 
 import roboguice.activity.RoboFragmentActivity;
@@ -36,7 +39,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         this.context = this;
 
         //TODO eliminare queste due righe
-        mUsernameEditText.setText("ste");
+        mUsernameEditText.setText("ssteee@gmail.com");
         mPasswordEditText.setText("ste");
 
         setComponentsListener();
@@ -60,10 +63,38 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.password_forget_button:
-                //Intent intent = new Intent(this,Registration_Activity.class);
-                //startActivity(intent);
+                openDialog(context);
                 break;
         }
+    }
+
+    private void openDialog(final Context context) {
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+
+        //TODO eliminare
+        input.setText("ssteee@gmail.com");
+
+        final String dialogTitle = "Recupero password";
+        final String dialogMessage = "Inserisci email";
+
+        new AlertDialog.Builder(context)
+                .setTitle(dialogTitle)
+                .setMessage(dialogMessage)
+                .setView(input)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        String email = input.getText().toString();
+                        new GetPassword_HttpRequest(context,email).execute();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+        }).show();
     }
 
     private String getUsername(){

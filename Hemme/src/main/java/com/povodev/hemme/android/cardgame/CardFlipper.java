@@ -7,15 +7,10 @@ import android.os.Handler;
 import com.povodev.hemme.android.R;
 
 /**
+ * The handler used for card flipping
  * Created by Stefano on 15/04/14.
  */
 public class CardFlipper extends Handler {
-
-    /*
-     * The label for the front side of the Card
-     * TODO change it
-     */
-    private final String button_label = "Click me!";
 
     /*
      * Card flip timing
@@ -23,7 +18,15 @@ public class CardFlipper extends Handler {
      */
     private int cardFlipTiming = 1000;
 
-
+    /*
+     * Call this method whenever
+     * you need to flip cards back after
+     * a period of time {@see #cardFlipTiming}
+     * if their values does not correspond
+     * @param context
+     * @param first the first card to flip
+     * @param second the second card to flip
+     */
     protected void startRunner(final Context context, final Card first, final Card second){
 
         final Drawable image = context.getResources().getDrawable(R.drawable.flipme);
@@ -34,8 +37,6 @@ public class CardFlipper extends Handler {
                 first.setImageDrawable(image);
                 second.setImageDrawable(image);
 
-                /*first.setText(button_label);
-                second.setText(button_label);*/
             }
         }, cardFlipTiming);
     }
