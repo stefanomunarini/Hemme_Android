@@ -22,6 +22,7 @@ import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.Encoding_MD5;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -172,8 +173,9 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     user.setId(1);
 
 
+                    String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
 
-                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=" + user.getId();
+                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=1";
                     MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
                     para.add("file", fsr);
 
@@ -182,7 +184,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     headers.set("Content-Type", "multipart/form-data");
                     headers.set("enctype", "multipart/form-data");
                     headers.set("method", "post");
-                    headers.set("username","miousername");
+                    headers.set("salt",salt);
 
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
 
