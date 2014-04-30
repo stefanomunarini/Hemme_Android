@@ -8,8 +8,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.bean.Diary;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,9 +47,19 @@ public class GetPassword_HttpRequest extends AsyncTask<Void, Void, String> {
         Log.d(TAG, "Recupero password di " + username );
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/passwordRecovery?email="+username;
+            HttpHeaders headers = Header_Creator.create();
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-            String password = restTemplate.getForObject(url, String.class);
+
+            ResponseEntity<String> stringRequest = restTemplate.exchange(url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    String.class);
+            //String password = restTemplate.getForObject(url, String.class);
+            String password = stringRequest.getBody();
+
             return password;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);

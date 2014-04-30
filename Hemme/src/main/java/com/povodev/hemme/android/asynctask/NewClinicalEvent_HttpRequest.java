@@ -10,8 +10,14 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -46,13 +52,25 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
 
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=" + user_id;
+            HttpHeaders headers = Header_Creator.create();
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
+
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
-            return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
+            ResponseEntity<Boolean> booleanRequest= restTemplate.exchange(url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    Boolean.class);
+            Boolean bool = booleanRequest.getBody();
+
+            //return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
+            return bool;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }

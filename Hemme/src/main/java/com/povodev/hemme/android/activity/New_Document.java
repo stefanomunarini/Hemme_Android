@@ -181,15 +181,6 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     para.add("file", fsr);
 
                     HttpHeaders headers = Header_Creator.create();
-
-                    /*
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.set("Content-Type", "multipart/form-data");
-                    headers.set("enctype", "multipart/form-data");
-                    headers.set("method", "post");
-                    headers.set("salt",salt);
-                    */
-
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
 
                     RestTemplate restTemplate = new RestTemplate();

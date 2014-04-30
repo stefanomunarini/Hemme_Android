@@ -11,7 +11,12 @@ import com.povodev.hemme.android.activity.NewGame_Activity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -47,14 +52,24 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
 
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/insertResult?user_id=" + user_id;
+            HttpHeaders headers = Header_Creator.create();
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
+            ResponseEntity<Boolean> boolRequest= restTemplate.exchange(url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    Boolean.class);
+            boolean bool = boolRequest.getBody();
 
-            return restTemplate.postForObject(url, result, Boolean.class);
+//            return restTemplate.postForObject(url, result, Boolean.class);
+            return bool;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }

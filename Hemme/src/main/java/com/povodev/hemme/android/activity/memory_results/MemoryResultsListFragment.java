@@ -14,7 +14,13 @@ import android.widget.ListView;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.MemoryResultsAdapter;
 import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.bean.Test;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -190,11 +196,18 @@ public class MemoryResultsListFragment extends ListFragment {
 
             try {
                 final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getTest?user_id="+user_id;
+                HttpHeaders headers = Header_Creator.create();
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-                return restTemplate.getForObject(url, com.povodev.hemme.android.bean.Test.class);
+                ResponseEntity<Test> testRequest = restTemplate.exchange(url,
+                        HttpMethod.GET,
+                        requestEntity,
+                        com.povodev.hemme.android.bean.Test.class);
+                Test test = testRequest.getBody();
+//                return restTemplate.getForObject(url, com.povodev.hemme.android.bean.Test.class);
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);

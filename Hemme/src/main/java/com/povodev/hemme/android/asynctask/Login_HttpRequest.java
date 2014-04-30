@@ -58,8 +58,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 
-
-
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
@@ -67,8 +65,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                     HttpMethod.GET,
                     requestEntity,
                     com.povodev.hemme.android.bean.User.class);
-
-//            User user = restTemplate.getForObject(url, User.class);
             User user = utenteRequest.getBody();
 
 

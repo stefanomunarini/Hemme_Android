@@ -15,7 +15,12 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.ClinicalFolder;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -192,11 +197,18 @@ public class ClinicalFolderListFragment extends ListFragment {
 
             try {
                 final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getClinicalFolder?user_id="+user_id;
+                HttpHeaders headers = Header_Creator.create();
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-                return restTemplate.getForObject(url, ClinicalFolder.class);
+                ResponseEntity<ClinicalFolder> folderRequest = restTemplate.exchange(url,
+                        HttpMethod.GET,
+                        requestEntity,
+                        ClinicalFolder.class);
+                ClinicalFolder cf = folderRequest.getBody();
+//                return restTemplate.getForObject(url, ClinicalFolder.class);
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);

@@ -15,7 +15,12 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.utils.Formatters;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -89,10 +94,22 @@ public class ClinicalFolderDetailFragment extends Fragment {
 
             try {
                 final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getAuthor?user_id="+user_id;
+                HttpHeaders headers = Header_Creator.create();
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
+
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
-                return restTemplate.getForObject(url, String.class);
+                ResponseEntity<String> stringRequest = restTemplate.exchange(url,
+                        HttpMethod.GET,
+                        requestEntity,
+                        String.class);
+                String result = stringRequest.getBody();
+
+                //return restTemplate.getForObject(url, String.class);
+                return result;
+
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }

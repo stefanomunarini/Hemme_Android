@@ -12,7 +12,12 @@ import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -50,11 +55,22 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
+            HttpHeaders headers = Header_Creator.create();
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
-            return restTemplate.postForObject(url, user, User.class);
+
+            ResponseEntity<User> utenteRequest= restTemplate.exchange(url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    com.povodev.hemme.android.bean.User.class);
+            User user = utenteRequest.getBody();
+
+            return user;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
