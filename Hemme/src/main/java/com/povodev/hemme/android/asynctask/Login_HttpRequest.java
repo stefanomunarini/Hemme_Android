@@ -11,10 +11,16 @@ import android.util.Log;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Home_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
+import com.povodev.hemme.android.bean.Diary;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.Header_Creator;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -47,11 +53,28 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         Log.d(TAG, "Login di " + username + " / passw: " + password);
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password;
+
+
+            HttpHeaders headers = Header_Creator.create();
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
+
+
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            User user = restTemplate.getForObject(url, User.class);
+
+            ResponseEntity<User> utenteRequest= restTemplate.exchange(url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    com.povodev.hemme.android.bean.User.class);
+
+//            User user = restTemplate.getForObject(url, User.class);
+            User user = utenteRequest.getBody();
+
+
             return user;
-        } catch (Exception e) {
+
+        }catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 

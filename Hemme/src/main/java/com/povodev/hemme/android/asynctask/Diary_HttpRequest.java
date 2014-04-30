@@ -60,12 +60,12 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
             restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            ResponseEntity<com.povodev.hemme.android.bean.Diary> diarioR = restTemplate.exchange(url,
+            ResponseEntity<com.povodev.hemme.android.bean.Diary> diarioRequest = restTemplate.exchange(url,
                                            HttpMethod.GET,
                                            requestEntity,
                                            com.povodev.hemme.android.bean.Diary.class);
-            Diary.diario = diarioR.getBody();
-            diario = diarioR.getBody();
+            Diary.diario = diarioRequest.getBody();
+            diario = diarioRequest.getBody();
         }
 
         catch (Exception e) {
