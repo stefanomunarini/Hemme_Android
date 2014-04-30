@@ -23,6 +23,7 @@ import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Encoding_MD5;
+import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -74,20 +75,20 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         int id = v.getId();
 
         switch (id){
-            case R.id.insert_new_file_button:{
+            case R.id.insert_new_file_button:
                 if(countFileToUpload < 3) {
                     Intent intent = new Intent();
                     intent.setType("*/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
 //                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+                    break;
                 }else{
                     Toast toast;
                     toast =  Toast.makeText(context,"PUOI INSERIRE MASSIMO 3 FILE", Toast.LENGTH_SHORT);
                     toast.show();
+                    break;
                 }
-            }
-            break;
 
             case R.id.insert_new_document_button:{
                 new NewDocument_HttpRequest(context,getDocument()).execute();
@@ -173,22 +174,26 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     user.setId(1);
 
 
-                    String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
+//                    String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
 
                     final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=1";
                     MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
                     para.add("file", fsr);
 
-                    HttpHeaders headers = new HttpHeaders();
+                    HttpHeaders headers = Header_Creator.create();
 
+                    /*
+                    HttpHeaders headers = new HttpHeaders();
                     headers.set("Content-Type", "multipart/form-data");
                     headers.set("enctype", "multipart/form-data");
                     headers.set("method", "post");
                     headers.set("salt",salt);
+                    */
 
                     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
 
                     RestTemplate restTemplate = new RestTemplate();
+
                     restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
                     restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
