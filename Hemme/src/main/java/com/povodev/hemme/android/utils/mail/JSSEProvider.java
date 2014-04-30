@@ -19,8 +19,7 @@ package com.povodev.hemme.android.utils.mail;
  */
 
 /**
- * @author Alexander Y. Kleymenov
- * @version $Revision$
+ * @author Stefano
  */
 
 

@@ -34,8 +34,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     //@InjectView(R.id.new_game_button)               private Button mNewGameButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
 
-    //@InjectView(R.id.password_forget_textview)      private TextView mPasswordForgetTextView;
-
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
 
     private User user;
@@ -44,7 +42,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
      * true if user is logged in, false otherwise
      */
     private boolean isUserLoggedIn = false;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +57,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             getActivity().finish();
         }
     }
+
 
     private void initComponents() {
         mLoginButton.setOnClickListener(this);
@@ -77,8 +75,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         if (isUserLoggedIn){
             mLoginButton.setText("Logout");
         }
-
-
     }
 
     @Override
@@ -88,9 +84,11 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         return rootView;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         initComponents();
     }
 

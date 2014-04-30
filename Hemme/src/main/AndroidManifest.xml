@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- PER PERMETTERE DI CONTINUARE A SCARICARE DATI SE LO SCHERMO DOVESSE ANDARE IN BLOCCO -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- PER CONTROLLARE SE IL DISPOSITIVO E' CONNESSO AD UN NETWORK -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +24,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
