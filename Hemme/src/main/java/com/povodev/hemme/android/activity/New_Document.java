@@ -1,7 +1,9 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.GetPassword_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
@@ -32,6 +35,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -159,30 +163,44 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         protected Boolean doInBackground(Void... params) {
 
             try {
-                Iterator it = fileToUpload.iterator();
+                if(!fileToUpload.isEmpty()) {
+                    Iterator it = fileToUpload.iterator();
+                    while (it.hasNext()) {
 
-                while(it.hasNext())
-                {
-                    FileSystemResource fsr = (FileSystemResource) it.next();
+                        FileSystemResource fsr = (FileSystemResource) it.next();
+                        String note = document.getNote();
+                        user_id = user.getId();
+                        final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=" + user_id;
 
+                        MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
+                        para.add("file", fsr);
+                        HttpHeaders headers = Header_Creator.create();
+                        headers.set("method", "post");
+                        headers.set("Content-Type", "multipart/form-data");
+                        headers.set("enctype", "multipart/form-data");
+
+                        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
+                        RestTemplate restTemplate = new RestTemplate();
+                        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+                        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                        if (!restTemplate.postForObject(url, requestEntity, boolean.class))
+                            return false;
+                    }
+                }else{
                     String note = document.getNote();
                     user_id = user.getId();
-
-                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu="+user_id;
-                    MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
-                    para.add("file", fsr);
-
-                    HttpHeaders headers = Header_Creator.create();
-                    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(para, headers);
+                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocumentWithoutFile?nota=" + note + "&idu=" + user_id;
 
                     RestTemplate restTemplate = new RestTemplate();
-
                     restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
                     restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-                    if(!restTemplate.postForObject(url, requestEntity, boolean.class)){
+                    HttpHeaders headers = Header_Creator.create();
+                    HttpEntity entity = new HttpEntity(headers);
+
+                    if (!restTemplate.postForObject(url, entity, boolean.class))
                         return false;
-                    }
                 }
                 return true;
 
@@ -206,7 +224,20 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
 
             countFileToUpload = 0;
             fileToUpload.clear();
-            mNomiFile.setText("FINITO!");
+
+            final String dialogTitle = "Caricamento del documento";
+            final String dialogMessage = "completato!";
+
+            new AlertDialog.Builder(context)
+                    .setTitle(dialogTitle)
+                    .setMessage(dialogMessage)
+                    .setPositiveButton("Continua", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent intent = new Intent(context,Diary.class);
+                            startActivity(intent);
+                            finish();
+                        }})
+                    .show();
         }
     }
 }

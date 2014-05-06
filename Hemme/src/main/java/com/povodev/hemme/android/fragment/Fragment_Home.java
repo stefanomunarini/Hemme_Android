@@ -56,10 +56,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         /*
          * PAZIENTE
          */
-        //if (user.getRole()==2){
+        if (user.getRole()==2){
             Intent intent = new Intent(this.getActivity(),PatientActivity.class);
             redirect(intent);
-        //}
+        }
 
 
     }
