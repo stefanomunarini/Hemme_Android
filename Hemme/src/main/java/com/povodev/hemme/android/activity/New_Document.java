@@ -22,7 +22,6 @@ import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
-import com.povodev.hemme.android.utils.Encoding_MD5;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.core.io.FileSystemResource;
@@ -171,6 +170,7 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     /*--------------------------------------------------------
                         DA ELIMINARE QUANDO SI AVRA' LA GESTIONE DI SESSIONE
                     ----------------------------------------------------------*/
+                    //TODO
                     user.setId(1);
 
 

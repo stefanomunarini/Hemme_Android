@@ -22,14 +22,14 @@
 
     <!-- DOCUMENT -->
     <string name="new_document_label">Nuovo Documento</string>
-    <string name="filename_label">File da inserire</string>
+    <string name="filename_label">File</string>
     <string name="upload_label">Scegli il file</string>
-    <string name="note_label_document">Inserisci la nota</string>
+    <string name="note_label_document">Note</string>
     <string name="document_button">Carica file</string>
     <string name="title_activity_new__document">Nuovo Evento Clinico</string>
     <string name="action_settings">Impostazioni</string>
     <string name="clinicalfolder_label">Cartella Clinica</string>
-    <string name="title_test_list">Risultato</string>
+    <string name="title_test_list">Risultati</string>
     <string name="title_test_detail">Dettagli</string>
     <string name="test_label">Memory</string>
     <string name="new_result_label">Nuovo Risultato</string>

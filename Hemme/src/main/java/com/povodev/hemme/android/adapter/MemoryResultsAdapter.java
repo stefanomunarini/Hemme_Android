@@ -30,15 +30,11 @@ public class MemoryResultsAdapter extends ArrayAdapter<Result> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //view = inflater.inflate(android.R.layout.simple_list_item_activated_2, null);
             view = inflater.inflate(R.layout.game_result_list_row, null);
         }
 
         Result item = getItem(position);
         if (item!= null) {
-
-            //TextView gradeView = (TextView) view.findViewById(android.R.id.text1);
-            //TextView dateView = (TextView) view.findViewById(android.R.id.text2);
 
             TextView gradeView = (TextView) view.findViewById(R.id.result_row_difficulty);
             TextView dateView = (TextView) view.findViewById(R.id.result_row_timestamp);

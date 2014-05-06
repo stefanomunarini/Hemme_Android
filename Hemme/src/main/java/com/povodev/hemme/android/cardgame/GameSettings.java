@@ -12,6 +12,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.NewGame_Activity;
 import com.povodev.hemme.android.asynctask.NewMemoryResult_HttpRequest;
 import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.management.SessionManagement;
 
 /**
  * Use this class to init, start and stop the game
@@ -27,7 +28,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private Result result;
 
     //TODO change it
-    private int user_id = 1;
+    private int user_id;
 
     private Context context;
 
@@ -37,6 +38,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     public GameSettings(Context context){
         this.context = context;
         result = new Result();
+        user_id = SessionManagement.getUserInSession(context).getId();
 
         NewGame_Activity game_activity = (NewGame_Activity) context;
         mGridView = (GridView) game_activity.findViewById(R.id.gridview);

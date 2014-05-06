@@ -15,6 +15,8 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.MemoryResultsAdapter;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.bean.Test;
+import com.povodev.hemme.android.bean.User;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
@@ -90,8 +92,8 @@ public class MemoryResultsListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO sostituire user_id con quello presente in sessione
-        user_id = 1;
+        User user = SessionManagement.getUserInSession(getActivity());
+        user_id = user.getId();
 
         new TestLoader_HttpRequest(getActivity(),user_id).execute();
     }
@@ -206,7 +208,7 @@ public class MemoryResultsListFragment extends ListFragment {
                         HttpMethod.GET,
                         requestEntity,
                         com.povodev.hemme.android.bean.Test.class);
-                Test test = testRequest.getBody();
+                return testRequest.getBody();
 //                return restTemplate.getForObject(url, com.povodev.hemme.android.bean.Test.class);
 
             } catch (Exception e) {

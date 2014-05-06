@@ -26,14 +26,10 @@ import roboguice.inject.InjectView;
 public class Fragment_Home extends RoboFragment implements View.OnClickListener {
 
     @InjectView(R.id.login_button)                  private Button mLoginButton;
-    //@InjectView(R.id.registration_button)           private Button mRegistrationButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
-    //@InjectView(R.id.document_button)               private Button mDocumentButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
-    //@InjectView(R.id.new_game_button)               private Button mNewGameButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
-
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
 
     private User user;
@@ -48,7 +44,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         user = SessionManagement.getUserInSession(getActivity());
-
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
 
         if (!isUserLoggedIn){
@@ -56,25 +51,8 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             startActivity(intent);
             getActivity().finish();
         }
-    }
 
 
-    private void initComponents() {
-        mLoginButton.setOnClickListener(this);
-        //mRegistrationButton.setOnClickListener(this);
-        //mPasswordForgetTextView.setOnClickListener(this);
-        mNewClinicalEventButton.setOnClickListener(this);
-        mClinicalFolderButton.setOnClickListener(this);
-        //mDocumentButton.setOnClickListener(this);
-        mTestButton.setOnClickListener(this);
-        //mNewGameButton.setOnClickListener(this);
-        mDiaryButton.setOnClickListener(this);
-
-        mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
-
-        if (isUserLoggedIn){
-            mLoginButton.setText("Logout");
-        }
     }
 
     @Override
@@ -92,6 +70,40 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         initComponents();
     }
 
+    /*
+     *  Return the type of user
+     *  0 TUTOR
+     *  1 DOTTORE
+     *  2 PAZIENTE
+     */
+    private int checkUserType(User user) {
+        return user.getRole();
+    }
+
+
+    private void initComponents() {
+        int userType = checkUserType(user);
+
+        if(userType==0){
+            mNewClinicalEventButton.setVisibility(View.GONE);
+            mTestButton.setOnClickListener(this);
+            mDiaryButton.setOnClickListener(this);
+        } else if (userType==1){
+            mTestButton.setVisibility(View.GONE);
+            mDiaryButton.setVisibility(View.GONE);
+            mNewClinicalEventButton.setOnClickListener(this);
+        }
+
+        mLoginButton.setOnClickListener(this);
+        mClinicalFolderButton.setOnClickListener(this);
+
+        mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
+
+        if (isUserLoggedIn){
+            mLoginButton.setText("Logout");
+        }
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -105,10 +117,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                     getActivity().finish();
                 }
                 break;
-            /*case R.id.registration_button:
-                intent = new Intent(this.getActivity(),Registration_Activity.class);
-                redirect(intent);
-                break;*/
             case R.id.newclinicalevent_button:
                 intent = new Intent(this.getActivity(),New_ClinicaEvent.class);
                 redirect(intent);
@@ -117,18 +125,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 intent = new Intent(this.getActivity(),ClinicalFolderListActivity.class);
                 redirect(intent);
                 break;
-            /*case R.id.document_button:
-                intent = new Intent(this.getActivity(),New_Document.class);
-                redirect(intent);
-                break;*/
             case R.id.test_button:
                 intent = new Intent(this.getActivity(),MemoryResultsListActivity.class);
                 redirect(intent);
                 break;
-/*            case R.id.new_game_button:
-                intent = new Intent(this.getActivity(),NewGame_Activity.class);
-                redirect(intent);
-                break;*/
             case R.id.visaulizza_diario:
                 intent = new Intent(this.getActivity(),Diary.class);
                 redirect(intent);

@@ -207,7 +207,7 @@ public class ClinicalFolderListFragment extends ListFragment {
                         HttpMethod.GET,
                         requestEntity,
                         ClinicalFolder.class);
-                ClinicalFolder cf = folderRequest.getBody();
+                return folderRequest.getBody();
 //                return restTemplate.getForObject(url, ClinicalFolder.class);
 
             } catch (Exception e) {

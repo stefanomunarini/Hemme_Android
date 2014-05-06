@@ -11,7 +11,6 @@ import android.util.Log;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Home_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
-import com.povodev.hemme.android.bean.Diary;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -61,12 +60,11 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            ResponseEntity<User> utenteRequest= restTemplate.exchange(url,
+            ResponseEntity<User> utenteRequest = restTemplate.exchange(url,
                     HttpMethod.GET,
                     requestEntity,
                     com.povodev.hemme.android.bean.User.class);
             User user = utenteRequest.getBody();
-
 
             return user;
 
