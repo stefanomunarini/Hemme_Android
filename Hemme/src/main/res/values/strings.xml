@@ -62,5 +62,13 @@
     <string name="title_activity_diary">Diario</string>
     <string name="clinicalfolder_title_therapy">Terapia</string>
     <string name="clinicalfolder_title_note">Note</string>
+    <string name="nome_label">Mi chiamo</string>
+    <string name="indirizzo_label">abito in via</string>
+    <string name="numerotelefono_label">in caso di necessità chiamate il numero</string>
+    <string name="patient_details">Informazioni</string>
+
+    <string name="nome_preference">nome_preference</string>
+    <string name="indirizzo_preference">indirizzo_preference</string>
+    <string name="numerotelefono_preference">numerotelefono_preference</string>
 
 </resources>

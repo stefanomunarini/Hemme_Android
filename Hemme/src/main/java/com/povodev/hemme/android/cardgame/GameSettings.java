@@ -27,7 +27,6 @@ public class GameSettings implements AdapterView.OnItemClickListener{
 
     private Result result;
 
-    //TODO change it
     private int user_id;
 
     private Context context;
@@ -247,6 +246,9 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         }
     }
 
+    /*
+     * Insert the result into the database
+     */
     private void saveResult() {
         new NewMemoryResult_HttpRequest(context,result,user_id).execute();
     }

@@ -62,7 +62,7 @@ public class SessionManagement {
     /*
      * Retrieve SharedPreferences
      */
-    private static SharedPreferences getPreferences(Context context) {
+    public static SharedPreferences getPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 

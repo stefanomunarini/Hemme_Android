@@ -12,6 +12,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
+import com.povodev.hemme.android.activity.PatientActivity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.User;
@@ -51,6 +52,14 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             startActivity(intent);
             getActivity().finish();
         }
+
+        /*
+         * PAZIENTE
+         */
+        //if (user.getRole()==2){
+            Intent intent = new Intent(this.getActivity(),PatientActivity.class);
+            redirect(intent);
+        //}
 
 
     }
