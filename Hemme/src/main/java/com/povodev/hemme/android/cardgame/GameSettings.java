@@ -2,10 +2,14 @@ package com.povodev.hemme.android.cardgame;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Chronometer;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
@@ -31,6 +35,8 @@ public class GameSettings implements AdapterView.OnItemClickListener{
 
     private Context context;
 
+    private NewGame_Activity game_activity;
+
     /*
      * Default constructor.
      */
@@ -39,7 +45,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         result = new Result();
         user_id = SessionManagement.getUserInSession(context).getId();
 
-        NewGame_Activity game_activity = (NewGame_Activity) context;
+        game_activity = (NewGame_Activity) context;
         mGridView = (GridView) game_activity.findViewById(R.id.gridview);
     }
 
@@ -54,9 +60,61 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         cardSet = new CardList(context, getSize());
 
         setGridViewAdapter(getSize());
-        mGridView.setOnItemClickListener(this);
 
-        startGame();
+        //startGame();
+
+        startCountdownTimer();
+    }
+
+    private void startCountdownTimer() {
+
+        final TextView countdownTextView = (TextView)game_activity.findViewById(R.id.timer_textview);
+
+        /*
+         * The total time for the chronometer
+         */
+        int countdownSec = 4000;
+
+        new CountDownTimer(countdownSec, 1000) {
+
+            boolean firstTick = true;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (firstTick){
+                    countdownTextView.setText("Preparati!");
+                } else {
+                    countdownTextView.setText(Long.toString(millisUntilFinished / 1000));
+                }
+                firstTick = false;
+            }
+
+            @Override
+            public void onFinish() {
+                countdownTextView.setVisibility(View.GONE);
+                setCardsListener();
+                startCrono();
+            }
+        }.start();
+
+    }
+
+    private void setCardsListener() {
+        mGridView.setOnItemClickListener(this);
+    }
+
+    /*
+     * The chronometer used for the game
+     */
+    private Chronometer chronometer;
+
+    /*
+     * Start the chronometer
+     */
+    public void startCrono() {
+        chronometer = (Chronometer)game_activity.findViewById(R.id.calling_crono);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
     }
 
     /*
@@ -70,8 +128,9 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     /*
      * Start the game
      */
-    private void startGame() {
-        startTimer();
+    @Deprecated
+    public void startGame() {
+        //startTimer();
     }
 
     /*
@@ -101,7 +160,9 @@ public class GameSettings implements AdapterView.OnItemClickListener{
      * the database
      */
     private void stopTimer(){
+
         stopRunner();
+
         setTiming();
     }
 
@@ -111,7 +172,8 @@ public class GameSettings implements AdapterView.OnItemClickListener{
      * the database
      */
     public void stopRunner(){
-        gameTimer.stopRunner();
+        chronometer.stop();
+        //gameTimer.stopRunner();
     }
 
     /*
@@ -125,7 +187,8 @@ public class GameSettings implements AdapterView.OnItemClickListener{
      * Set timing for the bean Result
      */
     private void setTiming() {
-        result.setTime(gameTimer.getTiming());
+        long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
+        result.setTime((int)elapsedMillis);//gameTimer.getTiming());
     }
 
     /*

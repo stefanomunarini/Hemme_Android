@@ -1,6 +1,7 @@
 package com.povodev.hemme.android.activity;
 
 import android.os.Bundle;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
@@ -22,6 +23,8 @@ public class NewGame_Activity extends RoboActivity implements ListDialog.OnDiffi
      * Timer TextView
      */
     @InjectView(R.id.timer_textview)                private TextView mTimerTextView;
+
+    @InjectView(R.id.calling_crono)                 public Chronometer chronometer;
 
     /*
      * Convenient class to help settings Result bean
@@ -66,6 +69,7 @@ public class NewGame_Activity extends RoboActivity implements ListDialog.OnDiffi
     @Override
     public void onDifficultySelected(int difficulty) {
         gameSettings.initAndStartGame(difficulty);
+        //gameSettings.startGame();
     }
 
     /*
@@ -79,6 +83,7 @@ public class NewGame_Activity extends RoboActivity implements ListDialog.OnDiffi
     @Override
     protected void onStop(){
         super.onStop();
-        gameSettings.stopRunner();
+        chronometer.stop();
+        //gameSettings.stopRunner();
     }
 }

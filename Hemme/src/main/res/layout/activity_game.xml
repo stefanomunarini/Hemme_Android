@@ -9,19 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Chronometer
+            android:id="@+id/calling_crono"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            style="?android:attr/textAppearanceLarge"/>
+
         <TextView
             android:id="@+id/timer_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:textSize="20sp"
-            android:padding="8dp"
+            style="?android:attr/textAppearanceLarge"
+            android:padding="16dp"
             android:fontFamily="sans-serif"/>
 
         <GridView
             android:id="@+id/gridview"
-            android:layout_below="@id/timer_textview"
+            android:layout_below="@id/calling_crono"
             android:padding="16dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

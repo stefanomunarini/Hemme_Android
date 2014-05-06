@@ -47,7 +47,7 @@ public class MemoryDetailFragment extends Fragment {
         if (result != null) {
             ((TextView) rootView.findViewById(R.id.test_grade)).setText(result.getGrade());
             String time = Formatters.timeFormat(result.getTime());
-            ((TextView) rootView.findViewById(R.id.test_time)).setText(time);
+            ((TextView) rootView.findViewById(R.id.test_time)).setText(time+"s");
             String date = Formatters.timestampFormat(result.getDate());
             ((TextView) rootView.findViewById(R.id.test_date)).setText(date);
         }
