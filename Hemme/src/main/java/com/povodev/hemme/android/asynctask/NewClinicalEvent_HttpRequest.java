@@ -55,7 +55,6 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 
-
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
