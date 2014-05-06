@@ -12,7 +12,7 @@ public class Header_Creator {
         HttpHeaders headers = new HttpHeaders();
 //        headers.set("Content-Type", "multipart/form-data");
 //        headers.set("enctype", "multipart/form-data");
-        headers.set("method", "post");
+//        headers.set("method", "post");
         headers.set("salt",salt);
 
         return  headers;
