@@ -121,8 +121,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener,
                 //latituteField.setText("Location not available");
                 //longitudeField.setText("Location not available");
             }
-
-
         }
 
 
