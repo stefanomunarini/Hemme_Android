@@ -10,7 +10,9 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.NewGame_Activity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.Encoding_MD5;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
@@ -19,6 +21,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -52,23 +56,33 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
 
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/insertResult?user_id=" + user_id;
-            HttpHeaders headers = Header_Creator.create();
-            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
+
+            HttpHeaders headers = new HttpHeaders();
+            String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
+            headers.set("salt", salt);
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
             //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
+/*
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
             ResponseEntity<Boolean> boolRequest= restTemplate.exchange(url,
                     HttpMethod.GET,
                     requestEntity,
                     Boolean.class);
+
+            return bool;
             boolean bool = boolRequest.getBody();
 
+            */
 //            return restTemplate.postForObject(url, result, Boolean.class);
-            return bool;
+
+            MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
+            para.add("result",result);
+            HttpEntity entity = new HttpEntity(result, headers);
+            return restTemplate.postForObject(url, entity, Boolean.class);
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
