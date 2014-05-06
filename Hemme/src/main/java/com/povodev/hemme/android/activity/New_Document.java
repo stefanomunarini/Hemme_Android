@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +32,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -149,9 +147,11 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
         private final String message = "Caricamento file in corso...";
         private ProgressDialog progressDialog;
         private User user;
+        private int user_id;
 
         public NewDocument_HttpRequest(Context context, Document document){
             progressDialog = new CustomProgressDialog(context,message);
+            user = SessionManagement.getUserInSession(context);
             this.document = document;
         }
 
@@ -166,17 +166,9 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     FileSystemResource fsr = (FileSystemResource) it.next();
 
                     String note = document.getNote();
-                    User user = SessionManagement.getUserInSession(context);
-                    /*--------------------------------------------------------
-                        DA ELIMINARE QUANDO SI AVRA' LA GESTIONE DI SESSIONE
-                    ----------------------------------------------------------*/
-                    //TODO
-                    user.setId(1);
+                    user_id = user.getId();
 
-
-//                    String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
-
-                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=1";
+                    final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu="+user_id;
                     MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
                     para.add("file", fsr);
 
@@ -191,29 +183,15 @@ public class New_Document extends RoboActivity implements View.OnClickListener{
                     if(!restTemplate.postForObject(url, requestEntity, boolean.class)){
                         return false;
                     }
-
-
                 }
                 return true;
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
-
             return false;
         }
 
-        public HttpHeaders createHeaders ( final String username, final String password ) throws UnsupportedEncodingException {
-            return new HttpHeaders(){
-                {
-                    String auth = username + ":" + password;
-                    byte[] data = auth.getBytes("UTF-8");
-                    String base64 = Base64.encodeToString(data,Base64.DEFAULT);
-                    String authHeader = "Basic " + new String( base64 );
-                    set( "Authorization", authHeader );
-                }
-            };
-        }
         @Override
         protected void onPreExecute(){
             progressDialog.show();

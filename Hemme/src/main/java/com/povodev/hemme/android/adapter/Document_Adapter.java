@@ -43,7 +43,7 @@ public class Document_Adapter extends ArrayAdapter<Document> implements AbsListV
             TextView noteText = (TextView) view.findViewById(R.id.textViewList);
             ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
             if (noteText!= null) {
-                noteText.setText(item.getFile());
+                noteText.setText(item.getNote());
             }
             if (imageView!= null) {
                 imageView.setImageBitmap(item.getFile_immagine());

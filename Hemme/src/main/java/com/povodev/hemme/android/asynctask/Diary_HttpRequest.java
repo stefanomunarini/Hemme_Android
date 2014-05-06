@@ -9,6 +9,7 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
@@ -17,11 +18,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  *    CREAZIONE ARRAY DI DOCUMENTI PRESENTI NEL DATABASE
@@ -33,9 +32,11 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     private ProgressDialog progressDialog;
     public static ArrayList<Document> diario;
     private Context context;
+    private int user_id;
 
     public Diary_HttpRequest(Context context) {
         this.context = context;
+        user_id = SessionManagement.getUserInSession(context).getId();
         progressDialog = new CustomProgressDialog(context, message);
     }
 
@@ -48,13 +49,10 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     @Override
     protected ArrayList<Document> doInBackground(Void... params) {
         try {
-            final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getDiary?user_id=1";
-
+            final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getDiary?user_id="+user_id;
 
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
-
-
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
@@ -65,7 +63,7 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
                                            requestEntity,
                                            com.povodev.hemme.android.bean.Diary.class);
             Diary.diario = diarioRequest.getBody();
-            diario = diarioRequest.getBody();
+            return diarioRequest.getBody();
         }
 
         catch (Exception e) {
@@ -78,9 +76,7 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     protected void onPostExecute(ArrayList<Document> result) {
         super.onPostExecute(result);
 
-
-            new BitmapDownload(diario,context).execute();
-
+        new BitmapDownload(result,context).execute();
 
         //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp
         if (progressDialog.isShowing()) progressDialog.dismiss();
