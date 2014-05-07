@@ -58,7 +58,6 @@
     <string name="game_grade_hard">Difficile (12 carte)</string>
     <string name="game_grade_hardPlus">Difficile (14 carte)</string>
     <string name="game_grade_hardPlusPlus">Difficile (18 carte)</string>
-
     <string name="title_activity_diary">Diario</string>
     <string name="clinicalfolder_title_therapy">Terapia</string>
     <string name="clinicalfolder_title_note">Note</string>
@@ -66,9 +65,9 @@
     <string name="indirizzo_label">abito in via</string>
     <string name="numerotelefono_label">in caso di necessità chiamate il numero</string>
     <string name="patient_details">Informazioni</string>
-
     <string name="nome_preference">nome_preference</string>
     <string name="indirizzo_preference">indirizzo_preference</string>
     <string name="numerotelefono_preference">numerotelefono_preference</string>
+    <string name="title_activity_maps">Mappa</string>
 
 </resources>

@@ -1,13 +1,11 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
 import com.povodev.hemme.android.utils.ConnectionChecker;
 
@@ -42,13 +40,13 @@ public class Home_Activity extends RoboFragmentActivity {
         return ConnectionChecker.isNetworkAvailable(context);
     }
 
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
+    //private AlertDialog.Builder builder;
+    //private AlertDialog dialog;
     private final String alertDialogTitle = "Nessuna connessione";
     private final String alertDialogMessage = "Connettiti ad un network per utilizzare l'applicazione!";
 
     private void createAlertDialog() {
-        if (builder != null){
+        /*if (builder != null){
             builder = null;
         }
         builder = new AlertDialog.Builder(this);
@@ -65,18 +63,20 @@ public class Home_Activity extends RoboFragmentActivity {
             dialog = null;
         }
         dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
+        CustomAlertDialog  customAlertDialog = new CustomAlertDialog(this,alertDialogMessage,alertDialogTitle,"Impostazioni",1);
+        customAlertDialog.show();
     }
 
     @Override
     public void onResume () {
         super.onResume();
         if(!checkForANetwork(this)){
-            if (dialog!=null){
+            /*if (dialog!=null){
                 if (dialog.isShowing()){
                     dialog.dismiss();
                 }
-            }
+            }*/
             createAlertDialog();
         }
     }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Home_Activity;
@@ -87,6 +88,11 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
         if (user!=null){
+
+
+            Toast.makeText(context,user.getId()+" Login",Toast.LENGTH_SHORT).show();
+
+
             SessionManagement.createLoginSession(context, user);
             Log.d(TAG, "User has been logged succesfully");
             Log.d(TAG,"Username: " + user.getEmail());

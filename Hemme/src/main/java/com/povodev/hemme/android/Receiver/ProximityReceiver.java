@@ -16,22 +16,22 @@ public class ProximityReceiver extends BroadcastReceiver {
      *  fired the broadcast as arg0 & agr1
      */
     @Override
-    public void onReceive(Context arg0, Intent arg1) {
+    public void onReceive(Context context, Intent intent) {
 
-        Toast.makeText(arg0,"ProximityReceiver",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"ProximityReceiver",Toast.LENGTH_SHORT).show();
 
         // Key for determining whether user is leaving or entering
         String k = LocationManager.KEY_PROXIMITY_ENTERING;
 
         //Gives whether the user is entering or leaving in boolean form
-        boolean state = arg1.getBooleanExtra(k, false);
+        boolean state = intent.getBooleanExtra(k, false);
 
         if (state) {
             // Call the Notification Service or anything else that you would like to do here
-            Toast.makeText(arg0, "Welcome to my Area", 600).show();
+            Toast.makeText(context, "Welcome to my Area", 600).show();
         } else {
             //Other custom Notification
-            Toast.makeText(arg0, "Thank you for visiting my Area,come back again !!", 600).show();
+            Toast.makeText(context, "Thank you for visiting my Area,come back again !!", 600).show();
         }
     }
 }

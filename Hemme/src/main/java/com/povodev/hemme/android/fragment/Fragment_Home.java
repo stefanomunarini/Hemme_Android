@@ -1,13 +1,8 @@
 package com.povodev.hemme.android.fragment;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +19,9 @@ import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActiv
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.Localization;
+
+import java.util.HashMap;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -31,7 +29,7 @@ import roboguice.inject.InjectView;
 /**
  * Created by Stefano on 27/03/14.
  */
-public class Fragment_Home extends RoboFragment implements View.OnClickListener, LocationListener {
+public class Fragment_Home extends RoboFragment implements View.OnClickListener {
 
     @InjectView(R.id.login_button)                  private Button mLoginButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
@@ -51,6 +49,8 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         user = SessionManagement.getUserInSession(getActivity());
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
 
@@ -63,7 +63,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener,
 
 
 
-        proximityFunctions();
+        /*
+         * SENSORE DI PROSSIMITA'
+         */
+        //proximityFunctions();
 
 
 
@@ -86,59 +89,38 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener,
     private LocationManager lm;
     private void proximityFunctions() {
 
-        /*
-         * Center point from where to start to check the radius
-         */
-        double latitude = 46, longitude = 11;
-        /*
-         * The radius from the center point.
-         * Outside it, fire the Intent
-         */
-        float radius = 3000;
-
-        lm = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
-        boolean enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        // check if enabled and if not send user to the GSP settings
-        // Better solution would be to display a dialog and suggesting to
-        // go to the settings
-        if (!enabled) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        } else {
-            // Define the criteria how to select the locatioin provider -> use
-            // default
-            Criteria criteria = new Criteria();
-            String provider = lm.getBestProvider(criteria, false);
-            Location location = lm.getLastKnownLocation(provider);
-
-            if (location != null) {
-                Toast.makeText(getActivity(),"Latitude: " + location.getLatitude() + "    Longitudine: "
-                        + location.getLatitude(), Toast.LENGTH_SHORT).show();
-                onLocationChanged(location);
-            } else {
-                Toast.makeText(getActivity(),"Coordinates not available", Toast.LENGTH_SHORT).show();
-                //latituteField.setText("Location not available");
-                //longitudeField.setText("Location not available");
-            }
-        }
+        HashMap<String,Double> latLong = Localization.getCoordinates(getActivity());
+        double myLatitude = latLong.get(Localization.LATITUDE);
+        double myLongitude = latLong.get(Localization.LONGITUDE);
+        Toast.makeText(getActivity(),Localization.LATITUDE +": "+myLatitude +"  "+Localization.LONGITUDE+": "+myLongitude, Toast.LENGTH_SHORT).show();
 
 
+        //Intent i = new Intent("com.povodev.hemme.proximity_alert");
+        //PendingIntent pi = PendingIntent.getBroadcast(getActivity(), -1, i, 0);
 
-        Intent i = new Intent("com.povodev.hemme.proximity_alert");
-        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), -1, i, 0);
-
-        lm.addProximityAlert(latitude, longitude, radius, -1, pi);
+        //lm.addProximityAlert(latitude, longitude, radius, -1, pi);
     }
 
 
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu items for use in the action bar
+        inflater.inflate(R.menu.diary_actionbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-
-
-
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_new_document:
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,32 +206,5 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener,
     private void redirect(Intent intent) {
         startActivity(intent);
         //getActivity().finish();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        int lat = (int) (location.getLatitude());
-        int lng = (int) (location.getLongitude());
-        //latituteField.setText(String.valueOf(lat));
-        //longitudeField.setText(String.valueOf(lng));
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(getActivity(), "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(getActivity(), "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
     }
 }

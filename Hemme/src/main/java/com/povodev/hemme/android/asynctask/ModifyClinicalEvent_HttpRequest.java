@@ -21,9 +21,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Stefano on 03/04/14.
+ * Created by Stefano on 07/05/14.
  */
-public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
+public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
     private final String TAG = "NewClinicalEvent_AsyncTask";
     /*
@@ -32,23 +32,21 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
     private final String mDialogLoadingMessage = "Inserimento evento clinico in corso...";
 
     private ClinicalEvent clinicalEvent;
-    private int user_id;
     private ProgressDialog progressDialog;
     private Context context;
 
-    public NewClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent, int user_id){
-        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
+    public ModifyClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent) {
+        progressDialog = new CustomProgressDialog(context, mDialogLoadingMessage);
 
         this.context = context;
         this.clinicalEvent = clinicalEvent;
-        this.user_id = user_id;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
 
         try {
-            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=" + user_id;
+            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/modifyClinicalEvent?clinicalEvent_id=" + clinicalEvent.getId();
 
             HttpHeaders headers = Header_Creator.create();
 
@@ -73,7 +71,7 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
     }
 
     @Override
-    protected void onPreExecute(){
+    protected void onPreExecute() {
         progressDialog.show();
     }
 
@@ -81,16 +79,15 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
     protected void onPostExecute(Boolean created) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (created){
+        if (created) {
             Log.d(TAG, "Evento clinico inserito.");
             startActivity(context);
-        }
-        else Log.d(TAG,"Failed to insert new clinical event");
+        } else Log.d(TAG, "Failed to insert new clinical event");
     }
 
     private void startActivity(Context context) {
         Intent intent = new Intent(context, ClinicalFolderListActivity.class);
         context.startActivity(intent);
-        ((New_ClinicaEvent)context).finish();
+        ((New_ClinicaEvent) context).finish();
     }
 }
