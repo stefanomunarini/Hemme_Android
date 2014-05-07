@@ -53,7 +53,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password;
 
-
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 

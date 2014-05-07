@@ -49,6 +49,7 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     @Override
     protected ArrayList<Document> doInBackground(Void... params) {
         try {
+            Log.d(TAG,"user id = " + user_id);
             final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getDiary?user_id="+user_id;
 
             HttpHeaders headers = Header_Creator.create();

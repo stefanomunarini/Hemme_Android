@@ -156,7 +156,6 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
 
-
         if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1
                 && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
             if(max_view_element<=diario.size() && control == 0) {
