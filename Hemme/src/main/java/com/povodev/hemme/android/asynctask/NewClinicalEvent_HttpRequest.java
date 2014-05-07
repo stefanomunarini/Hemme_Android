@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -52,6 +54,8 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
 
         try {
             final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=" + user_id;
+
+
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
 
@@ -61,14 +65,12 @@ public class NewClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean>
             //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
-            ResponseEntity<Boolean> booleanRequest= restTemplate.exchange(url,
-                    HttpMethod.GET,
-                    requestEntity,
-                    Boolean.class);
-            Boolean bool = booleanRequest.getBody();
+
+            HttpEntity entity = new HttpEntity(clinicalEvent, headers);
+            return restTemplate.postForObject(url, entity, Boolean.class);
+
 
             //return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
-            return bool;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
