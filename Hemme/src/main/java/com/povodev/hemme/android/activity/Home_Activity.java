@@ -46,25 +46,7 @@ public class Home_Activity extends RoboFragmentActivity {
     private final String alertDialogMessage = "Connettiti ad un network per utilizzare l'applicazione!";
 
     private void createAlertDialog() {
-        /*if (builder != null){
-            builder = null;
-        }
-        builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false)
-                .setTitle(alertDialogTitle)
-                .setMessage(alertDialogMessage)
-                .setNeutralButton("Impostazioni",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
-                    }
-                });
-        if (dialog != null){
-            dialog = null;
-        }
-        dialog = builder.create();
-        dialog.show();*/
-        CustomAlertDialog  customAlertDialog = new CustomAlertDialog(this,alertDialogMessage,alertDialogTitle,"Impostazioni",1);
+        CustomAlertDialog  customAlertDialog = new CustomAlertDialog(this,alertDialogMessage,alertDialogTitle,"Impostazioni",android.provider.Settings.ACTION_SETTINGS);
         customAlertDialog.show();
     }
 

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
+import roboguice.fragment.RoboListFragment;
+
 /**
  * A list fragment representing a list of ClinicalEvents. This fragment
  * also supports tablet devices by allowing list items to be given an
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class ClinicalFolderListFragment extends ListFragment {
+public class ClinicalFolderListFragment extends RoboListFragment {
 
     private final static String TAG = "ClinicalFolderListFragment";
 
@@ -94,7 +95,6 @@ public class ClinicalFolderListFragment extends ListFragment {
         user_id = SessionManagement.getUserInSession(getActivity()).getId();
 
         new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
-
 
     }
 
@@ -169,6 +169,8 @@ public class ClinicalFolderListFragment extends ListFragment {
         } else {
             getListView().setItemChecked(position, true);
         }
+
+        //Toast.makeText(getActivity(),""+position,)
 
         mActivatedPosition = position;
     }

@@ -2,9 +2,10 @@ package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.povodev.hemme.android.R;
+
+import roboguice.activity.RoboFragmentActivity;
 
 /**
  * An activity representing a list of ClinicalEvents. This activity
@@ -22,7 +23,7 @@ import com.povodev.hemme.android.R;
  * {@link ClinicalFolderListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ClinicalFolderListActivity extends FragmentActivity
+public class ClinicalFolderListActivity extends RoboFragmentActivity
         implements ClinicalFolderListFragment.Callbacks {
 
     /**

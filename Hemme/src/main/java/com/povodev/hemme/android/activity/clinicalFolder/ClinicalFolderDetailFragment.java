@@ -1,5 +1,6 @@
 package com.povodev.hemme.android.activity.clinicalFolder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Formatters;
@@ -60,6 +63,8 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
 
         Log.d(TAG,"Terapia: " + clinicalEvent.getTherapy());
 
+        Toast.makeText(getActivity(),clinicalEvent.getId()+"",Toast.LENGTH_SHORT).show();
+
         // Show the content as text in TextViews.
         if (clinicalEvent != null) {
             ((TextView) rootView.findViewById(R.id.clinicalfolder_therapy)).setText(clinicalEvent.getTherapy());
@@ -90,12 +95,20 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
         }
     }
 
+    public static final String THERAPY_4_BUNDLE = "therapy";
+    public static final String NOTE_4_BUNDLE = "note";
+    public static final String ID_4_BUNDLE = "clinicalEvent_id";
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
             case R.id.modify_clinical_event_button:
-                //TODO
+                Intent intent = new Intent(getActivity(), NewClinicaEvent_Activity.class);
+                intent.putExtra(THERAPY_4_BUNDLE,clinicalEvent.getTherapy());
+                intent.putExtra(NOTE_4_BUNDLE, clinicalEvent.getNote());
+                intent.putExtra(ID_4_BUNDLE,clinicalEvent.getId());
+                startActivity(intent);
                 break;
         }
     }

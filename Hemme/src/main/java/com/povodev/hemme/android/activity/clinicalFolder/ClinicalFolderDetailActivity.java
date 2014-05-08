@@ -2,11 +2,12 @@ package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.povodev.hemme.android.R;
+
+import roboguice.activity.RoboFragmentActivity;
 
 /**
  * An activity representing a single ClinicalFolder detail screen. This
@@ -17,7 +18,7 @@ import com.povodev.hemme.android.R;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ClinicalFolderDetailFragment}.
  */
-public class ClinicalFolderDetailActivity extends FragmentActivity {
+public class ClinicalFolderDetailActivity extends RoboFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

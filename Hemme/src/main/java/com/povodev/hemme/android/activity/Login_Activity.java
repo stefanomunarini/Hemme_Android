@@ -62,6 +62,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
             case R.id.registration_button:
                 Intent intent = new Intent(this,Registration_Activity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.password_forget_button:
                 openDialog(context);

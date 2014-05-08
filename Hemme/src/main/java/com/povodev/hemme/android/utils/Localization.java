@@ -7,8 +7,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 
-import com.povodev.hemme.android.dialog.CustomAlertDialog;
-
 import java.util.HashMap;
 
 /**
@@ -72,8 +70,8 @@ public class Localization {
     private static final String alertDialogMessage = "Segnale GPS non disponibile o servizi di localizzazione spenti. Si prega di riprovare!";
 
     private static void createAlertDialog(Context context) {
-        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context,alertDialogMessage,alertDialogTitle,1);
-        customAlertDialog.show();
+        //CustomAlertDialog customAlertDialog = new CustomAlertDialog(context,alertDialogMessage,alertDialogTitle,1);
+        //customAlertDialog.show();
     }
 
     public static double getLatitude() {
