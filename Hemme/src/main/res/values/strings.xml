@@ -69,5 +69,9 @@
     <string name="indirizzo_preference">indirizzo_preference</string>
     <string name="numerotelefono_preference">numerotelefono_preference</string>
     <string name="title_activity_maps">Mappa</string>
+    <string name="manage_devices_button"> Manage Devices </string>
+    <string name="title_activity_manage__devices">Manage_Devices</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_associa__dispositivi">Associa_Dispositivi</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,7 +57,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         int id = v.getId();
         switch (id){
             case R.id.login_button:
-                new Login_HttpRequest(context,getUsername(),getPassword()).execute();
+                new Login_HttpRequest(context,getUsername(),getPassword(),getImei()).execute();
                 break;
             case R.id.registration_button:
                 Intent intent = new Intent(this,Registration_Activity.class);
@@ -96,6 +97,13 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
                     }
         }).show();
     }
+
+
+    private String getImei() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getDeviceId();
+    }
+
 
     private String getUsername(){
         return mUsernameEditText.getText().toString();

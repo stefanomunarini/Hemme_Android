@@ -49,10 +49,10 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         int randomNumber = random.nextInt();
 
         //TODO eliminare queste righe
-        mNameEditText.setText("prova"+randomNumber);
-        mSurnameEditText.setText("prova"+randomNumber);
-        mEmailEditText.setText("prova"+randomNumber);
-        mPasswordEditText.setText("prova"+randomNumber);
+        mNameEditText.setText("nome");
+        mSurnameEditText.setText("cognome");
+        mEmailEditText.setText("");
+        mPasswordEditText.setText("a");
 
         initComponents();
         setComponentsListener();

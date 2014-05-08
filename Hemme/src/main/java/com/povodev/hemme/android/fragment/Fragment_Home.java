@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.New_ClinicaEvent;
@@ -36,6 +37,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
+    @InjectView(R.id.manage_devices)                private Button mManageDeviceButton;
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
 
     private User user;
@@ -163,7 +165,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
         mLoginButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
-
+        mManageDeviceButton.setOnClickListener(this);
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
 
         if (isUserLoggedIn){
@@ -198,6 +200,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 break;
             case R.id.visaulizza_diario:
                 intent = new Intent(this.getActivity(),Diary.class);
+                redirect(intent);
+                break;
+            case R.id.manage_devices:
+                intent = new Intent(this.getActivity(),Associa_Dispositivi.class);
                 redirect(intent);
                 break;
         }

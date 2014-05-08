@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,20 +40,24 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private String username;
     private String password;
     private ProgressDialog progressDialog;
+    private String imei;
 
-    public Login_HttpRequest(Context context, String username, String password){
+    public Login_HttpRequest(Context context, String username, String password, String imei){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
+        this.imei = imei;
         this.context = context;
         this.username = username;
         this.password = password;
     }
 
+
     @Override
     protected User doInBackground(Void... params) {
         Log.d(TAG, "Login di " + username + " / passw: " + password);
         try {
-            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password;
+            final String url =
+            "http://"+ Configurator.ip+"/"+Configurator.project_name+"/login?email="+username+"&password="+password+"&imei="+imei;
 
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
@@ -71,7 +76,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         }catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
-
         return null;
     }
 
