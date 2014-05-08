@@ -14,6 +14,11 @@ public class ClinicalEvent implements Serializable {
     private String therapy;
     private String note;
 
+    /*
+     * External field (used to save author name)
+     */
+    private String author_name;
+
     public int getId() {
         return id;
     }
@@ -52,5 +57,13 @@ public class ClinicalEvent implements Serializable {
 
     public void setAuthor(int author) {
         this.author = author;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
+    }
+
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
     }
 }

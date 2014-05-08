@@ -1,8 +1,5 @@
 package com.povodev.hemme.android.activity.clinicalFolder;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,18 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.utils.Formatters;
-import com.povodev.hemme.android.utils.Header_Creator;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * A fragment representing a single ClinicalFolder detail screen.
@@ -56,7 +44,7 @@ public class ClinicalFolderDetailFragment extends Fragment {
         clinicalEvent = (ClinicalEvent) getArguments().getSerializable("clinical_event");
 
         // retrieve author name and surname
-        new GetAuthor_HttpRequest(getActivity(),clinicalEvent.getAuthor()).execute();
+        //new GetAuthor_HttpRequest(getActivity(),clinicalEvent.getAuthor()).execute();
     }
 
     @Override
@@ -72,12 +60,13 @@ public class ClinicalFolderDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.clinicalfolder_note)).setText(clinicalEvent.getNote());
             String date = Formatters.dateFormat(clinicalEvent.getDate());
             ((TextView) rootView.findViewById(R.id.clinicalfolder_date)).setText(date);
+            ((TextView) rootView.findViewById(R.id.clinicalfolder_author)).setText(clinicalEvent.getAuthor_name());
         }
         return rootView;
     }
 
 
-    private class GetAuthor_HttpRequest extends AsyncTask<Void, Void, String> {
+    /*private class GetAuthor_HttpRequest extends AsyncTask<Void, Void, String> {
 
         private int user_id;
         private ProgressDialog progressDialog;
@@ -132,5 +121,5 @@ public class ClinicalFolderDetailFragment extends Fragment {
             }
             else Log.d(TAG,"Failed to retrieve author");
         }
-    }
+    }*/
 }

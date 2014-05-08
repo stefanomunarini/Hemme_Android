@@ -30,8 +30,7 @@ import java.util.ArrayList;
  */
 public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsListView.OnScrollListener{
 
-
-    private final String TAG = "Diary_Activity";
+    private final String TAG = "BitmapDownload_AsyncTask";
 
     int control = 0;
     Bitmap image;
@@ -55,6 +54,7 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
         super.onPreExecute();
         mProgressDialog.show();
     }
+
     @Override
     public Void doInBackground(Void... params) {
         try {
@@ -64,6 +64,7 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
         }
         return null;
     }
+
     @Override
     public void onPostExecute(Void result) {
         super.onPostExecute(result);
@@ -78,35 +79,20 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
             }
         }
 
-/*
-        for (int i = 0;i<5;i++){
-            Document doc = diario.get(i);
-            doc.setFile_immagine(image);
-        }
-*/
-/*
-        Iterator i = diario.iterator();
-        while (i.hasNext()){
-            Document doc = (Document)i.next();
-            doc.setFile_immagine(image);
-        }
-*/
-
         adapter = new Document_Adapter(context, R.layout.diary_row_layout,diario_minus);
         Diary diary = (Diary)context;
 
         mListView = (ListView)diary.findViewById(R.id.listview);
         mListView.setAdapter(adapter);
         mListView.setOnScrollListener(this);
-
     }
 
 
     public Bitmap downloadBitmap(String url) {
-        // initilize the default HTTP client object
+        // initialize the default HTTP client object
         final DefaultHttpClient client = new DefaultHttpClient();
 
-        //forming a HttoGet request
+        //forming a HttpGet request
         final HttpGet getRequest = new HttpGet(url);
         try {
 
@@ -132,7 +118,6 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
                     // decoding stream data back into image Bitmap that android understands
                     image = BitmapFactory.decodeStream(inputStream);
 
-
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -141,7 +126,6 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
                 }
             }
         } catch (Exception e) {
-            // You Could provide a more explicit error message for IOException
             getRequest.abort();
             Log.e("ImageDownloader", "Something went wrong while" +
                     " retrieving bitmap from " + url + e.toString());
@@ -150,11 +134,9 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
         return image;
     }
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
+    public void onScrollStateChanged(AbsListView view, int scrollState) {}
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-
 
         if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1
                 && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
