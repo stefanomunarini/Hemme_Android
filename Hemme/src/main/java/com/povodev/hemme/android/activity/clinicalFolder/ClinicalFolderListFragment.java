@@ -2,15 +2,20 @@ package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.ClinicalFolder;
@@ -92,6 +97,10 @@ public class ClinicalFolderListFragment extends RoboListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
+        //TODO
+        //DA FARE: GET PATIENT IN SESSION
         user_id = SessionManagement.getUserInSession(getActivity()).getId();
 
         new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
@@ -175,13 +184,73 @@ public class ClinicalFolderListFragment extends RoboListFragment {
         mActivatedPosition = position;
     }
 
+    public ArrayAdapter adapter;
     /**
      * Used to set the list adapter for this fragment
      */
     private void populateListView(ArrayList<ClinicalEvent> clinicalFolder) {
-        ArrayAdapter adapter = new ClinicalFolderAdapter(getActivity(),android.R.id.text1,clinicalFolder);
+
+        getListView().setTextFilterEnabled(true);
+
+        adapter = new ClinicalFolderAdapter(getActivity(),android.R.id.text1,clinicalFolder);
         this.setListAdapter(adapter);
     }
+
+
+
+
+
+
+
+
+
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            default:
+                return true;
+        }
+    }*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu,  MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuInflater inflaterr = getActivity().getMenuInflater();
+        inflaterr.inflate(R.menu.clinicalfolderlist_actionbar, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                adapter.getFilter().filter(s.toString());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+    }
+
+
+
+
+
+
+
+
+
+
 
     private class ClinicalFolderLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<ClinicalEvent>> {
 
