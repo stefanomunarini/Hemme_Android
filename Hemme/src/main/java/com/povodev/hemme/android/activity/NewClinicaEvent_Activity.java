@@ -60,6 +60,7 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
             mNoteEditText.setText(note);
         }
 
+        //TODO prendere l'id del paziente
         user_id = SessionManagement.getUserInSession(this).getId();
 
         setComponentsListener();

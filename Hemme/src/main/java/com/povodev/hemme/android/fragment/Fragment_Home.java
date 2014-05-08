@@ -1,15 +1,19 @@
 package com.povodev.hemme.android.fragment;
 
+import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.activity.Diary;
@@ -18,11 +22,9 @@ import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.activity.Patient_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
+import com.povodev.hemme.android.asynctask.GetPatientList_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
-import com.povodev.hemme.android.utils.Localization;
-
-import java.util.HashMap;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -40,7 +42,12 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     @InjectView(R.id.manage_devices)                private Button mManageDeviceButton;
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
 
+    public static Spinner mPatientSpinner;
+
     private User user;
+    private String url;
+
+    private static Context context;
 
     /*
      * true if user is logged in, false otherwise
@@ -53,8 +60,27 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
         setHasOptionsMenu(true);
 
+        context = getActivity();
         user = SessionManagement.getUserInSession(getActivity());
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
+
+        int user_role = checkUserType(user);
+        Toast.makeText(context,"User role: "+ user_role, Toast.LENGTH_SHORT).show();
+        if (user_role==0){
+            //TUTOR
+            url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientList?tutor_id="+user.getId();;
+            new GetPatientList_HttpRequest(getActivity(),user.getId(),url).execute();
+        } else if (user_role==1){
+            //DOCTOR
+            //TODO
+            url = null;
+            new GetPatientList_HttpRequest(getActivity(),user.getId(),url).execute();
+        } else if (user_role==2){
+            //PATIENT
+            Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
+            redirect(intent);
+        }
+
 
         if (!isUserLoggedIn){
             Intent intent = new Intent(getActivity(),Login_Activity.class);
@@ -63,29 +89,22 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         }
 
 
-
-
         /*
          * SENSORE DI PROSSIMITA'
          */
         //proximityFunctions();
 
-
-
-
-
-
         /*
          * PAZIENTE
          */
-        if (user.getRole()==2){
+        /*if (user.getRole()==2){
             Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
             redirect(intent);
-        }
+        }*/
     }
 
 
-
+/*
 
 
     private LocationManager lm;
@@ -101,27 +120,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         //PendingIntent pi = PendingIntent.getBroadcast(getActivity(), -1, i, 0);
 
         //lm.addProximityAlert(latitude, longitude, radius, -1, pi);
-    }
-
-
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu items for use in the action bar
-        inflater.inflate(R.menu.diary_actionbar, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_new_document:
-                Intent intent = new Intent(getActivity(), MapsActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }*/
 
     @Override
@@ -131,12 +129,28 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         return rootView;
     }
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mPatientSpinner = (Spinner)getActivity().findViewById(R.id.patient_spinner);
         initComponents();
+    }
+
+    public static void setAdapter(ArrayAdapter adapter){
+        mPatientSpinner.setAdapter(adapter);
+        mPatientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                User selectedItem = (User) mPatientSpinner.getSelectedItem();
+                SessionManagement.editPatientIdInSharedPreferences(context,selectedItem.getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     /*
@@ -150,6 +164,11 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     }
 
 
+    /*
+     * The adapter used to populate the spinner
+     */
+    public static ArrayAdapter<User> spinnerAdapter;
+
     private void initComponents() {
         int userType = checkUserType(user);
 
@@ -157,6 +176,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
          * Tutor
          */
         if(userType==0){
+            //mPatientSpinner.setAdapter(spinnerAdapter);
             mTestButton.setOnClickListener(this);
             mDiaryButton.setOnClickListener(this);
         }
@@ -164,6 +184,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
          * Doctor
          */
         else if (userType==1){
+            //mPatientSpinner.setAdapter(spinnerAdapter);
             mTestButton.setVisibility(View.GONE);
             mDiaryButton.setVisibility(View.GONE);
         }

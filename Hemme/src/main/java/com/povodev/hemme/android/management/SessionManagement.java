@@ -14,13 +14,18 @@ public class SessionManagement {
     /*
      * SharedPreferences for USER bean
      */
-    private static final String SESSION_USER_ID     = "id";
-    private static final String SESSION_NAME        = "name";
-    private static final String SESSION_SURNAME     = "surname";
-    private static final String SESSION_EMAIL       = "email";
-    private static final String SESSION_PASSWORD    = "password";
-    private static final String SESSION_IMEI        = "imei";
-    private static final String SESSION_ROLE        = "role";
+    private static final String SESSION_USER_ID         = "id";
+    private static final String SESSION_NAME            = "name";
+    private static final String SESSION_SURNAME         = "surname";
+    private static final String SESSION_EMAIL           = "email";
+    private static final String SESSION_PASSWORD        = "password";
+    private static final String SESSION_IMEI            = "imei";
+    private static final String SESSION_ROLE            = "role";
+
+    /*
+     * The patient id currently selected in the Home_Activity Spinner
+     */
+    private static final String CURRENT_PATIENT_ID      = "id";
 
     // Indicates if a user is logged in or not
     private static final String IS_LOGGED_IN        = "logged_in";
@@ -109,5 +114,24 @@ public class SessionManagement {
         user.setImei(preferences.getString(SESSION_IMEI,null));
         user.setRole(preferences.getInt(SESSION_ROLE,0));
         return user;
+    }
+
+    /*
+     * Save the currently selected (in Fragment_Home spinner) patient id
+     * @param: context
+     * @param: patient_id
+     */
+    public static void editPatientIdInSharedPreferences(Context context, int patient_id){
+        SharedPreferences preferences = getPreferences(context);
+        preferences.edit().putInt(CURRENT_PATIENT_ID, patient_id).commit();
+    }
+
+    /*
+     * Get the currently selected (in Fragment_Home spinner) patient id
+     * @param: context
+     */
+    public static int getPatientIdInSharedPreferences(Context context){
+        SharedPreferences preferences = getPreferences(context);
+        return preferences.getInt(CURRENT_PATIENT_ID, 0);
     }
 }

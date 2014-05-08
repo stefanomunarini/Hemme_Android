@@ -11,13 +11,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.adapter.SpinnerAdapter;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
@@ -80,7 +78,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         SpinnerArray.add("Tutor");
         SpinnerArray.add("Dottore");
 
-        ArrayAdapter<String> adapter = new SpinnerAdapter(this, android.R.layout.simple_spinner_item, SpinnerArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, SpinnerArray);
 
         mRoleSpinner.setAdapter(adapter);
         mRoleSpinner.setOnItemSelectedListener(this);
