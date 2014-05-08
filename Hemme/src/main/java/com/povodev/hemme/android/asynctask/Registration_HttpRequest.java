@@ -47,11 +47,8 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
     public Registration_HttpRequest(Context context, User user){
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
-
         this.user = user;
         this.context = context;
-
-        Log.d(TAG, "Registering user...  username: " + user.getEmail() + " / name: " + user.getName() + " / surname: " + user.getSurname());
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Home_Activity;
 import com.povodev.hemme.android.activity.Login_Activity;
+import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -69,13 +70,12 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                     HttpMethod.GET,
                     requestEntity,
                     com.povodev.hemme.android.bean.User.class);
-            User user = utenteRequest.getBody();
 
+            User user = utenteRequest.getBody();
             return user;
 
-        }catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
+        }catch (Exception e) {Log.e(TAG, e.getMessage(), e);}
+
         return null;
     }
 
@@ -89,13 +89,16 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
 
     @Override
     protected void onPostExecute(User user) {
+
+        //elimino il dialog
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (user!=null){
-
-
+        //se il login lo efettua un utente registrato
+        if(user.getName().equals("tmp")){
+            startActivityReg(context,user);
+        }
+        else if (user!=null){
             Toast.makeText(context,user.getId()+" Login",Toast.LENGTH_SHORT).show();
-
 
             SessionManagement.createLoginSession(context, user);
             Log.d(TAG, "User has been logged succesfully");
@@ -122,4 +125,12 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         context.startActivity(intent);
         ((Login_Activity)context).finish();
     }
+
+    private void startActivityReg(Context context,User userTmp) {
+        Intent intent = new Intent(context, Registration_Activity.class);
+        intent.putExtra("nome",userTmp.getName());
+        context.startActivity(intent);
+        ((Login_Activity)context).finish();
+    }
+
 }

@@ -37,6 +37,9 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     @InjectView(R.id.role_spinner)          private Spinner mRoleSpinner;
 
     private Context context;
+    private String name_bundle = "no intent";
+    private boolean isPatient = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,16 +48,25 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
 
-        Random random = new Random();
-        int randomNumber = random.nextInt();
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            name_bundle = extras.getString("imei");
+            isPatient = true;
+        }
 
         //TODO eliminare queste righe
-        mNameEditText.setText("nome");
+        mNameEditText.setText(name_bundle);
         mSurnameEditText.setText("cognome");
         mEmailEditText.setText("");
         mPasswordEditText.setText("a");
 
-        initComponents();
+        if(isPatient){
+            mRoleSpinner.setVisibility(View.GONE);
+        }else{
+            initComponents();
+        }
+
+
         setComponentsListener();
     }
 
@@ -63,7 +75,8 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     }
 
     private void initSpinner() {
-        List<String> SpinnerArray =  new ArrayList<String>();
+
+        List<String> SpinnerArray = new ArrayList<String>();
         SpinnerArray.add("Tutor");
         SpinnerArray.add("Dottore");
 
@@ -104,7 +117,12 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         surname = mSurnameEditText.getText().toString();
         email = mEmailEditText.getText().toString();
         password = mPasswordEditText.getText().toString();
-        role = mRoleSpinner.getSelectedItemPosition();
+
+        if(!isPatient)
+            role = mRoleSpinner.getSelectedItemPosition();
+        else
+            role = 2;
+
         imei = getImei();
 
         return setUserValues(name, surname, email, password, role, imei);
