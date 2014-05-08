@@ -42,7 +42,7 @@ import java.util.Iterator;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
-public class New_Document extends RoboActivity implements View.OnClickListener{
+public class NewDocument_Activity extends RoboActivity implements View.OnClickListener{
 
     private final String TAG = "NewDocument_Activity";
     final int ACTIVITY_CHOOSE_FILE = 1;

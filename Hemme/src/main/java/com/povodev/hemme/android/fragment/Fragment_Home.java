@@ -14,8 +14,8 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.activity.Login_Activity;
-import com.povodev.hemme.android.activity.New_ClinicaEvent;
-import com.povodev.hemme.android.activity.PatientActivity;
+import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
+import com.povodev.hemme.android.activity.Patient_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.User;
@@ -79,7 +79,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
          * PAZIENTE
          */
         if (user.getRole()==2){
-            Intent intent = new Intent(this.getActivity(),PatientActivity.class);
+            Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
             redirect(intent);
         }
     }
@@ -153,17 +153,23 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
     private void initComponents() {
         int userType = checkUserType(user);
 
+        /*
+         * Tutor
+         */
         if(userType==0){
-            mNewClinicalEventButton.setVisibility(View.GONE);
             mTestButton.setOnClickListener(this);
             mDiaryButton.setOnClickListener(this);
-        } else if (userType==1){
+        }
+        /*
+         * Doctor
+         */
+        else if (userType==1){
             mTestButton.setVisibility(View.GONE);
             mDiaryButton.setVisibility(View.GONE);
-            mNewClinicalEventButton.setOnClickListener(this);
         }
 
         mLoginButton.setOnClickListener(this);
+        mNewClinicalEventButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
         mManageDeviceButton.setOnClickListener(this);
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
@@ -187,7 +193,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 }
                 break;
             case R.id.newclinicalevent_button:
-                intent = new Intent(this.getActivity(),New_ClinicaEvent.class);
+                intent = new Intent(this.getActivity(),NewClinicaEvent_Activity.class);
                 redirect(intent);
                 break;
             case R.id.clinicalfolder_button:

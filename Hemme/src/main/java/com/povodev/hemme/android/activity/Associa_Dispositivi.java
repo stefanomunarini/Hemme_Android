@@ -1,9 +1,9 @@
 package com.povodev.hemme.android.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.povodev.hemme.android.R;
 
 import roboguice.activity.RoboFragmentActivity;
@@ -31,9 +31,9 @@ public class Associa_Dispositivi extends RoboFragmentActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

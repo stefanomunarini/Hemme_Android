@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.activity.New_ClinicaEvent;
+import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
@@ -21,9 +20,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Stefano on 07/05/14.
+ * Created by Stefano on 03/04/14.
  */
-public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
+public class ClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
     private final String TAG = "NewClinicalEvent_AsyncTask";
     /*
@@ -32,21 +31,25 @@ public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boole
     private final String mDialogLoadingMessage = "Inserimento evento clinico in corso...";
 
     private ClinicalEvent clinicalEvent;
+    private int user_id;
     private ProgressDialog progressDialog;
     private Context context;
+    private String url;
 
-    public ModifyClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent) {
-        progressDialog = new CustomProgressDialog(context, mDialogLoadingMessage);
+    public ClinicalEvent_HttpRequest(Context context, ClinicalEvent clinicalEvent, String url){
+        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.context = context;
         this.clinicalEvent = clinicalEvent;
+        this.user_id = clinicalEvent.getAuthor();
+        this.url =  url;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
 
         try {
-            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/modifyClinicalEvent?clinicalEvent_id=" + clinicalEvent.getId();
+            //final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=" + user_id;
 
             HttpHeaders headers = Header_Creator.create();
 
@@ -60,7 +63,6 @@ public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boole
             HttpEntity entity = new HttpEntity(clinicalEvent, headers);
             return restTemplate.postForObject(url, entity, Boolean.class);
 
-
             //return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
 
         } catch (Exception e) {
@@ -71,7 +73,7 @@ public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boole
     }
 
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute(){
         progressDialog.show();
     }
 
@@ -79,15 +81,16 @@ public class ModifyClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boole
     protected void onPostExecute(Boolean created) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (created) {
+        if (created){
             Log.d(TAG, "Evento clinico inserito.");
             startActivity(context);
-        } else Log.d(TAG, "Failed to insert new clinical event");
+        }
+        else Log.d(TAG,"Failed to insert new clinical event");
     }
 
     private void startActivity(Context context) {
         Intent intent = new Intent(context, ClinicalFolderListActivity.class);
         context.startActivity(intent);
-        ((New_ClinicaEvent) context).finish();
+        ((NewClinicaEvent_Activity)context).finish();
     }
 }

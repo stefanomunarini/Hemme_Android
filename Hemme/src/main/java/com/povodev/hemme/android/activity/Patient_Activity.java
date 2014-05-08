@@ -16,7 +16,7 @@ import roboguice.inject.InjectView;
 /**
  * Created by Stefano on 06/05/14.
  */
-public class PatientActivity extends RoboActivity {
+public class Patient_Activity extends RoboActivity {
 
     @InjectView(R.id.nome_value)                        private EditText mNomeValueEditText;
     @InjectView(R.id.indirizzo_value)                   private EditText mIndirizzoValueEditText;

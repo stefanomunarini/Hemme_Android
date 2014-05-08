@@ -81,6 +81,17 @@
             android:textIsSelectable="true"/>
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/modify_clinical_event_button"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_selector"
+        android:text="Modifica"/>
+
     </LinearLayout>
 
 </ScrollView>

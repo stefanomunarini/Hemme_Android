@@ -6,7 +6,7 @@
         android:title="@string/new_document_label"
         android:showAsAction="always|withText" />
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
+    <!--<item android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:showAsAction="never" />
+        android:showAsAction="never" />-->
 </menu>

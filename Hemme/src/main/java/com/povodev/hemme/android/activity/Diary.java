@@ -77,7 +77,7 @@ public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
     }
 
     private void startNewDocumentActivity() {
-        Intent intent = new Intent(this,New_Document.class);
+        Intent intent = new Intent(this,NewDocument_Activity.class);
         startActivity(intent);
         finish();
     }

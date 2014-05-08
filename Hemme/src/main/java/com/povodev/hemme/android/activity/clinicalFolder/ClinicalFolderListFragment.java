@@ -15,6 +15,7 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.ClinicalFolder;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
@@ -90,8 +91,7 @@ public class ClinicalFolderListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO sostituire user_id con quello presente in sessione
-        user_id = 1;
+        user_id = SessionManagement.getUserInSession(getActivity()).getId();
 
         new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
 

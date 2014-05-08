@@ -1,16 +1,20 @@
 package com.povodev.hemme.android.activity.clinicalFolder;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Formatters;
+
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
 /**
  * A fragment representing a single ClinicalFolder detail screen.
@@ -18,7 +22,9 @@ import com.povodev.hemme.android.utils.Formatters;
  * in two-pane mode (on tablets) or a {@link ClinicalFolderDetailActivity}
  * on handsets.
  */
-public class ClinicalFolderDetailFragment extends Fragment {
+public class ClinicalFolderDetailFragment extends RoboFragment implements View.OnClickListener {
+
+    @InjectView(R.id.modify_clinical_event_button)  private Button mModifyClinicalEventButton;
 
     // Author name + surname to be retrieven from rest service
     public static String author;
@@ -65,6 +71,34 @@ public class ClinicalFolderDetailFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initComponents();
+    }
+
+    private void initComponents() {
+        /*
+         * If the author of the clinical event is the same currently using the application
+         * then modifications are allowed, otherwise not (so the button will not be shown)
+         */
+        if (clinicalEvent.getAuthor()==SessionManagement.getUserInSession(getActivity()).getId()) {
+            mModifyClinicalEventButton.setOnClickListener(this);
+        } else {
+            mModifyClinicalEventButton.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id){
+            case R.id.modify_clinical_event_button:
+                //TODO
+                break;
+        }
+    }
 
     /*private class GetAuthor_HttpRequest extends AsyncTask<Void, Void, String> {
 

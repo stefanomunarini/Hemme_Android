@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.povodev.hemme.android.activity.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.povodev.hemme.android.activity.Settings_Activity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.povodev.hemme.android.activity.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="com.povodev.hemme.android.activity.Settings_Activity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="com.povodev.hemme.android.activity.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="com.povodev.hemme.android.activity.Settings_Activity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_diary" />
 
 </preference-headers>
