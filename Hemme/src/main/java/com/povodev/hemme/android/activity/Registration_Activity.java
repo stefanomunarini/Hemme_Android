@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
+import com.povodev.hemme.android.management.SessionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,8 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         setContentView(R.layout.activity_registration);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
+
+        SessionManagement.closeSession(this);
 
         Bundle extras = getIntent().getExtras();
         if(extras!=null){

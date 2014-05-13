@@ -60,7 +60,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
      */
     private boolean isUserLoggedIn = false;
 
-    //TODO add setPatient_list_spinner_size(int size) call to GetUserList_HttpRequest
     public static void setPatient_list_spinner_size(ArrayList<User> patient_list_spinner) {
         Fragment_Home.patient_list_spinner = patient_list_spinner;
     }
@@ -74,8 +73,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         context = getActivity();
         user = SessionManagement.getUserInSession(getActivity());
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
-
-        Log.d(TAG,"User_id: " + user.getId());
 
         int user_role = checkUserType(user);
         //Toast.makeText(context,"User role: "+ user_role, Toast.LENGTH_SHORT).show();
@@ -91,6 +88,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             //PATIENT
             Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
             redirect(intent);
+            getActivity().finish();
         }
     }
 
@@ -129,13 +127,17 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         if (patient_list_spinner.size()==0){
             mPatientSpinner.setVisibility(View.GONE);
         } else {
-            mPatientSpinner.setSelection(0);
-            SessionManagement.editPatientIdInSharedPreferences(context,patient_list_spinner.get(0).getId());
+
+            int current_patient_id_selected =  SessionManagement.getPatientIdInSharedPreferences(context);
+            int spinner_position = getCurrentSelectedPatientPosition(current_patient_id_selected);
+            mPatientSpinner.setSelection(spinner_position);
+            SessionManagement.editPatientIdInSharedPreferences(context, ((User)mPatientSpinner.getAdapter().getItem(spinner_position)).getId());
+
             mPatientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     User selectedItem = (User) mPatientSpinner.getSelectedItem();
-                    SessionManagement.editPatientIdInSharedPreferences(context,selectedItem.getId());
+                    SessionManagement.editPatientIdInSharedPreferences(context, selectedItem.getId());
                 }
 
                 @Override
@@ -144,6 +146,18 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 }
             });
         }
+    }
+
+    private static int getCurrentSelectedPatientPosition(int user_id){
+        int position = 0;
+        for (int i=0; i<patient_list_spinner.size(); i++){
+            Log.d(TAG,position+" ] user_id: " + user_id + "   " + patient_list_spinner.get(i).getId());
+            if (user_id==patient_list_spinner.get(i).getId()){
+                return position;
+            }
+            position++;
+        }
+        return position;
     }
 
     /*

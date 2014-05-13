@@ -91,15 +91,19 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         //elimino il dialog
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        //se il login lo efettua un utente registrato
-        if(user.getName().equals("tmp")){
-            startActivityReg(context,user);
-        }
-        else if (user!=null){
-            SessionManagement.createLoginSession(context, user);
-            Log.d(TAG, "User has been logged succesfully");
-            Log.d(TAG,"Username: " + user.getEmail());
-            startActivity(context);
+        if (user!=null){
+            /*
+             * Se il login lo efettua un utente registrato
+             */
+            if(user.getName().equals("tmp")){
+                startActivityReg(context,user);
+            }
+            else {
+                SessionManagement.createLoginSession(context, user);
+                Log.d(TAG, "User has been logged succesfully");
+                Log.d(TAG, "Username: " + user.getEmail());
+                startActivity(context);
+            }
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);

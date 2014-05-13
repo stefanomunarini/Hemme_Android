@@ -111,7 +111,8 @@ public class SessionManagement {
                 .remove(SESSION_PASSWORD)
                 .remove(SESSION_IMEI)
                 .remove(SESSION_ROLE)
-                .putBoolean(IS_LOGGED_IN,false).commit();
+                .putBoolean(IS_LOGGED_IN,false)
+                .remove(CURRENT_PATIENT_ID).commit();
     }
 
     /*

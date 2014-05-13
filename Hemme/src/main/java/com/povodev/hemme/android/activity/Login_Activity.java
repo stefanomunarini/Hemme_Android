@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.GetPassword_HttpRequest;
 import com.povodev.hemme.android.asynctask.Login_HttpRequest;
+import com.povodev.hemme.android.management.SessionManagement;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
@@ -36,8 +37,9 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         this.context = this;
+
+        SessionManagement.closeSession(this);
 
         //TODO eliminare queste due righe
         mUsernameEditText.setText("ssteee@gmail.com");

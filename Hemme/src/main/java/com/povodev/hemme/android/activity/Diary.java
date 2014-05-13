@@ -1,12 +1,12 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.Diary_HttpRequest;
@@ -14,19 +14,11 @@ import com.povodev.hemme.android.bean.Document;
 
 import java.util.ArrayList;
 
-import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
-
-public class Diary extends RoboActivity {
+public class Diary extends Activity {
 
     private final String TAG = "Diary_Activity";
     private Context context;
     public static ArrayList<Document> diario;
-
-    private int visibleThreshold = 20;
-    private int currentPage = 0;
-
-    @InjectView(R.id.listview)          private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +27,6 @@ public class Diary extends RoboActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
         new Diary_HttpRequest(context).execute();
-
     }
 
     @Override

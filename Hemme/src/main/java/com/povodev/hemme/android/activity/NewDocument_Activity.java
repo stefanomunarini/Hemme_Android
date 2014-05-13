@@ -1,9 +1,7 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -220,19 +218,10 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
             countFileToUpload = 0;
             fileToUpload.clear();
 
-            final String dialogTitle = "Caricamento del documento";
-            final String dialogMessage = "completato!";
+            Intent intent = new Intent(context,Diary.class);
+            startActivity(intent);
+            finish();
 
-            new AlertDialog.Builder(context)
-                    .setTitle(dialogTitle)
-                    .setMessage(dialogMessage)
-                    .setPositiveButton("Continua", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            Intent intent = new Intent(context,Diary.class);
-                            startActivity(intent);
-                            finish();
-                        }})
-                    .show();
         }
     }
 }

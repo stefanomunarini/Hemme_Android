@@ -74,5 +74,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_associa__dispositivi">Associa_Dispositivi</string>
     <string name="search_hint">Cerca</string>
+    <string name="logout">Esci</string>
 
 </resources>
