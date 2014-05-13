@@ -3,10 +3,12 @@ package com.povodev.hemme.android.management;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.povodev.hemme.android.bean.User;
 
 /**
+ * This class helps to manage user infos in session.
  * Created by Stefano on 03/04/14.
  */
 public class SessionManagement {
@@ -73,10 +75,19 @@ public class SessionManagement {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    private static final String TAG = "SessionManagement";
+
     /*
      * Puts user infos in SharedPreferences
      */
     private static void editSessionSharedPreferences(SharedPreferences preferences, User user) {
+        Log.d(TAG,SESSION_USER_ID + ":" + user.getId());
+        Log.d(TAG,SESSION_NAME + ":" + user.getName());
+        Log.d(TAG,SESSION_SURNAME + ":" + user.getSurname());
+        Log.d(TAG,SESSION_EMAIL + ":" + user.getEmail());
+        Log.d(TAG,SESSION_PASSWORD + ":" + user.getPassword());
+        Log.d(TAG,SESSION_IMEI + ":" + user.getImei());
+        Log.d(TAG,SESSION_ROLE + ":" + user.getRole());
         preferences.edit()
                 .putInt(SESSION_USER_ID,user.getId())
                 .putString(SESSION_NAME,user.getName())

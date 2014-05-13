@@ -49,7 +49,6 @@ public class ClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
 
         try {
-            //final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newClinicalEvent?user_id=" + user_id;
 
             HttpHeaders headers = Header_Creator.create();
 
@@ -62,8 +61,6 @@ public class ClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
             HttpEntity entity = new HttpEntity(clinicalEvent, headers);
             return restTemplate.postForObject(url, entity, Boolean.class);
-
-            //return restTemplate.postForObject(url, clinicalEvent, Boolean.class);
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);

@@ -24,7 +24,7 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
 
     private final String TAG = "NewClinicalEvent_Activity";
 
-    private int user_id;
+    private int user_id, patient_id;
 
     @InjectView(R.id.therapy_edittext)                      private EditText mTherapyEditText;
     @InjectView(R.id.note_edittext)                         private EditText mNoteEditText;
@@ -48,7 +48,7 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
         if (extras != null) {
             therapy = extras.getString(ClinicalFolderDetailFragment.THERAPY_4_BUNDLE);
             note = extras.getString(ClinicalFolderDetailFragment.NOTE_4_BUNDLE);
-            clinicalEvent_id =  extras.getInt(ClinicalFolderDetailFragment.ID_4_BUNDLE);
+            clinicalEvent_id = extras.getInt(ClinicalFolderDetailFragment.ID_4_BUNDLE);
 
             /*
              * This helps us to know if it's going to be created a new Clinical Event
@@ -60,8 +60,8 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
             mNoteEditText.setText(note);
         }
 
-        //TODO prendere l'id del paziente
-        user_id = SessionManagement.getUserInSession(this).getId();
+        user_id = SessionManagement.getUserInSession(context).getId();
+        patient_id = SessionManagement.getPatientIdInSharedPreferences(this);
 
         setComponentsListener();
     }

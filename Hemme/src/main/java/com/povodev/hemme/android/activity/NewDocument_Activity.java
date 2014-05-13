@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.asynctask.GetPassword_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
@@ -35,7 +34,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -82,11 +80,10 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
                     intent.setType("*/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
-//                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
                     break;
                 }else{
                     Toast toast;
-                    toast =  Toast.makeText(context,"PUOI INSERIRE MASSIMO 3 FILE", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(context,"Puoi inserire 3 file al massimo!", Toast.LENGTH_SHORT);
                     toast.show();
                     break;
                 }
@@ -102,8 +99,6 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
     String note;
     ArrayList<FileSystemResource> fileToUpload = new ArrayList<FileSystemResource>();
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
@@ -111,7 +106,7 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
                 if(resultCode==RESULT_OK){
                     Uri selectedImageURI = data.getData();
                     FileSystemResource fsr = new FileSystemResource (getRealPathFromURI(selectedImageURI));
-                    Log.d(TAG,"___" + getRealPathFromURI(selectedImageURI));
+                    Log.d(TAG, getRealPathFromURI(selectedImageURI));
                     fileToUpload.add(fsr);
                     countFileToUpload++;
                     mNomiFile.append("  \n- "+ fsr.getFilename());
@@ -169,7 +164,7 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
 
                         FileSystemResource fsr = (FileSystemResource) it.next();
                         String note = document.getNote();
-                        user_id = user.getId();
+                        user_id = SessionManagement.getPatientIdInSharedPreferences(context);//user.getId();
                         final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocument?nota=" + note + "&idu=" + user_id;
 
                         MultiValueMap<String, Object> para = new LinkedMultiValueMap<String, Object>();
@@ -189,7 +184,7 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
                     }
                 }else{
                     String note = document.getNote();
-                    user_id = user.getId();
+                    user_id = SessionManagement.getPatientIdInSharedPreferences(context);//user.getId();
                     final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/uploadDocumentWithoutFile?nota=" + note + "&idu=" + user_id;
 
                     RestTemplate restTemplate = new RestTemplate();

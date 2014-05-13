@@ -10,15 +10,12 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.NewGame_Activity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.bean.Result;
-import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Encoding_MD5;
-import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
@@ -46,7 +43,7 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
 
         this.context = context;
         this.result = result;
-        this.user_id = user_id;
+        this.user_id = SessionManagement.getPatientIdInSharedPreferences(context);
     }
 
     @Override
@@ -65,19 +62,6 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-
-/*
-            HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
-            ResponseEntity<Boolean> boolRequest= restTemplate.exchange(url,
-                    HttpMethod.GET,
-                    requestEntity,
-                    Boolean.class);
-
-            return bool;
-            boolean bool = boolRequest.getBody();
-
-            */
-//            return restTemplate.postForObject(url, result, Boolean.class);
 
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
             para.add("result",result);

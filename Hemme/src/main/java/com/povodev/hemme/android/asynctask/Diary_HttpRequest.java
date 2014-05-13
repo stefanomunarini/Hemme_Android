@@ -36,7 +36,7 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
 
     public Diary_HttpRequest(Context context) {
         this.context = context;
-        user_id = SessionManagement.getUserInSession(context).getId();
+        user_id = SessionManagement.getPatientIdInSharedPreferences(context);
         progressDialog = new CustomProgressDialog(context, message);
     }
 

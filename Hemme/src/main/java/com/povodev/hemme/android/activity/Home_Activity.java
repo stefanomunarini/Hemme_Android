@@ -2,9 +2,11 @@ package com.povodev.hemme.android.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.povodev.hemme.android.Location.Location_Service;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
@@ -23,10 +25,16 @@ public class Home_Activity extends RoboFragmentActivity {
      */
     private boolean isUserLoggedIn = false;
 
+    private Context context;
+
+    private LocationListener mLocationListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        context = this;
 
         isUserLoggedIn = SessionManagement.isUserLoggedIn(this);
 
@@ -45,7 +53,24 @@ public class Home_Activity extends RoboFragmentActivity {
 
         if (!checkForANetwork(this)) createAlertDialog();
 
+        startService(new Intent(this, Location_Service.class));
+
+        /*while (true){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {*/
+                    //Localization.checkLocation(context);
+                    /*try {
+                        Thread.sleep(1000 * 60);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }*/
+
     }
+
 
     /*
      * Check for a network connection.

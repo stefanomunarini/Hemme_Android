@@ -68,7 +68,7 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
     @Override
     public void onPostExecute(Void result) {
         super.onPostExecute(result);
-        mProgressDialog.dismiss();
+        if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
         diario_minus = new ArrayList<Document>();
         for (int i = 0; i<5; i++){
@@ -138,31 +138,37 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
-        if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1
-                && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
-            if(max_view_element<=diario.size() && control == 0) {
-                Log.d(TAG, "entrato nella fine");
-                for (int j = min_view_element; j < max_view_element; j++) {
-                    Document doc = diario.get(j);
-                    doc.setFile_immagine(image);
-                    diario_minus.add(doc);
+        if (mListView.getAdapter().getCount()>0) {
+            Log.d(TAG,"a "+mListView.getAdapter().getCount());
+            if (mListView.getLastVisiblePosition() ==
+                    mListView.getAdapter().getCount() - 1
+                    && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
+                if (max_view_element <= diario.size() && control == 0) {
+                    Log.d(TAG, "entrato nella fine");
+                    for (int j = min_view_element; j < max_view_element; j++) {
+                        Document doc = diario.get(j);
+                        doc.setFile_immagine(image);
+                        diario_minus.add(doc);
+                    }
+                    min_view_element += 3;
+                    max_view_element += 4;
+                    adapter.notifyDataSetChanged();
+                } else if (control == 1) {
+                    Toast toast;
+                    toast = Toast.makeText(context, "Fine del Diario", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    for (int j = min_view_element; j < diario.size(); j++) {
+                        Document doc = diario.get(j);
+                        doc.setFile_immagine(image);
+                        diario_minus.add(doc);
+                    }
+                    adapter.notifyDataSetChanged();
+                    control++;
                 }
-                min_view_element += 3;
-                max_view_element += 4;
-                adapter.notifyDataSetChanged();
-            }else if( control==1 ){
-                Toast toast;
-                toast =  Toast.makeText(context,"Fine del Diario", Toast.LENGTH_SHORT);
-                toast.show();
-            }else{
-                for (int j = min_view_element; j < diario.size(); j++) {
-                    Document doc = diario.get(j);
-                    doc.setFile_immagine(image);
-                    diario_minus.add(doc);
-                }
-                adapter.notifyDataSetChanged();
-                control ++;
             }
+        } else {
+            Toast.makeText(context,"mListView is null",Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -43,7 +43,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     public GameSettings(Context context){
         this.context = context;
         result = new Result();
-        user_id = SessionManagement.getUserInSession(context).getId();
+        user_id = SessionManagement.getPatientIdInSharedPreferences(context);
 
         game_activity = (NewGame_Activity) context;
         mGridView = (GridView) game_activity.findViewById(R.id.gridview);
@@ -60,8 +60,6 @@ public class GameSettings implements AdapterView.OnItemClickListener{
         cardSet = new CardList(context, getSize());
 
         setGridViewAdapter(getSize());
-
-        //startGame();
 
         startCountdownTimer();
     }

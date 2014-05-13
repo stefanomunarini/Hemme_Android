@@ -15,7 +15,6 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.MemoryResultsAdapter;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.bean.Test;
-import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
@@ -92,8 +91,8 @@ public class MemoryResultsListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User user = SessionManagement.getUserInSession(getActivity());
-        user_id = user.getId();
+        //User user = SessionManagement.getUserInSession(getActivity());
+        user_id = SessionManagement.getPatientIdInSharedPreferences(getActivity());
 
         new TestLoader_HttpRequest(getActivity(),user_id).execute();
     }

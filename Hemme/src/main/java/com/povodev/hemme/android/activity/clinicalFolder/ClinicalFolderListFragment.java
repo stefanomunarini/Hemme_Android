@@ -99,9 +99,10 @@ public class ClinicalFolderListFragment extends RoboListFragment {
 
         setHasOptionsMenu(true);
 
-        //TODO
         //DA FARE: GET PATIENT IN SESSION
-        user_id = SessionManagement.getUserInSession(getActivity()).getId();
+        //user_id = SessionManagement.getUserInSession(getActivity()).getId();
+
+        user_id = SessionManagement.getPatientIdInSharedPreferences(getActivity());
 
         new ClinicalFolderLoader_HttpRequest(getActivity(),user_id).execute();
 
@@ -196,24 +197,6 @@ public class ClinicalFolderListFragment extends RoboListFragment {
         this.setListAdapter(adapter);
     }
 
-
-
-
-
-
-
-
-
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            default:
-                return true;
-        }
-    }*/
-
     @Override
     public void onCreateOptionsMenu(Menu menu,  MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -241,16 +224,6 @@ public class ClinicalFolderListFragment extends RoboListFragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
     }
-
-
-
-
-
-
-
-
-
-
 
     private class ClinicalFolderLoader_HttpRequest extends AsyncTask<Void, Void, ArrayList<ClinicalEvent>> {
 

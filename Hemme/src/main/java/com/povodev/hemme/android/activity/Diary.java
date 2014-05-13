@@ -3,11 +3,9 @@ package com.povodev.hemme.android.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.povodev.hemme.android.R;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
-public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
+public class Diary extends RoboActivity {
 
     private final String TAG = "Diary_Activity";
     private Context context;
@@ -38,22 +36,6 @@ public class Diary extends RoboActivity implements AbsListView.OnScrollListener{
         this.context = this;
         new Diary_HttpRequest(context).execute();
 
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
-
-    @Override
-    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-
-
-        if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1
-                && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
-                Log.d(TAG, "entrato nella fine");
-                //scroll end reached
-                //Write your code here
-        }
     }
 
     @Override

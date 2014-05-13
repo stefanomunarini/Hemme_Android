@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.adapter.SpinnerAdapter;
@@ -61,7 +60,6 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
         }
     }
 
-
     private String url;
 
     @Override
@@ -86,7 +84,6 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
             return userList;
 
         }catch (Exception e) {Log.e(TAG, e.getMessage(), e);}
-
         return null;
     }
 
@@ -95,24 +92,17 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
         progressDialog.show();
     }
 
-    /*private final String mDialogErrorTitle = "Errore";
-    private final String mDialogErrorMessage = "Rieffettuare il login o procedere con una nuova registrazione.";
-*/
     @Override
     protected void onPostExecute(ArrayList<User> userList) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        Toast.makeText(context,"userlist size   " + userList.size() ,Toast.LENGTH_SHORT).show();
-
-
         if (userList!=null){
-            Toast.makeText(context, "lista vuota", Toast.LENGTH_SHORT).show();
-
             if (home) {
                 ArrayAdapter<User> adapter = new SpinnerAdapter(
                         context,
                         android.R.layout.simple_spinner_item,
                         userList);
+                Fragment_Home.setPatient_list_spinner_size(userList);
                 Fragment_Home.setAdapter(adapter);
             } else if (dottore){
                 ArrayAdapter<User> adapter = new SpinnerAdapter(
@@ -128,7 +118,5 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
                 Associa_Dispositivi.setAdapterPazienti(adapter);
             }
         }
-
-
     }
 }

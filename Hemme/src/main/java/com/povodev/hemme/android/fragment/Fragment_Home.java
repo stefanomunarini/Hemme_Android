@@ -26,6 +26,8 @@ import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 
+import java.util.ArrayList;
+
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
@@ -51,10 +53,17 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     private static Context context;
 
+    private static ArrayList<User> patient_list_spinner;
+
     /*
      * true if user is logged in, false otherwise
      */
     private boolean isUserLoggedIn = false;
+
+    //TODO add setPatient_list_spinner_size(int size) call to GetUserList_HttpRequest
+    public static void setPatient_list_spinner_size(ArrayList<User> patient_list_spinner) {
+        Fragment_Home.patient_list_spinner = patient_list_spinner;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,34 +85,16 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             new GetUserList_HttpRequest(getActivity(),user.getId(),url).execute();
         } else if (user_role==1){
             //DOCTOR
-            //TODO
-            url = null;
+            url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientListDoctor?doctor_id="+user.getId();;
             new GetUserList_HttpRequest(getActivity(),user.getId(),url).execute();
         } else if (user_role==2){
             //PATIENT
             Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
             redirect(intent);
         }
-
-
-        /*
-         * SENSORE DI PROSSIMITA'
-         */
-        //proximityFunctions();
-
-        /*
-         * PAZIENTE
-         */
-        /*if (user.getRole()==2){
-            Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
-            redirect(intent);
-        }*/
     }
 
-
 /*
-
-
     private LocationManager lm;
     private void proximityFunctions() {
 
@@ -111,7 +102,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         double myLatitude = latLong.get(Localization.LATITUDE);
         double myLongitude = latLong.get(Localization.LONGITUDE);
         Toast.makeText(getActivity(),Localization.LATITUDE +": "+myLatitude +"  "+Localization.LONGITUDE+": "+myLongitude, Toast.LENGTH_SHORT).show();
-
 
         //Intent i = new Intent("com.povodev.hemme.proximity_alert");
         //PendingIntent pi = PendingIntent.getBroadcast(getActivity(), -1, i, 0);
@@ -136,17 +126,24 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     public static void setAdapter(ArrayAdapter adapter){
         mPatientSpinner.setAdapter(adapter);
-        mPatientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                User selectedItem = (User) mPatientSpinner.getSelectedItem();
-                SessionManagement.editPatientIdInSharedPreferences(context,selectedItem.getId());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+        if (patient_list_spinner.size()==0){
+            mPatientSpinner.setVisibility(View.GONE);
+        } else {
+            mPatientSpinner.setSelection(0);
+            SessionManagement.editPatientIdInSharedPreferences(context,patient_list_spinner.get(0).getId());
+            mPatientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    User selectedItem = (User) mPatientSpinner.getSelectedItem();
+                    SessionManagement.editPatientIdInSharedPreferences(context,selectedItem.getId());
+                }
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
     }
 
     /*
