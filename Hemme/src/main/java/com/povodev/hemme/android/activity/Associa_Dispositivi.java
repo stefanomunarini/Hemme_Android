@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
+import com.povodev.hemme.android.asynctask.LinkDoctorPatient_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 
@@ -22,8 +23,6 @@ import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
 public class Associa_Dispositivi extends FragmentActivity implements View.OnClickListener{
-
-    @InjectView(R.id.confirm_button)       private Button mConfirmButton;
 
     public static Spinner spinner_dottori;
     public static Spinner spinner_pazienti;
@@ -45,6 +44,8 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
 
         spinner_dottori= (Spinner)findViewById(R.id.spinner_medici);
         spinner_pazienti = (Spinner) findViewById(R.id.spinner_pazienti);
+
+        Button mConfirmButton = (Button) findViewById(R.id.confirm_button);
         mConfirmButton.setOnClickListener(this);
 
         url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getListDoctor";
@@ -111,7 +112,9 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         int id = view.getId();
         switch (id){
             case R.id.confirm_button:
-                //new Login_HttpRequest(context,getUsername(),getPassword(),getImei()).execute();
+                Toast.makeText(context," set adapoter" + selected_patient.getId()  + " - " + selected_doctor.getId() ,Toast.LENGTH_SHORT).show();
+                url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newHasDp?patient_id="+selected_patient.getId()+"&doctor_id="+selected_doctor.getId();
+                new LinkDoctorPatient_HttpRequest(context,url).execute();
                 break;
         }
     }

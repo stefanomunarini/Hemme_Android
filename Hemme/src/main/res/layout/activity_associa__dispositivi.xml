@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,24 +10,41 @@
     tools:context="com.povodev.hemme.android.activity.Associa_Dispositivi">
 
     <TextView
-        android:id="@+id/text_tile"
+        android:id="@+id/text_tile_associa"
         android:text="associa il dispositivo del medico con quello del paziente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/text_tile_doctor"
+        android:text="SELEZIONA DOTTORE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/text_tile_associa"/>
 
     <Spinner
         android:id="@+id/spinner_medici"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_tile"/>
+        android:layout_below="@id/text_tile_doctor"/>
 
 
+
+    <TextView
+        android:id="@+id/text_tile_paziente"
+        android:text="SELEZIONA PAZIENTE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/spinner_medici"/>
 
     <Spinner
         android:id="@+id/spinner_pazienti"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_medici"/>
+        android:layout_below="@id/text_tile_paziente"/>
 
 
     <Button
@@ -34,7 +52,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_pazienti"
-        android:text="CONFERMA ASSOCUAZIONE"/>
-
+        android:text="CONFERMA ASSOCIAZIONE"/>
 
 </RelativeLayout>
