@@ -142,7 +142,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 User selectedItem = (User) mPatientSpinner.getSelectedItem();
                 SessionManagement.editPatientIdInSharedPreferences(context,selectedItem.getId());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 

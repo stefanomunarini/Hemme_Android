@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.adapter.SpinnerAdapter;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.bean.UserList;
@@ -43,7 +45,22 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
         this.user_id = user_id;
         this.context = context;
         this.url = url;
+        home = true;
     }
+
+    private boolean home = false;
+    private boolean dottore = false;
+
+    public GetUserList_HttpRequest(Context context, String dove , String url){
+        progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
+
+        this.context = context;
+        this.url = url;
+        if (dove.equals("dottori")) {
+            dottore = true;
+        }
+    }
+
 
     private String url;
 
@@ -85,13 +102,33 @@ public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<Use
     protected void onPostExecute(ArrayList<User> userList) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
+        Toast.makeText(context,"userlist size   " + userList.size() ,Toast.LENGTH_SHORT).show();
+
+
         if (userList!=null){
-            ArrayAdapter<User> adapter = new SpinnerAdapter(
-                    context,
-                    android.R.layout.simple_spinner_item,
-                    userList);
-            Fragment_Home.spinnerAdapter = adapter;
-            Fragment_Home.setAdapter(adapter);
+            Toast.makeText(context, "lista vuota", Toast.LENGTH_SHORT).show();
+
+            if (home) {
+                ArrayAdapter<User> adapter = new SpinnerAdapter(
+                        context,
+                        android.R.layout.simple_spinner_item,
+                        userList);
+                Fragment_Home.setAdapter(adapter);
+            } else if (dottore){
+                ArrayAdapter<User> adapter = new SpinnerAdapter(
+                        context,
+                        android.R.layout.simple_spinner_item,
+                        userList);
+                Associa_Dispositivi.setAdapterMedici(adapter);
+            }else{
+                ArrayAdapter<User> adapter = new SpinnerAdapter(
+                        context,
+                        android.R.layout.simple_spinner_item,
+                        userList);
+                Associa_Dispositivi.setAdapterPazienti(adapter);
+            }
         }
+
+
     }
 }
