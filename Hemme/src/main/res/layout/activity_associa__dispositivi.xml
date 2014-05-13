@@ -9,8 +9,32 @@
     tools:context="com.povodev.hemme.android.activity.Associa_Dispositivi">
 
     <TextView
-        android:text="@string/hello_world"
+        android:id="@+id/text_tile"
+        android:text="associa il dispositivo del medico con quello del paziente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spinner_medici"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_tile"/>
+
+
+
+    <Spinner
+        android:id="@+id/spinner_pazienti"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_medici"/>
+
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_pazienti"
+        android:text="CONFERMA ASSOCUAZIONE"/>
+
 
 </RelativeLayout>
