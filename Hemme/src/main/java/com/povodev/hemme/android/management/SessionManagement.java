@@ -25,9 +25,11 @@ public class SessionManagement {
     /*
      * The patient id currently selected in the Home_Activity Spinner
      */
-    private static final String CURRENT_PATIENT_ID      = "id";
+    private static final String CURRENT_PATIENT_ID      = "current_patient_id";
 
-    // Indicates if a user is logged in or not
+    /*
+     * Indicates if a user is logged in or not
+     */
     private static final String IS_LOGGED_IN        = "logged_in";
 
 

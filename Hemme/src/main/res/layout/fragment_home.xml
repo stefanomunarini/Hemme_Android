@@ -39,7 +39,6 @@
 
             <Spinner
                 android:id="@+id/patient_spinner"
-                android:background="@drawable/button_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="18dp"

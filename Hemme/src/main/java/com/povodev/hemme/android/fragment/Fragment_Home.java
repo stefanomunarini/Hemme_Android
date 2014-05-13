@@ -3,6 +3,7 @@ package com.povodev.hemme.android.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
@@ -22,7 +22,7 @@ import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.activity.Patient_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
-import com.povodev.hemme.android.asynctask.GetPatientList_HttpRequest;
+import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
 
@@ -33,6 +33,8 @@ import roboguice.inject.InjectView;
  * Created by Stefano on 27/03/14.
  */
 public class Fragment_Home extends RoboFragment implements View.OnClickListener {
+
+    private final static String TAG = "Fragment_Home";
 
     @InjectView(R.id.login_button)                  private Button mLoginButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
@@ -64,28 +66,23 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         user = SessionManagement.getUserInSession(getActivity());
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
 
+        Log.d(TAG,"User_id: " + user.getId());
+
         int user_role = checkUserType(user);
-        Toast.makeText(context,"User role: "+ user_role, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"User role: "+ user_role, Toast.LENGTH_SHORT).show();
         if (user_role==0){
             //TUTOR
             url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientList?tutor_id="+user.getId();;
-            new GetPatientList_HttpRequest(getActivity(),user.getId(),url).execute();
+            new GetUserList_HttpRequest(getActivity(),user.getId(),url).execute();
         } else if (user_role==1){
             //DOCTOR
             //TODO
             url = null;
-            new GetPatientList_HttpRequest(getActivity(),user.getId(),url).execute();
+            new GetUserList_HttpRequest(getActivity(),user.getId(),url).execute();
         } else if (user_role==2){
             //PATIENT
             Intent intent = new Intent(this.getActivity(),Patient_Activity.class);
             redirect(intent);
-        }
-
-
-        if (!isUserLoggedIn){
-            Intent intent = new Intent(getActivity(),Login_Activity.class);
-            startActivity(intent);
-            getActivity().finish();
         }
 
 

@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.SpinnerAdapter;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.bean.UserList;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by Stefano on 08/05/14.
  */
-public class GetPatientList_HttpRequest extends AsyncTask<Void, Void, ArrayList<User>> {
+public class GetUserList_HttpRequest extends AsyncTask<Void, Void, ArrayList<User>> {
 
     private final String TAG = "GetPatientList_AsyncTask";
     /*
@@ -38,7 +37,7 @@ public class GetPatientList_HttpRequest extends AsyncTask<Void, Void, ArrayList<
     private ProgressDialog progressDialog;
     private int user_id;
 
-    public GetPatientList_HttpRequest(Context context, int user_id, String url){
+    public GetUserList_HttpRequest(Context context, int user_id, String url){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.user_id = user_id;
@@ -51,9 +50,9 @@ public class GetPatientList_HttpRequest extends AsyncTask<Void, Void, ArrayList<
     @Override
     protected ArrayList<User> doInBackground(Void... params) {
 
+        Log.d(TAG,"doInBackground " + url);
+
         try {
-            final String url =
-                    "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientList?tutor_id="+user_id;
 
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
@@ -79,20 +78,19 @@ public class GetPatientList_HttpRequest extends AsyncTask<Void, Void, ArrayList<
         progressDialog.show();
     }
 
-    private final String mDialogErrorTitle = "Errore";
+    /*private final String mDialogErrorTitle = "Errore";
     private final String mDialogErrorMessage = "Rieffettuare il login o procedere con una nuova registrazione.";
-
+*/
     @Override
     protected void onPostExecute(ArrayList<User> userList) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (userList==null){
-            //context.getActivity().findViewById(R.id.patient_spinner).setVisibility(View.GONE);
-        }
-        else {
-            //TODO set the spinner adapter
-            ArrayAdapter<User> adapter = new SpinnerAdapter(context, android.R.layout.simple_spinner_item, userList);
-            //Fragment_Home.spinnerAdapter = adapter;
+        if (userList!=null){
+            ArrayAdapter<User> adapter = new SpinnerAdapter(
+                    context,
+                    android.R.layout.simple_spinner_item,
+                    userList);
+            Fragment_Home.spinnerAdapter = adapter;
             Fragment_Home.setAdapter(adapter);
         }
     }

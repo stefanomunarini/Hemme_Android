@@ -1,13 +1,13 @@
 package com.povodev.hemme.android.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.User;
 
 import java.util.ArrayList;
@@ -24,23 +24,44 @@ public class SpinnerAdapter extends ArrayAdapter<User> {
         super(context, resource, items);
         this.users = items;
         this.context = context;
-        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //setDropDownViewResource(resource);
+    }
+
+    private final String TAG = "SpinnerAdapter";
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+        }
+
+        User item = users.get(position);
+        if (item != null) {
+            Log.d(TAG,item.getName());
+            TextView tv = (TextView) view
+                    .findViewById(android.R.id.text1);
+            tv.setText(item.getName());
+        }
+        return view;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //view = inflater.inflate(android.R.layout.simple_spinner_item, null);
-            view = inflater.inflate(R.layout.spinner_row, null);
-
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
         }
 
-        User item = getItem(position);
+        User item = users.get(position);
         if (item != null) {
-            TextView gradeView = (TextView) view.findViewById(R.layout.spinner_row);//view.findViewById(android.R.layout.simple_spinner_item);
-            gradeView.setText(item.getName());
+            Log.d(TAG,item.getName());
+            TextView tv = (TextView) view
+                    .findViewById(android.R.id.text1);
+            tv.setText(item.getName());
         }
         return view;
     }

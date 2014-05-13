@@ -1,12 +1,14 @@
 package com.povodev.hemme.android.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
+import com.povodev.hemme.android.management.SessionManagement;
 import com.povodev.hemme.android.utils.ConnectionChecker;
 
 import roboguice.activity.RoboFragmentActivity;
@@ -16,19 +18,32 @@ import roboguice.activity.RoboFragmentActivity;
  */
 public class Home_Activity extends RoboFragmentActivity {
 
+    /*
+     * true if user is logged in, false otherwise
+     */
+    private boolean isUserLoggedIn = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Fragment fragment_home = new Fragment_Home();
+        isUserLoggedIn = SessionManagement.isUserLoggedIn(this);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_home_container, fragment_home)
-                .commit();
+        if (!isUserLoggedIn){
+            Intent intent = new Intent(this,Login_Activity.class);
+            startActivity(intent);
+            finish();
+        } else {
 
-        //if (!checkForANetwork(this)) createAlertDialog();
+            Fragment fragment_home = new Fragment_Home();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_home_container, fragment_home)
+                    .commit();
+        }
+
+        if (!checkForANetwork(this)) createAlertDialog();
 
     }
 
@@ -40,8 +55,6 @@ public class Home_Activity extends RoboFragmentActivity {
         return ConnectionChecker.isNetworkAvailable(context);
     }
 
-    //private AlertDialog.Builder builder;
-    //private AlertDialog dialog;
     private final String alertDialogTitle = "Nessuna connessione";
     private final String alertDialogMessage = "Connettiti ad un network per utilizzare l'applicazione!";
 
@@ -54,11 +67,6 @@ public class Home_Activity extends RoboFragmentActivity {
     public void onResume () {
         super.onResume();
         if(!checkForANetwork(this)){
-            /*if (dialog!=null){
-                if (dialog.isShowing()){
-                    dialog.dismiss();
-                }
-            }*/
             createAlertDialog();
         }
     }
