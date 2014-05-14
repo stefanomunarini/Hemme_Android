@@ -68,7 +68,11 @@ public class BitmapDownload extends AsyncTask<Void, Void, ArrayList<Document>> i
 
             for (int i = 0; i<diario_input.size(); i++){
                 Document doc = diario_input.get(i);
-                image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                if(i%2==0)
+                    image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                else
+                    image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/superman-minion-icon.png");
+
                 doc.setFile_immagine(image);
                 diario_output.add(doc);
             }
