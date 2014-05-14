@@ -9,21 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_welcome_message"
         android:textSize="18sp"
         android:fontFamily="sans-serif"
         android:layout_gravity="center_horizontal"
-        android:padding="8dp"/>
+        android:padding="8dp"/>-->
 
     <TextView
         android:id="@+id/user_detail_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif"
+        style="?android:attr/textAppearanceMedium"
         android:layout_gravity="center_horizontal"
         android:padding="8dp"/>
 
@@ -33,7 +32,7 @@
         android:layout_height="fill_parent">
 
         <RelativeLayout
-            android:padding="16dp"
+            android:padding="8dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
@@ -41,13 +40,13 @@
                 android:id="@+id/patient_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="18dp"
+                android:padding="8dp"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <!--<RelativeLayout
         android:padding="16dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -58,10 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="18dp"
-                android:text="@string/login"
+                android:text="@string/logout"
                 android:layout_centerInParent="true"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <RelativeLayout
             android:padding="16dp"

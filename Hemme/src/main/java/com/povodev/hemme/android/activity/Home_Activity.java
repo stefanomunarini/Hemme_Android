@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.povodev.hemme.android.Location.Location_Service;
 import com.povodev.hemme.android.R;
@@ -92,6 +95,29 @@ public class Home_Activity extends RoboFragmentActivity {
         super.onResume();
         if(!checkForANetwork(this)){
             createAlertDialog();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.patient_actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                Intent intent = new Intent(this, Login_Activity.class);
+                SessionManagement.closeSession(this);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

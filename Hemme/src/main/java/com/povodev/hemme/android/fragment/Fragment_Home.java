@@ -17,7 +17,6 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.activity.Diary;
-import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.activity.Patient_Activity;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActivity;
@@ -38,7 +37,7 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     private final static String TAG = "Fragment_Home";
 
-    @InjectView(R.id.login_button)                  private Button mLoginButton;
+    //@InjectView(R.id.login_button)                  private Button mLoginButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
@@ -204,14 +203,14 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             mDiaryButton.setVisibility(View.GONE);
         }
 
-        mLoginButton.setOnClickListener(this);
+        //mLoginButton.setOnClickListener(this);
         mNewClinicalEventButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
         mManageDeviceButton.setOnClickListener(this);
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
 
         if (isUserLoggedIn){
-            mLoginButton.setText("Logout");
+            //mLoginButton.setText("Logout");
         }
     }
 
@@ -220,14 +219,14 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         int id = v.getId();
         Intent intent;
         switch (id){
-            case R.id.login_button:
+            /*case R.id.login_button:
                 if (isUserLoggedIn){
                     SessionManagement.closeSession(getActivity());
                     intent = new Intent(this.getActivity(),Login_Activity.class);
                     redirect(intent);
                     getActivity().finish();
                 }
-                break;
+                break;*/
             case R.id.newclinicalevent_button:
                 intent = new Intent(this.getActivity(),NewClinicaEvent_Activity.class);
                 redirect(intent);

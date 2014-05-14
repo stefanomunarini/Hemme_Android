@@ -24,7 +24,7 @@ public class SpinnerAdapter extends ArrayAdapter<User> {
         super(context, resource, items);
         this.users = items;
         this.context = context;
-        //setDropDownViewResource(resource);
+        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     private final String TAG = "SpinnerAdapter";
@@ -53,7 +53,7 @@ public class SpinnerAdapter extends ArrayAdapter<User> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+            view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         }
 
         User item = users.get(position);

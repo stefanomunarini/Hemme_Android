@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
@@ -18,9 +17,6 @@ import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.asynctask.LinkDoctorPatient_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.management.SessionManagement;
-
-import roboguice.activity.RoboFragmentActivity;
-import roboguice.inject.InjectView;
 
 public class Associa_Dispositivi extends FragmentActivity implements View.OnClickListener{
 
@@ -37,7 +33,7 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_associa__dispositivi);
+        setContentView(R.layout.activity_associa_dispositivi);
 
         user = SessionManagement.getUserInSession(this);
         this.context = this;
@@ -56,7 +52,6 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
 
     }
 
-
     public static void setAdapterMedici(ArrayAdapter adapter){
         spinner_dottori.setAdapter(adapter);
         spinner_dottori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,7 +65,6 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
     }
     public static void setAdapterPazienti(ArrayAdapter adapter){
         spinner_pazienti.setAdapter(adapter);
-        Toast.makeText(context," set adapoter",Toast.LENGTH_SHORT).show();
         spinner_pazienti.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -81,8 +75,6 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         });
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
@@ -90,8 +82,6 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         getMenuInflater().inflate(R.menu.associa__dispositivi, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,14 +95,11 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
             case R.id.confirm_button:
-                Toast.makeText(context," set adapoter" + selected_patient.getId()  + " - " + selected_doctor.getId() ,Toast.LENGTH_SHORT).show();
                 url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/newHasDp?patient_id="+selected_patient.getId()+"&doctor_id="+selected_doctor.getId();
                 new LinkDoctorPatient_HttpRequest(context,url).execute();
                 break;

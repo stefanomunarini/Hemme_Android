@@ -4,13 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.activity.Diary;
-import com.povodev.hemme.android.adapter.Document_Adapter;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -78,6 +73,7 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     @Override
     protected void onPostExecute(ArrayList<Document> result) {
         super.onPostExecute(result);
+        if (progressDialog.isShowing()) progressDialog.dismiss();
 
         ArrayList<Document> reverseDiary = new ArrayList<Document>();
         for(int i=0;i<result.size();i++){
@@ -86,7 +82,5 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
 
         new BitmapDownload(reverseDiary,context).execute();
 
-        //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp
-        if (progressDialog.isShowing()) progressDialog.dismiss();
     }
 }

@@ -1,7 +1,9 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -208,12 +210,30 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
             progressDialog.show();
         }
 
+        private final String errorDialogTitle = "Errore";
+        private final String errorDialogMessage = "Si e' verificato un errore durante il caricamento del file! Si prega di riprovare.";
+
         @Override
         protected void onPostExecute(Boolean created) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
-            if (created) Log.d(TAG, "Inserito file correttamente");
-            else Log.d(TAG,"Failed to insert new document");
+            if (created) Log.d(TAG, "File inserito correttamente");
+            else {
+                Log.d(TAG,"Failed to insert new document");
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(errorDialogTitle)
+                        .setMessage(errorDialogMessage)
+                        .setCancelable(false)
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(context,Home_Activity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                builder.show();
+            }
 
             countFileToUpload = 0;
             fileToUpload.clear();
