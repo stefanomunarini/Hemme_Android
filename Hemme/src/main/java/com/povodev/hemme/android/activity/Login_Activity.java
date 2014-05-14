@@ -77,9 +77,6 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
 
-        //TODO eliminare
-        input.setText("ssteee@gmail.com");
-
         final String dialogTitle = "Recupero password";
         final String dialogMessage = "Inserisci email";
 

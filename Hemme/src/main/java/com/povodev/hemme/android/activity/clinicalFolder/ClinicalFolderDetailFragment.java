@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
@@ -29,7 +28,7 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
 
     @InjectView(R.id.modify_clinical_event_button)  private Button mModifyClinicalEventButton;
 
-    // Author name + surname to be retrieven from rest service
+    // Author name + surname to be retrieve from rest service
     public static String author;
 
     private final static String TAG = "ClinicalFolderDetailFragment";
@@ -51,9 +50,6 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
         super.onCreate(savedInstanceState);
 
         clinicalEvent = (ClinicalEvent) getArguments().getSerializable("clinical_event");
-
-        // retrieve author name and surname
-        //new GetAuthor_HttpRequest(getActivity(),clinicalEvent.getAuthor()).execute();
     }
 
     @Override
@@ -62,8 +58,6 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
         View rootView = inflater.inflate(R.layout.fragment_clinicalfolder_detail, container, false);
 
         Log.d(TAG,"Terapia: " + clinicalEvent.getTherapy());
-
-        Toast.makeText(getActivity(),clinicalEvent.getId()+"",Toast.LENGTH_SHORT).show();
 
         // Show the content as text in TextViews.
         if (clinicalEvent != null) {
@@ -112,61 +106,4 @@ public class ClinicalFolderDetailFragment extends RoboFragment implements View.O
                 break;
         }
     }
-
-    /*private class GetAuthor_HttpRequest extends AsyncTask<Void, Void, String> {
-
-        private int user_id;
-        private ProgressDialog progressDialog;
-
-        public GetAuthor_HttpRequest(Context context, int user_id){
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Caricamento in corso...");
-            this.user_id = user_id;
-            Log.d(TAG,"Getting doctor name... user_id: "+user_id);
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            try {
-                final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/getAuthor?user_id="+user_id;
-                HttpHeaders headers = Header_Creator.create();
-                HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
-
-
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-                ResponseEntity<String> stringRequest = restTemplate.exchange(url,
-                        HttpMethod.GET,
-                        requestEntity,
-                        String.class);
-                String result = stringRequest.getBody();
-
-                //return restTemplate.getForObject(url, String.class);
-                return result;
-
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            progressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(String authorName) {
-            if (progressDialog.isShowing()) progressDialog.dismiss();
-
-            if (authorName!=null){
-                Log.d(TAG, "Author: " + authorName);
-                ClinicalFolderDetailFragment.author = authorName;
-                ((TextView) getView().findViewById(R.id.clinicalfolder_author)).setText(author);
-            }
-            else Log.d(TAG,"Failed to retrieve author");
-        }
-    }*/
 }

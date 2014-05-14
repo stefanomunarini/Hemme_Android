@@ -112,7 +112,7 @@ public class SessionManagement {
                 .remove(SESSION_IMEI)
                 .remove(SESSION_ROLE)
                 .putBoolean(IS_LOGGED_IN,false)
-                .remove(CURRENT_PATIENT_ID).commit();
+                .putInt(CURRENT_PATIENT_ID,-1).commit();
     }
 
     /*
@@ -126,7 +126,7 @@ public class SessionManagement {
         user.setEmail(preferences.getString(SESSION_EMAIL,null));
         user.setPassword(preferences.getString(SESSION_PASSWORD,null));
         user.setImei(preferences.getString(SESSION_IMEI,null));
-        user.setRole(preferences.getInt(SESSION_ROLE,0));
+        user.setRole(preferences.getInt(SESSION_ROLE,-1));
         return user;
     }
 
@@ -146,6 +146,6 @@ public class SessionManagement {
      */
     public static int getPatientIdInSharedPreferences(Context context){
         SharedPreferences preferences = getPreferences(context);
-        return preferences.getInt(CURRENT_PATIENT_ID, 0);
+        return preferences.getInt(CURRENT_PATIENT_ID, -1);
     }
 }

@@ -75,7 +75,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         isUserLoggedIn = SessionManagement.isUserLoggedIn(getActivity());
 
         int user_role = checkUserType(user);
-        //Toast.makeText(context,"User role: "+ user_role, Toast.LENGTH_SHORT).show();
         if (user_role==0){
             //TUTOR
             url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientList?tutor_id="+user.getId();;
@@ -124,14 +123,23 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     public static void setAdapter(ArrayAdapter adapter){
         mPatientSpinner.setAdapter(adapter);
+
         if (patient_list_spinner.size()==0){
             mPatientSpinner.setVisibility(View.GONE);
         } else {
 
             int current_patient_id_selected =  SessionManagement.getPatientIdInSharedPreferences(context);
-            int spinner_position = getCurrentSelectedPatientPosition(current_patient_id_selected);
+            int spinner_position;
+
+            if (current_patient_id_selected==-1){
+                current_patient_id_selected = ((User)mPatientSpinner.getAdapter().getItem(0)).getId();
+                SessionManagement.editPatientIdInSharedPreferences(context,current_patient_id_selected);
+                spinner_position = 0;
+            } else {
+                spinner_position = getCurrentSelectedPatientPosition(current_patient_id_selected);
+            }
             mPatientSpinner.setSelection(spinner_position);
-            SessionManagement.editPatientIdInSharedPreferences(context, ((User)mPatientSpinner.getAdapter().getItem(spinner_position)).getId());
+            //SessionManagement.editPatientIdInSharedPreferences(context, ((User)mPatientSpinner.getAdapter().getItem(spinner_position)).getId());
 
             mPatientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

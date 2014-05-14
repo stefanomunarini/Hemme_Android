@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
@@ -32,6 +33,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     @InjectView(R.id.surname_edittext)      private EditText mSurnameEditText;
     @InjectView(R.id.email_edittext)        private EditText mEmailEditText;
     @InjectView(R.id.password_edittext)     private EditText mPasswordEditText;
+    @InjectView(R.id.role_textview)         private TextView mRoleTextView;
     @InjectView(R.id.registration_button)   private Button mRegistrationButton;
     @InjectView(R.id.role_spinner)          private Spinner mRoleSpinner;
 
@@ -55,14 +57,9 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
             isPatient = true;
         }
 
-        //TODO eliminare queste righe
-        mNameEditText.setText(name_bundle);
-        mSurnameEditText.setText("cognome");
-        mEmailEditText.setText("");
-        mPasswordEditText.setText("a");
-
         if(isPatient){
             mRoleSpinner.setVisibility(View.GONE);
+            mRoleTextView.setText("Ruolo: Paziente");
         }else{
             initComponents();
         }

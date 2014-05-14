@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
@@ -83,10 +82,9 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
         int id = v.getId();
         switch (id){
             case R.id.insert_new_clinicalevent_button:
-                Toast.makeText(context,"newClinicalEvent: "+newClinicalEvent,Toast.LENGTH_SHORT).show();
                 ClinicalEvent clinicalEvent = getClinicalEvent();
                 if (newClinicalEvent) {
-                    new ClinicalEvent_HttpRequest(context, clinicalEvent, newClinicalEventUrl.concat(clinicalEvent.getAuthor()+"")).execute();
+                    new ClinicalEvent_HttpRequest(context, clinicalEvent, newClinicalEventUrl.concat(patient_id+"")).execute();
                 } else {
                     new ClinicalEvent_HttpRequest(context,clinicalEvent, modifyClinicalEventUrl).execute();
                 }
