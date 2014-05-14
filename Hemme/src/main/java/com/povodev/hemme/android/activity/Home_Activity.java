@@ -43,7 +43,6 @@ public class Home_Activity extends RoboFragmentActivity {
             startActivity(intent);
             finish();
         } else {
-
             Fragment fragment_home = new Fragment_Home();
             getSupportFragmentManager()
                     .beginTransaction()

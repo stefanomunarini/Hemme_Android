@@ -24,15 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by Stefano on 03/04/14.
- */
 public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private final String TAG = "Login_AsyncTask";
-    /*
-     * Loading dialog message
-     */
     private final String mDialogLoadingMessage = "Login in corso...";
 
     private Context context;
@@ -60,7 +54,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
 
             HttpHeaders headers = Header_Creator.create();
             HttpEntity<?> requestEntity = new HttpEntity<Object>(headers);
-
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
@@ -86,7 +79,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private final String mDialogErrorMessage = "Rieffettuare il login o procedere con una nuova registrazione.";
 
     @Override
-    protected void onPostExecute(User user) {
+    protected void onPostExecute(final User user) {
 
         //elimino il dialog
         if (progressDialog.isShowing()) progressDialog.dismiss();
@@ -95,13 +88,38 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             /*
              * Se il login lo efettua un utente registrato
              */
-            if(user.getName().equals("tmp")){
-                startActivityReg(context,user);
+            if(user.getImei().equals("tmp")){
+
+                final User usr = user;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Come vuoi registrare questo telefono?")
+                        .setMessage(mDialogErrorMessage);
+                builder.setPositiveButton("Nuovo dispositivo personale", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        usr.setImei(Login_Activity.IMEI);
+                        new Registration_HttpRequest(context,usr).execute();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Nuovo Paziente", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityReg(context,usr);
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+
+
+
+
+
+
             }
             else {
                 SessionManagement.createLoginSession(context, user);
-                Log.d(TAG, "User has been logged succesfully");
-                Log.d(TAG, "Username: " + user.getEmail());
                 startActivity(context);
             }
         }
@@ -132,5 +150,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
         context.startActivity(intent);
         ((Login_Activity)context).finish();
     }
+
+
 
 }

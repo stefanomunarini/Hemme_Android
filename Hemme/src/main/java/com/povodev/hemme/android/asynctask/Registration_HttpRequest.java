@@ -86,10 +86,13 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     protected void onPostExecute(User user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
         if (user!=null){
-            Log.d(TAG,"User has been registered and logged succesfully");
             SessionManagement.createLoginSession(context, user);
-            Log.d(TAG, "Username registered: " + user.getEmail());
-            jumpIntoApp();
+            try {
+                jumpIntoApp();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
         }
         else Log.d(TAG,"Failed to register/login");
     }

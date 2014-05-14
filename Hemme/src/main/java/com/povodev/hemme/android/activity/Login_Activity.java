@@ -18,9 +18,7 @@ import com.povodev.hemme.android.management.SessionManagement;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
-/**
- * Created by Stefano on 27/03/14.
- */
+
 public class Login_Activity extends RoboFragmentActivity implements View.OnClickListener{
 
     private final String TAG = "Login_Activity";
@@ -32,6 +30,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
     @InjectView(R.id.password_forget_button)    private Button mPasswordForgetButton;
 
     private Context context;
+    public static String IMEI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,7 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
 
     private String getImei() {
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        IMEI = telephonyManager.getDeviceId();
         return telephonyManager.getDeviceId();
     }
 

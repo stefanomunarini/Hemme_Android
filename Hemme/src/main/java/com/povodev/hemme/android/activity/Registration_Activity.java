@@ -41,7 +41,6 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     private String name_bundle = "no intent";
     private boolean isPatient = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
