@@ -4,9 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Diary;
+import com.povodev.hemme.android.adapter.Document_Adapter;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.management.SessionManagement;
@@ -31,13 +35,13 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     private final String message = "Recupero dati..";
     private ProgressDialog progressDialog;
     public static ArrayList<Document> diario;
-    private Context context;
     private int user_id;
+    private Context context;
 
     public Diary_HttpRequest(Context context) {
-        this.context = context;
         user_id = SessionManagement.getPatientIdInSharedPreferences(context);
         progressDialog = new CustomProgressDialog(context, message);
+        this.context = context;
     }
 
     @Override
@@ -49,7 +53,6 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     @Override
     protected ArrayList<Document> doInBackground(Void... params) {
         try {
-            Log.d(TAG,"user id = " + user_id);
             final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getDiary?user_id="+user_id;
 
             HttpHeaders headers = Header_Creator.create();
@@ -63,7 +66,6 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
                                            HttpMethod.GET,
                                            requestEntity,
                                            com.povodev.hemme.android.bean.Diary.class);
-            Diary.diario = diarioRequest.getBody();
             return diarioRequest.getBody();
         }
 
@@ -77,7 +79,12 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
     protected void onPostExecute(ArrayList<Document> result) {
         super.onPostExecute(result);
 
-        new BitmapDownload(result,context).execute();
+        ArrayList<Document> reverseDiary = new ArrayList<Document>();
+        for(int i=0;i<result.size();i++){
+            reverseDiary.add(result.get(result.size()-1-i));
+        }
+
+        new BitmapDownload(reverseDiary,context).execute();
 
         //finito di generare il mio array di dcoument setto ad ognuno una immagine BiTmAp
         if (progressDialog.isShowing()) progressDialog.dismiss();

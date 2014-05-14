@@ -25,26 +25,33 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-/**
- * Created by gbonadiman.stage on 15/04/2014.
- */
-public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsListView.OnScrollListener{
+
+public class BitmapDownload extends AsyncTask<Void, Void, ArrayList<Document>> implements AbsListView.OnScrollListener{
 
     private final String TAG = "BitmapDownload_AsyncTask";
 
     int control = 0;
     Bitmap image;
-    ArrayList<Document> diario;
+
+    ArrayList<Document> diario_input;
+    ArrayList<Document> diario_output;
+
+
     ProgressDialog mProgressDialog;
     Context context;
     ListView mListView;
     int max_view_element=8;
     int min_view_element=5;
+    int i = 0;
     ArrayAdapter adapter;
     ArrayList<Document> diario_minus;
+    Document d;
 
     public BitmapDownload(ArrayList<Document> diario, Context context){
-        this.diario = diario;
+
+        diario_input = diario;
+        diario_output = new ArrayList<Document>();
+
         this.context = context;
         this.mProgressDialog = new CustomProgressDialog(context,"Creazione Diario in corso");
     }
@@ -56,20 +63,37 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
     }
 
     @Override
-    public Void doInBackground(Void... params) {
+    public ArrayList<Document> doInBackground(Void... params) {
         try {
-            image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+
+            for (int i = 0; i<diario_input.size(); i++){
+                Document doc = diario_input.get(i);
+                image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                doc.setFile_immagine(image);
+                diario_output.add(doc);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return diario_output;
     }
 
     @Override
-    public void onPostExecute(Void result) {
+    public void onPostExecute(ArrayList<Document> result) {
         super.onPostExecute(result);
+
         if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
+        ArrayAdapter adapter = new Document_Adapter(context, R.layout.diary_row_layout,result);
+        Diary diary = (Diary)context;
+        ListView mListView = (ListView)diary.findViewById(R.id.listview);
+        mListView.setAdapter(adapter);
+
+
+
+
+
+/*
         diario_minus = new ArrayList<Document>();
         for (int i = 0; i<5; i++){
             if (i < diario.size() ){
@@ -81,10 +105,10 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
 
         adapter = new Document_Adapter(context, R.layout.diary_row_layout,diario_minus);
         Diary diary = (Diary)context;
-
         mListView = (ListView)diary.findViewById(R.id.listview);
         mListView.setAdapter(adapter);
         mListView.setOnScrollListener(this);
+*/
     }
 
 
@@ -133,20 +157,24 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
 
         return image;
     }
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {}
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-
+/*
         if (mListView.getAdapter().getCount()>0) {
-            Log.d(TAG,"a "+mListView.getAdapter().getCount());
             if (mListView.getLastVisiblePosition() ==
                     mListView.getAdapter().getCount() - 1
                     && mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
                 if (max_view_element <= diario.size() && control == 0) {
-                    Log.d(TAG, "entrato nella fine");
                     for (int j = min_view_element; j < max_view_element; j++) {
                         Document doc = diario.get(j);
+                        if(j%2 == 0) {
+                            image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                        }else{
+                            image = downloadBitmap("http://immagini.disegnidacolorareonline.com/cache/data/disegni-colorati/serie-tv/disegno-videogiochi-mario-bros-a-colori-300x300.jpg");
+                        }
                         doc.setFile_immagine(image);
                         diario_minus.add(doc);
                     }
@@ -160,6 +188,11 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
                 } else {
                     for (int j = min_view_element; j < diario.size(); j++) {
                         Document doc = diario.get(j);
+                        if(j%2 == 0) {
+                            image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                        }else{
+                            image = downloadBitmap("http://immagini.disegnidacolorareonline.com/cache/data/disegni-colorati/serie-tv/disegno-videogiochi-mario-bros-a-colori-300x300.jpg");
+                        }
                         doc.setFile_immagine(image);
                         diario_minus.add(doc);
                     }
@@ -169,6 +202,6 @@ public class BitmapDownload extends AsyncTask<Void, Void, Void> implements AbsLi
             }
         } else {
             Toast.makeText(context,"mListView is null",Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

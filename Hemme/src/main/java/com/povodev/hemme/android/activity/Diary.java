@@ -1,24 +1,31 @@
 package com.povodev.hemme.android.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.BitmapDownload;
 import com.povodev.hemme.android.asynctask.Diary_HttpRequest;
 import com.povodev.hemme.android.bean.Document;
 
 import java.util.ArrayList;
 
-public class Diary extends Activity {
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
+
+public class Diary extends RoboActivity {
 
     private final String TAG = "Diary_Activity";
     private Context context;
     public static ArrayList<Document> diario;
+
+    @InjectView(R.id.listview)          private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +33,9 @@ public class Diary extends Activity {
         setContentView(R.layout.activity_diary);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         this.context = this;
+
         new Diary_HttpRequest(context).execute();
+
     }
 
     @Override
