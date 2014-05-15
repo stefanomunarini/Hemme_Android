@@ -26,7 +26,7 @@ public class ImageAdapter extends BaseAdapter {
         this.gridSize = gridSize;
         this.mCardList = cardList;
 
-        image = context.getResources().getDrawable(R.drawable.flipme);
+        image = context.getResources().getDrawable(R.drawable.card_back);
     }
 
     @Override

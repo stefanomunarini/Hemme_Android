@@ -8,9 +8,13 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.povodev.hemme.android.Location.LocationChecker;
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.TimerTask.ScheduleClient;
 import com.povodev.hemme.android.management.SessionManagement;
 
 import roboguice.activity.RoboActivity;
@@ -25,12 +29,17 @@ public class Patient_Activity extends RoboActivity {
     @InjectView(R.id.nome_value)                        private EditText mNomeValueEditText;
     @InjectView(R.id.indirizzo_value)                   private EditText mIndirizzoValueEditText;
     @InjectView(R.id.numerotelefono_value)              private EditText mNumeroTelefonoValueEditText;
+    @InjectView(R.id.confirm_button)                    private Button mConfirmButton;
 
     @InjectResource(R.string.nome_preference)           private String mNomeValuePreference;
     @InjectResource(R.string.indirizzo_preference)      private String mIndirizzoValuePreference;
     @InjectResource(R.string.numerotelefono_preference) private String mNumeroTelefonoValuePreference;
 
     private SharedPreferences preferences;
+
+    private ScheduleClient scheduleClient;
+
+    private int button_press_counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +48,33 @@ public class Patient_Activity extends RoboActivity {
 
         preferences = SessionManagement.getPreferences(this);
 
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
+
         setComponentsText();
         setComponentsListener();
+
+
+        double lat = 46.11827877;
+        double lon = 11.1037318;
+        int radius = 5;
+
+        LocationChecker.addProximityAlert(this,lat,lon,radius);
+
+        //setAlarm();
+    }
+
+    private void setAlarm() {
+
+        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
+        scheduleClient.setAlarmForNotification();
+        scheduleClient.doUnbindService();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        scheduleClient.doUnbindService();
     }
 
     private void setComponentsText() {
@@ -87,6 +121,28 @@ public class Patient_Activity extends RoboActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 preferences.edit().putString(mNumeroTelefonoValuePreference,editable.toString()).commit();
+            }
+        });
+
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (button_press_counter%2==0){
+                    mConfirmButton.setText("Modifica Dati");
+                    mNumeroTelefonoValueEditText.setEnabled(false);
+                    mNumeroTelefonoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+                    mIndirizzoValueEditText.setEnabled(false);
+                    mIndirizzoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+                    mNomeValueEditText.setEnabled(false);
+                    mNomeValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+                } else {
+                    mConfirmButton.setText("Conferma");
+                    mNumeroTelefonoValueEditText.setEnabled(true);
+                    mIndirizzoValueEditText.setEnabled(true);
+                    mNomeValueEditText.setEnabled(true);
+                    mNomeValueEditText.requestFocus();
+                }
+                button_press_counter++;
             }
         });
     }

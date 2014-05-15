@@ -31,7 +31,7 @@ public class CardList extends ArrayList<Card> {
     protected CardList(Context context, int size){
         super(size);
         this.context = context;
-        image = context.getResources().getDrawable(R.drawable.flipme);
+        image = context.getResources().getDrawable(R.drawable.card_back);
         for (int i=0;i<size;i++){
             Card card = new Card(context);
             this.add(i, card);
@@ -126,7 +126,7 @@ public class CardList extends ArrayList<Card> {
     }
 
     /*
-     * Return true if the game is won
+     * Return true if user win!
      */
     protected boolean winnerWinnerChickenDinner(){
         if (pairsCounter==size()/2){

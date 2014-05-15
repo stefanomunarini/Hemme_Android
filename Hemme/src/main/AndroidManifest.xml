@@ -20,6 +20,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- PER I TOAST VIBRANTI -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -123,7 +126,12 @@
             android:label="@string/patient_details"
             android:screenOrientation="landscape" />
 
-        <service android:name=".Location.Location_Service"/>
+        <service
+            android:name="com.povodev.hemme.android.TimerTask.NotifyService"
+            android:enabled="true" />
+        <service
+            android:name="com.povodev.hemme.android.TimerTask.ScheduleService"
+            android:enabled="true" />
 
     </application>
 </manifest>

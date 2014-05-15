@@ -29,7 +29,7 @@ public class CardFlipper extends Handler {
      */
     protected void startRunner(final Context context, final Card first, final Card second){
 
-        final Drawable image = context.getResources().getDrawable(R.drawable.flipme);
+        final Drawable image = context.getResources().getDrawable(R.drawable.card_back);
 
         postDelayed(new Runnable() {
             public void run() {

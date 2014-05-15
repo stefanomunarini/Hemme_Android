@@ -6,9 +6,12 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Chronometer;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +70,11 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private void startCountdownTimer() {
 
         final TextView countdownTextView = (TextView)game_activity.findViewById(R.id.timer_textview);
+        final RelativeLayout overlay = (RelativeLayout)game_activity.findViewById(R.id.overlay);
+        final GridView gridView = (GridView)game_activity.findViewById(R.id.gridview);
+        final RelativeLayout game_activity_container = (RelativeLayout)game_activity.findViewById(R.id.game_activity_container);
+
+        final Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.game_view_animation);
 
         /*
          * The total time for the chronometer
@@ -79,6 +87,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
 
             @Override
             public void onTick(long millisUntilFinished) {
+                gridView.setVisibility(View.INVISIBLE);
                 if (firstTick){
                     countdownTextView.setText("Preparati!");
                 } else {
@@ -89,7 +98,11 @@ public class GameSettings implements AdapterView.OnItemClickListener{
 
             @Override
             public void onFinish() {
+                gridView.setVisibility(View.VISIBLE);
                 countdownTextView.setVisibility(View.GONE);
+                overlay.setVisibility(View.GONE);
+                //Now Set your animation
+                game_activity_container.startAnimation(fadeInAnimation);
                 setCardsListener();
                 startCrono();
             }

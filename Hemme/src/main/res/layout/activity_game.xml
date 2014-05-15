@@ -5,6 +5,24 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff000000"
+        android:clickable="true">
+        <TextView
+            android:id="@+id/timer_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            style="?android:attr/textAppearanceLarge"
+            android:padding="16dp"
+            android:text="3"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/game_activity_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,15 +37,6 @@
             android:padding="8dp"
             android:textStyle="bold"
             style="?android:attr/textAppearanceLarge"/>
-
-        <TextView
-            android:id="@+id/timer_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            style="?android:attr/textAppearanceLarge"
-            android:padding="16dp"
-            android:fontFamily="sans-serif"/>
 
         <GridView
             android:id="@+id/gridview"
@@ -44,5 +53,6 @@
             />
 
     </RelativeLayout>
+
 
 </RelativeLayout>

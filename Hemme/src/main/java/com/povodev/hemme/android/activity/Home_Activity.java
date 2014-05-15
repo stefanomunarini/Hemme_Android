@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.povodev.hemme.android.Location.Location_Service;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
@@ -55,24 +54,7 @@ public class Home_Activity extends RoboFragmentActivity {
 
         if (!checkForANetwork(this)) createAlertDialog();
 
-        startService(new Intent(this, Location_Service.class));
-
-        /*while (true){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {*/
-                    //Localization.checkLocation(context);
-                    /*try {
-                        Thread.sleep(1000 * 60);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }*/
-
     }
-
 
     /*
      * Check for a network connection.
