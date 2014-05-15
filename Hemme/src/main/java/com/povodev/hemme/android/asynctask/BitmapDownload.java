@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.Diary;
@@ -69,9 +68,9 @@ public class BitmapDownload extends AsyncTask<Void, Void, ArrayList<Document>> i
             for (int i = 0; i<diario_input.size(); i++){
                 Document doc = diario_input.get(i);
                 if(i%2==0){
-                    image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/despicable-me-2-Minion-icon-5.png");
+                    image = downloadBitmap("http://www.lavilladelcane.it/images/cani1b.jpg");
                 }else {
-                    image = downloadBitmap("https://cdn2.iconfinder.com/data/icons/despicable-me-2-minions/128/superman-minion-icon.png");
+                    image = downloadBitmap("http://aironidicarta.files.wordpress.com/2010/11/nonno.jpg");
                 }
 
                 doc.setFile_immagine(image);
