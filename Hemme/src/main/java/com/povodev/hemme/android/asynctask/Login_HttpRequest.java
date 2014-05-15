@@ -100,6 +100,8 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                     public void onClick(DialogInterface dialog, int which) {
                         usr.setImei(Login_Activity.IMEI);
                         new Registration_HttpRequest(context,usr).execute();
+                        new AddPatientNewTutor_HttpRequest(usr.getId(),usr.getImei()).execute();
+                        new Login_HttpRequest(context,usr.getEmail(),usr.getPassword(),Login_Activity.IMEI);
                         dialog.dismiss();
                     }
                 });
