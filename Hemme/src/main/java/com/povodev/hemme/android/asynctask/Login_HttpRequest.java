@@ -111,12 +111,6 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                     }
                 });
                 builder.create().show();
-
-
-
-
-
-
             }
             else {
                 SessionManagement.createLoginSession(context, user);
