@@ -11,7 +11,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderDetailFragment;
 import com.povodev.hemme.android.asynctask.ClinicalEvent_HttpRequest;
 import com.povodev.hemme.android.bean.ClinicalEvent;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;

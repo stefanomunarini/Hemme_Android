@@ -14,7 +14,7 @@ import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;

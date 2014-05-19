@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.povodev.hemme.android.Location.LocationChecker;
+import com.povodev.hemme.android.location.LocationChecker;
 
 /**
  * This service is started when an Alarm has been raised

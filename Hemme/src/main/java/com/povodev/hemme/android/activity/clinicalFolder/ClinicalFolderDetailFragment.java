@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.bean.ClinicalEvent;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Formatters;
 
 import roboguice.fragment.RoboFragment;

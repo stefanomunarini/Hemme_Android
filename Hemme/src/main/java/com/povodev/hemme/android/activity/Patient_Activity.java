@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.povodev.hemme.android.Location.LocationChecker;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.TimerTask.ScheduleClient;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.asynctask.GetLocationVariables_HttpRequest;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectResource;
@@ -55,11 +55,18 @@ public class Patient_Activity extends RoboActivity {
         setComponentsListener();
 
 
-        double lat = 46.11827877;
+        //TODO check this out. From here...
+        new GetLocationVariables_HttpRequest(this).execute();
+
+        /*double lat = 46.11827877;
         double lon = 11.1037318;
         int radius = 5;
 
-        LocationChecker.addProximityAlert(this,lat,lon,radius);
+        LocationChecker.addProximityAlert(this,lat,lon,radius);*/
+
+        //TODO ...to here
+
+
 
         //setAlarm();
     }

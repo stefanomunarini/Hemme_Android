@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import java.util.ArrayList;
 import java.util.List;

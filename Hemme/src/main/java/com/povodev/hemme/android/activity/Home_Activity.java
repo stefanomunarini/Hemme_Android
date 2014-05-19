@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.ConnectionChecker;
 
 import roboguice.activity.RoboFragmentActivity;

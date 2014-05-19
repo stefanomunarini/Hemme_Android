@@ -22,7 +22,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.bean.Document;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.core.io.FileSystemResource;

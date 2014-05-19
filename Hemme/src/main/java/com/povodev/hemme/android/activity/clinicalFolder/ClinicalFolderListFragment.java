@@ -19,7 +19,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.adapter.ClinicalFolderAdapter;
 import com.povodev.hemme.android.bean.ClinicalEvent;
 import com.povodev.hemme.android.bean.ClinicalFolder;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;

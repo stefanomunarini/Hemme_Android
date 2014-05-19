@@ -19,7 +19,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.NewGame_Activity;
 import com.povodev.hemme.android.asynctask.NewMemoryResult_HttpRequest;
 import com.povodev.hemme.android.bean.Result;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 /**
  * Use this class to init, start and stop the game
@@ -137,32 +137,10 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private GridView mGridView;
 
     /*
-     * Start the game
-     */
-    @Deprecated
-    public void startGame() {
-        //startTimer();
-    }
-
-    /*
      * Set the gridView adapter
      */
     private void setGridViewAdapter(int gridSize){
         mGridView.setAdapter(new ImageAdapter(context,gridSize,cardSet));
-    }
-
-    private GameTimer gameTimer;
-    /*
-     * Called to start the runnable.
-     * This allows to have a auto-refreshing timer
-     * for the game activity
-     */
-    private void startTimer() {
-        if (gameTimer!=null){
-            gameTimer=null;
-        }
-        gameTimer = new GameTimer(context);
-        gameTimer.startRunner();
     }
 
     /*
@@ -173,7 +151,6 @@ public class GameSettings implements AdapterView.OnItemClickListener{
     private void stopTimer(){
 
         stopRunner();
-
         setTiming();
     }
 
@@ -184,7 +161,6 @@ public class GameSettings implements AdapterView.OnItemClickListener{
      */
     public void stopRunner(){
         chronometer.stop();
-        //gameTimer.stopRunner();
     }
 
     /*
@@ -199,7 +175,7 @@ public class GameSettings implements AdapterView.OnItemClickListener{
      */
     private void setTiming() {
         long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-        result.setTime((int)elapsedMillis);//gameTimer.getTiming());
+        result.setTime((int)elapsedMillis);
     }
 
     /*

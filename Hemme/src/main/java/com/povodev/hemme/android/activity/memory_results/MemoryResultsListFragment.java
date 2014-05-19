@@ -15,7 +15,7 @@ import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.adapter.MemoryResultsAdapter;
 import com.povodev.hemme.android.bean.Result;
 import com.povodev.hemme.android.bean.Test;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;

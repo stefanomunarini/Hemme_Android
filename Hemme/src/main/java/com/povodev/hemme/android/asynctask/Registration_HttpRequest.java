@@ -11,15 +11,11 @@ import com.povodev.hemme.android.activity.Home_Activity;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Encoding_MD5;
-import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;

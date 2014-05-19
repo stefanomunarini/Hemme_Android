@@ -13,7 +13,7 @@ import android.widget.EditText;
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.GetPassword_HttpRequest;
 import com.povodev.hemme.android.asynctask.Login_HttpRequest;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;

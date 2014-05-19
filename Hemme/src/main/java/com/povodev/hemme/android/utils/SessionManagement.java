@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.management;
+package com.povodev.hemme.android.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

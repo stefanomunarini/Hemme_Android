@@ -2,17 +2,14 @@ package com.povodev.hemme.android.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.activity.NewGame_Activity;
-import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
-import com.povodev.hemme.android.bean.Result;
+import com.povodev.hemme.android.bean.CoordinatesHashMap;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
-import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.Encoding_MD5;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,36 +20,36 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Stefano on 03/04/14.
+ * Created by Stefano on 19/05/14.
  */
-public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> {
+public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Boolean> {
 
-    private final static String TAG = "NewResult_AsyncTask";
+    private final static String TAG = "SetCoordinates_AsyncTask";
     /*
      * Loading dialog message
      */
     private final String mDialogLoadingMessage = "Caricamento file in corso...";
 
-    private Result result;
+    private CoordinatesHashMap coordinatesHashMap;
     private int user_id;
     private ProgressDialog progressDialog;
     private Context context;
 
-    public NewMemoryResult_HttpRequest(Context context, Result result, int user_id){
+    public SetLocationVariables_HttpRequest(Context context, CoordinatesHashMap coordinatesHashMap){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.context = context;
-        this.result = result;
+        this.coordinatesHashMap = coordinatesHashMap;
         this.user_id = SessionManagement.getPatientIdInSharedPreferences(context);
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
 
-        Log.d(TAG,"Inserting result into database");
+        Log.d(TAG, "Inserting result into database");
 
         try {
-            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/insertResult?user_id=" + user_id;
+            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/setCoordinates?user_id=" + user_id;
 
             HttpHeaders headers = new HttpHeaders();
             String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
@@ -60,12 +57,13 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
+
+            //usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
-            para.add("result",result);
-            HttpEntity entity = new HttpEntity(result, headers);
+            para.add("coordinates",coordinatesHashMap);
+            HttpEntity entity = new HttpEntity(coordinatesHashMap, headers);
             return restTemplate.postForObject(url, entity, Boolean.class);
 
         } catch (Exception e) {
@@ -87,8 +85,6 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
         if (created) Log.d(TAG, "Result inserted correctly");
         else Log.d(TAG,"Failed to insert new result");
 
-        Intent intent = new Intent(context, MemoryResultsListActivity.class);
-        context.startActivity(intent);
-        ((NewGame_Activity)context).finish();
+        //TODO notify patient device to set proximity alert
     }
 }

@@ -16,7 +16,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.asynctask.LinkDoctorPatient_HttpRequest;
 import com.povodev.hemme.android.bean.User;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 public class Associa_Dispositivi extends FragmentActivity implements View.OnClickListener{
 

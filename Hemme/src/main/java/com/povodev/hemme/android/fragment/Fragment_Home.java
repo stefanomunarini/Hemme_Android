@@ -23,7 +23,7 @@ import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderListActiv
 import com.povodev.hemme.android.activity.memory_results.MemoryResultsListActivity;
 import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.bean.User;
-import com.povodev.hemme.android.management.SessionManagement;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import java.util.ArrayList;
 

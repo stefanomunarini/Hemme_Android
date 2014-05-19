@@ -127,10 +127,10 @@
             android:screenOrientation="landscape" />
 
         <service
-            android:name="com.povodev.hemme.android.TimerTask.NotifyService"
+            android:name=".TimerTask.NotifyService"
             android:enabled="true" />
         <service
-            android:name="com.povodev.hemme.android.TimerTask.ScheduleService"
+            android:name=".TimerTask.ScheduleService"
             android:enabled="true" />
 
     </application>
