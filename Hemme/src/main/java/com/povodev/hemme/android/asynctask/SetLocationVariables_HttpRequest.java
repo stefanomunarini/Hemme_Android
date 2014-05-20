@@ -28,7 +28,7 @@ public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Bool
     /*
      * Loading dialog message
      */
-    private final String mDialogLoadingMessage = "Caricamento file in corso...";
+    private final String mDialogLoadingMessage = "Attendere prego...";
 
     private LocationCoordinates locationCoordinates;
     private int user_id;
@@ -40,6 +40,9 @@ public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Bool
 
         this.context = context;
         this.locationCoordinates = locationCoordinates;
+
+        Log.d(TAG, locationCoordinates.getLatitude() + "  " + locationCoordinates.getLongitude());
+
         this.user_id = SessionManagement.getPatientIdInSharedPreferences(context);
     }
 

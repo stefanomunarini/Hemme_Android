@@ -8,8 +8,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.bean.Diary;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
+import com.povodev.hemme.android.utils.EmailUtils;
 import com.povodev.hemme.android.utils.Header_Creator;
 
 import org.springframework.http.HttpEntity;
@@ -80,9 +80,9 @@ public class GetPassword_HttpRequest extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String password) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        if (password!=null){
+        if (!password.equals(null)){
 
-            com.povodev.hemme.android.utils.PasswordRecovery.passwordRecovery(context,username,password);
+            EmailUtils.passwordRecovery(context, username, password);
 
             Log.d(TAG, "Password recovered successfully!");
 

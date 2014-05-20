@@ -3,6 +3,7 @@ package com.povodev.hemme.android.asynctask;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.povodev.hemme.android.bean.LocationCoordinates;
 
@@ -33,12 +34,14 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
     private String via;
     private String numerocivico;
     private String citta;
+    private int radius;
 
-    public GetCoordinatesFromGoogleMapApi_HttpRequest(Context context, String via, String numerocivico, String citta) {
+    public GetCoordinatesFromGoogleMapApi_HttpRequest(Context context, String via, String numerocivico, String citta, int radius) {
         this.context = context;
         this.via = via;
         this.numerocivico = numerocivico;
         this.citta = citta;
+        this.radius = radius;
     }
 
     @Override
@@ -51,18 +54,18 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
     @Override
     protected double[] doInBackground(Void... params) {
 
-        String url = "http://maps.google.com/maps/api/geocode/json?address="+numerocivico+"+";
+        String url = "http://maps.google.com/maps/api/geocode/json?address="+numerocivico.replace(" ","")+"+";
         String[] token = via.split(" ");
         for (int i=0; i<token.length; i++){
             url+=token[i]+"+";
         }
-        url+=","+citta;
+        url+=","+citta.replace(" ","");
         url+="&sensor=false";
+
+        Log.d(TAG, url);
 
         DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
         HttpPost httppost = new HttpPost(url);
-
-        Log.d(TAG,url);
 
         // Depends on your web service
         httppost.setHeader("Content-type", "application/json");
@@ -99,12 +102,16 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
     protected void onPostExecute(double[] result) {
         super.onPostExecute(result);
 
-        LocationCoordinates locationCoordinates = new LocationCoordinates();
-        locationCoordinates.setLat(result[0]);
-        locationCoordinates.setLon(result[1]);
+        if (result!=null) {
+            LocationCoordinates locationCoordinates = new LocationCoordinates();
+            locationCoordinates.setLatitude(result[0]);
+            locationCoordinates.setLongitude(result[1]);
+            locationCoordinates.setRadius(radius);
 
-        //TODO chiamare questa funzione queando lato server è stato implementato
-        //new SetLocationVariables_HttpRequest(context,coordinatesHashMap).execute();
+            new SetLocationVariables_HttpRequest(context, locationCoordinates).execute();
+        } else {
+            Toast.makeText(context,"Errore! Inserire un indirizzo valido", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -113,21 +120,31 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
         double[] result = new double[2];
         try {
             JSONObject obj = new JSONObject(strResponse);
-            JSONArray array = obj.getJSONArray("results");
 
-            for(int i=0;i<array.length();i++) {
-                JSONObject item = array.getJSONObject(i);
+            String status = obj.getString("status");
 
-                JSONObject geoJson = item.getJSONObject("geometry");
-                JSONObject locJson = geoJson.getJSONObject("location");
-                result[0] = Double.parseDouble(locJson.getString("lat"));
-                result[1] = Double.parseDouble(locJson.getString("lng"));
+            Log.d(TAG,"Status: " + status);
 
-                return result;
+            if (status.equals("OK")){
+
+                JSONArray array = obj.getJSONArray("results");
+
+                for(int i=0;i<array.length();i++) {
+                    JSONObject item = array.getJSONObject(i);
+
+                    JSONObject geoJson = item.getJSONObject("geometry");
+                    JSONObject locJson = geoJson.getJSONObject("location");
+                    result[0] = Double.parseDouble(locJson.getString("lat"));
+                    result[1] = Double.parseDouble(locJson.getString("lng"));
+
+                    return result;
+                }
+            } else {
+                return null;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 }

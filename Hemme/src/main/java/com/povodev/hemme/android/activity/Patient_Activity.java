@@ -48,25 +48,13 @@ public class Patient_Activity extends RoboActivity {
 
         preferences = SessionManagement.getPreferences(this);
 
-        scheduleClient = new ScheduleClient(this);
-        scheduleClient.doBindService();
+        /*scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();*/
 
         setComponentsText();
         setComponentsListener();
 
-
-        //TODO check this out. From here...
         new GetLocationVariables_HttpRequest(this).execute();
-
-        /*double lat = 46.11827877;
-        double lon = 11.1037318;
-        int radius = 5;
-
-        LocationChecker.addProximityAlert(this,lat,lon,radius);*/
-
-        //TODO ...to here
-
-
 
         //setAlarm();
     }

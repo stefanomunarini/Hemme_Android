@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, LocationCoordinates> {
 
-    private String TAG = "GetCoordinates_AsyncTask";
+    public static String TAG = "GetCoordinates_AsyncTask";
 
     private final String message = "Recupero dati...";
     private ProgressDialog progressDialog;
@@ -49,7 +49,6 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Loca
     protected LocationCoordinates doInBackground(Void... params) {
         try {
 
-            //TODO change address
             final String url = "http://" + Configurator.ip + "/" + Configurator.project_name + "/getCoordinates?user_id="+user_id;
 
             HttpHeaders headers = Header_Creator.create();
@@ -77,16 +76,23 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Loca
         super.onPostExecute(result);
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        double lat = result.getLat();
-        double lon = result.getLon();
-        int radius = result.getRadius();
+        if (result!=null){
 
-        LocationVariables.setLat(context,lat);
-        LocationVariables.setLon(context, lon);
-        LocationVariables.setRadius(context, radius);
+            double lat = result.getLatitude();
+            double lon = result.getLongitude();
+            int radius = result.getRadius();
 
-        // add proximity alert
-        LocationChecker.addProximityAlert(context,lat,lon,radius);
+            Log.d(TAG, "Lat " +lat + "  Lon "+lon);
+
+            LocationVariables.setLat(context,lat);
+            LocationVariables.setLon(context, lon);
+            LocationVariables.setRadius(context, radius);
+
+            if (lat!=0 && lon!=0) {
+                // add proximity alert
+                LocationChecker.addProximityAlert(context, lat, lon, radius);
+            }
+        }
 
     }
 }

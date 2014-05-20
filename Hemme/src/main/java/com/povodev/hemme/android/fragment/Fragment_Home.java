@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.activity.Associa_Dispositivi;
 import com.povodev.hemme.android.activity.Diary;
 import com.povodev.hemme.android.activity.NewClinicaEvent_Activity;
 import com.povodev.hemme.android.activity.Patient_Activity;
@@ -37,12 +36,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
 
     private final static String TAG = "Fragment_Home";
 
-    //@InjectView(R.id.login_button)                  private Button mLoginButton;
     @InjectView(R.id.newclinicalevent_button)       private Button mNewClinicalEventButton;
     @InjectView(R.id.clinicalfolder_button)         private Button mClinicalFolderButton;
     @InjectView(R.id.test_button)                   private Button mTestButton;
     @InjectView(R.id.visaulizza_diario)             private Button mDiaryButton;
-    @InjectView(R.id.manage_devices)                private Button mManageDeviceButton;
     @InjectView(R.id.user_detail_home)              private TextView mUserDetailTextView;
 
     public static Spinner mPatientSpinner;
@@ -89,21 +86,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
             getActivity().finish();
         }
     }
-
-/*
-    private LocationManager lm;
-    private void proximityFunctions() {
-
-        HashMap<String,Double> latLong = Localization.getCoordinates(getActivity());
-        double myLatitude = latLong.get(Localization.LATITUDE);
-        double myLongitude = latLong.get(Localization.LONGITUDE);
-        Toast.makeText(getActivity(),Localization.LATITUDE +": "+myLatitude +"  "+Localization.LONGITUDE+": "+myLongitude, Toast.LENGTH_SHORT).show();
-
-        //Intent i = new Intent("com.povodev.hemme.proximity_alert");
-        //PendingIntent pi = PendingIntent.getBroadcast(getActivity(), -1, i, 0);
-
-        //lm.addProximityAlert(latitude, longitude, radius, -1, pi);
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -177,12 +159,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         return user.getRole();
     }
 
-
-    /*
-     * The adapter used to populate the spinner
-     */
-    public static ArrayAdapter<User> spinnerAdapter;
-
     private void initComponents() {
         int userType = checkUserType(user);
 
@@ -190,7 +166,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
          * Tutor
          */
         if(userType==0){
-            //mPatientSpinner.setAdapter(spinnerAdapter);
             mTestButton.setOnClickListener(this);
             mDiaryButton.setOnClickListener(this);
         }
@@ -198,20 +173,13 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
          * Doctor
          */
         else if (userType==1){
-            //mPatientSpinner.setAdapter(spinnerAdapter);
             mTestButton.setVisibility(View.GONE);
             mDiaryButton.setVisibility(View.GONE);
         }
 
-        //mLoginButton.setOnClickListener(this);
         mNewClinicalEventButton.setOnClickListener(this);
         mClinicalFolderButton.setOnClickListener(this);
-        mManageDeviceButton.setOnClickListener(this);
         mUserDetailTextView.setText("Benvenuto " + user.getName() + " " + user.getSurname());
-
-        if (isUserLoggedIn){
-            //mLoginButton.setText("Logout");
-        }
     }
 
     @Override
@@ -219,14 +187,6 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
         int id = v.getId();
         Intent intent;
         switch (id){
-            /*case R.id.login_button:
-                if (isUserLoggedIn){
-                    SessionManagement.closeSession(getActivity());
-                    intent = new Intent(this.getActivity(),Login_Activity.class);
-                    redirect(intent);
-                    getActivity().finish();
-                }
-                break;*/
             case R.id.newclinicalevent_button:
                 intent = new Intent(this.getActivity(),NewClinicaEvent_Activity.class);
                 redirect(intent);
@@ -243,15 +203,10 @@ public class Fragment_Home extends RoboFragment implements View.OnClickListener 
                 intent = new Intent(this.getActivity(),Diary.class);
                 redirect(intent);
                 break;
-            case R.id.manage_devices:
-                intent = new Intent(this.getActivity(),Associa_Dispositivi.class);
-                redirect(intent);
-                break;
         }
     }
 
     private void redirect(Intent intent) {
         startActivity(intent);
-        //getActivity().finish();
     }
 }
