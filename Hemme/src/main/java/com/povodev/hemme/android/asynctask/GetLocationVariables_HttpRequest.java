@@ -77,8 +77,8 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Coor
         super.onPostExecute(result);
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        float lat = result.get(LocationVariables.LATITUDE_SHAREDPREFERENCES).floatValue();
-        float lon = result.get(LocationVariables.LONGITUDE_SHAREDPREFERENCES).floatValue();
+        double lat = result.get(LocationVariables.LATITUDE_SHAREDPREFERENCES).doubleValue();
+        double lon = result.get(LocationVariables.LONGITUDE_SHAREDPREFERENCES).doubleValue();
         int radius = result.get(LocationVariables.RADIUS_SHAREDPREFERENCES).intValue();
 
         LocationVariables.setLat(context,lat);

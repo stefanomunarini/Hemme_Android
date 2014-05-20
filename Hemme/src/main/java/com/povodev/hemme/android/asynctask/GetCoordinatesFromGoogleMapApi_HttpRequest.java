@@ -3,9 +3,9 @@ package com.povodev.hemme.android.asynctask;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.povodev.hemme.android.utils.VibratingToast;
+import com.povodev.hemme.android.bean.CoordinatesHashMap;
+import com.povodev.hemme.android.location.LocationVariables;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
  * Example here: http://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=false
  * Created by Stefano on 19/05/14.
  */
-public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,Void,long[]> {
+public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,Void,double[]> {
 
     private String TAG = "GetCoordinatesFromGoogleMapApi_HttpRequest_AsyncTask";
 
@@ -47,10 +47,10 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
         super.onPreExecute();
     }
 
-    private long lat;
-    private long lon;
+    private float lat;
+    private float lon;
     @Override
-    protected long[] doInBackground(Void... params) {
+    protected double[] doInBackground(Void... params) {
 
         String url = "http://maps.google.com/maps/api/geocode/json?address="+numerocivico+"+";
         String[] token = via.split(" ");
@@ -93,118 +93,42 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
         }
 
 
-        JSONObject json = null;
-        try {
-            json = new JSONObject(result);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        getCurrentLocationViaJSON(json);
-
-        /*assert json != null;
-        JSONArray results = null;
-        try {
-            results = json.getJSONArray("results");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        assert results != null;
-        JSONArray address_components = null;
-        try {
-            address_components = results.getJSONArray(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        assert address_components != null;
-        JSONObject geometry = null;
-        try {
-            geometry = address_components.getJSONObject(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.d(TAG,geometry.names().toString());
-
-        assert geometry != null;
-        JSONObject location = null;
-        try {
-            location = geometry.getJSONObject("location");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.d(TAG,location.names().toString());
-
-        assert location != null;
-        try {
-            lat = location.getLong("lat");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            lon = location.getLong("lng");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.d(TAG,"Lat: "+lat+" Lon: "+lon);
-
-        long[] array = {lat,lon};*/
-
-        return null;
-    }
-
-    private long[] getCurrentLocationViaJSON(JSONObject jsonObject) {
-
-        //Log.i(TAG, jsonObject.toString());
-
-        long lat;
-        long lon;
-
-        try {
-            String status = jsonObject.getString("status").toString();
-
-            Log.d(TAG,"Status: "+status);
-
-            if(status.equals("OK")){
-                JSONArray results = jsonObject.getJSONArray("results");
-                JSONObject geometry = results.getJSONObject(2);
-
-                Log.d(TAG, geometry.toString());
-
-                JSONObject location = geometry.getJSONObject("location");
-
-                Log.d(TAG, location.toString());
-
-                lat = location.getLong("lat");
-                lon = location.getLong("lng");
-
-                new VibratingToast(context,lat + " /// " + lon, Toast.LENGTH_SHORT);
-
-                Log.d(TAG, lat + " /// " + lon);
-
-                return null;
-            }
-        } catch (JSONException e) {
-            Log.e("testing","Failed to load JSON");
-            e.printStackTrace();
-        }
-        return null;
+        return parsePoints(result);
     }
 
     @Override
-    protected void onPostExecute(long[] result) {
+    protected void onPostExecute(double[] result) {
         super.onPostExecute(result);
 
-        /*CoordinatesHashMap coordinatesHashMap = new CoordinatesHashMap();
+        CoordinatesHashMap coordinatesHashMap = new CoordinatesHashMap();
         coordinatesHashMap.put(LocationVariables.LATITUDE_SHAREDPREFERENCES,result[0]);
-        coordinatesHashMap.put(LocationVariables.LONGITUDE_SHAREDPREFERENCES,result[1]);*/
+        coordinatesHashMap.put(LocationVariables.LONGITUDE_SHAREDPREFERENCES,result[1]);
 
         //TODO chiamare questa funzione queando lato server è stato implementato
         //new SetLocationVariables_HttpRequest(context,coordinatesHashMap).execute();
 
+    }
+
+    private double[] parsePoints(String strResponse) {
+
+        double[] result = new double[2];
+        try {
+            JSONObject obj = new JSONObject(strResponse);
+            JSONArray array = obj.getJSONArray("results");
+
+            for(int i=0;i<array.length();i++) {
+                JSONObject item = array.getJSONObject(i);
+
+                JSONObject geoJson = item.getJSONObject("geometry");
+                JSONObject locJson = geoJson.getJSONObject("location");
+                result[0] = Double.parseDouble(locJson.getString("lat"));
+                result[1] = Double.parseDouble(locJson.getString("lng"));
+
+                return result;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
