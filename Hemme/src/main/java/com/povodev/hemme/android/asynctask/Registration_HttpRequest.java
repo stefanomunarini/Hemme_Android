@@ -23,9 +23,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by Stefano on 03/04/14.
- */
 public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private final String TAG = "Registration_AsyncTask";
@@ -37,17 +34,21 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     private User user;
     private ProgressDialog progressDialog;
 
+    public int tutor_tmp_id;
+
     public Registration_HttpRequest(Context context, User user){
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
         this.user = user;
         this.context = context;
         url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
     }
-    public Registration_HttpRequest(Context context, User user,int tutor){
+
+    public Registration_HttpRequest(Context context, User user,int tutor_tmp_id){
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
         this.user = user;
         this.context = context;
-        url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/association";
+        this.tutor_tmp_id = tutor_tmp_id;
+        url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
     }
 
     @Override
@@ -65,7 +66,9 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
             para.add("user",user);
             HttpEntity entity = new HttpEntity(user, headers);
-            return restTemplate.postForObject(url, entity, User.class);
+            User usr = restTemplate.postForObject(url, entity, User.class);
+
+            return usr;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -82,6 +85,16 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     @Override
     protected void onPostExecute(User user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
+
+
+        new AssciazioneTutorPaziente(
+                context,
+                user.getId(),
+                tutor_tmp_id)
+                .execute();
+
+
+
         if (user!=null){
             SessionManagement.createLoginSession(context, user);
             try {
