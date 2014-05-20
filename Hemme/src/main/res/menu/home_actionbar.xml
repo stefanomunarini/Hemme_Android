@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_logout"
-        android:icon="@drawable/content_new"
-        android:title="@string/new_game_label"
+    <item
+        android:title="@string/logout"
+        android:id="@+id/action_logout"
         android:showAsAction="always|withText" />
+
+    <item android:id="@+id/action_associa_dispositivo"
+        android:title="@string/title_activity_associa__dispositivi"
+        android:showAsAction="never|withText" />
+
+    <item android:id="@+id/action_imposta_range"
+        android:title="@string/imposta_range"
+        android:showAsAction="never|withText" />
 </menu>

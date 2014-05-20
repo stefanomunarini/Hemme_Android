@@ -1,4 +1,4 @@
-package com.povodev.hemme.android.Location;
+package com.povodev.hemme.android.location;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.povodev.hemme.android.Receiver.ProximityReceiver;
 import com.povodev.hemme.android.TimerTask.ScheduleClient;
 import com.povodev.hemme.android.utils.VibratingToast;
 
@@ -68,10 +67,20 @@ public class LocationChecker {
 
     private static final String PROX_ALERT_INTENT = "com.povodev.hemme.ProximityAlert";
 
+    /*
+     * Called by {@see GetLocationVariables_HttpRequest} when lat, lon and radius
+     * have been downloaded from the server/database.
+     *
+     * Set a proximity alert.
+     * @param context
+     * @param latitude
+     * @param longitude
+     * @param POINT_RADIUS
+     */
     public static void addProximityAlert(Context context, double latitude, double longitude, int POINT_RADIUS) {
 
         Intent intent = new Intent(PROX_ALERT_INTENT);
-        PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // Acquire a reference to the system Location Manager
         final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

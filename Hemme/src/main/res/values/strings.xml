@@ -79,5 +79,6 @@
     <string name="doctor">SELEZIONA DOTTORE</string>
     <string name="patient">SELEZIONA PAZIENTE</string>
     <string name="confirm">Conferma</string>
+    <string name="imposta_range">Imposta Range Paziente</string>
 
 </resources>

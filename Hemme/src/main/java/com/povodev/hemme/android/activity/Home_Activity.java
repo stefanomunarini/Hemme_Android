@@ -1,6 +1,8 @@
 package com.povodev.hemme.android.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -8,12 +10,15 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.GetCoordinatesFromGoogleMapApi_HttpRequest;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
-import com.povodev.hemme.android.utils.SessionManagement;
 import com.povodev.hemme.android.utils.ConnectionChecker;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboFragmentActivity;
 
@@ -84,22 +89,77 @@ public class Home_Activity extends RoboFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.patient_actionbar, menu);
+        inflater.inflate(R.menu.home_actionbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_logout:
-                Intent intent = new Intent(this, Login_Activity.class);
+                intent = new Intent(this, Login_Activity.class);
                 SessionManagement.closeSession(this);
+                startActivity(intent);
+                finish();
+                return true;
+            case R.id.action_imposta_range:
+                createDialog();
+                return true;
+            case R.id.action_associa_dispositivo:
+                intent = new Intent(this, Associa_Dispositivi.class);
                 startActivity(intent);
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void createDialog() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText viaEditText = new EditText(this);
+        viaEditText.setHint("Via");
+
+        final EditText numeroCivicoEditText = new EditText(this);
+        numeroCivicoEditText.setHint("Num.");
+
+        final EditText cittaEditText = new EditText(this);
+        cittaEditText.setHint("Città");
+
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+
+        container.addView(viaEditText);
+        container.addView(numeroCivicoEditText);
+        container.addView(cittaEditText);
+
+        builder.setTitle("Indirizzo")
+                .setView(container)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String via = viaEditText.getText().toString();
+                        String numerocivico = numeroCivicoEditText.getText().toString();
+                        String citta = cittaEditText.getText().toString();
+
+                        //TODO cancellare
+                        via = "della Malvasia";
+                        numerocivico = "101";
+                        citta = "Trento";
+
+                        new GetCoordinatesFromGoogleMapApi_HttpRequest(context,via,numerocivico,citta).execute();
+                    }
+                })
+                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 }
