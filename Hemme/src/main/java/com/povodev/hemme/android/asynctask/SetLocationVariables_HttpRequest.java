@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
-import com.povodev.hemme.android.bean.CoordinatesHashMap;
+import com.povodev.hemme.android.bean.LocationCoordinates;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.utils.Encoding_MD5;
 import com.povodev.hemme.android.utils.SessionManagement;
@@ -30,16 +30,16 @@ public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Bool
      */
     private final String mDialogLoadingMessage = "Caricamento file in corso...";
 
-    private CoordinatesHashMap coordinatesHashMap;
+    private LocationCoordinates locationCoordinates;
     private int user_id;
     private ProgressDialog progressDialog;
     private Context context;
 
-    public SetLocationVariables_HttpRequest(Context context, CoordinatesHashMap coordinatesHashMap){
+    public SetLocationVariables_HttpRequest(Context context, LocationCoordinates locationCoordinates){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
 
         this.context = context;
-        this.coordinatesHashMap = coordinatesHashMap;
+        this.locationCoordinates = locationCoordinates;
         this.user_id = SessionManagement.getPatientIdInSharedPreferences(context);
     }
 
@@ -62,8 +62,8 @@ public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Bool
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
-            para.add("coordinates",coordinatesHashMap);
-            HttpEntity entity = new HttpEntity(coordinatesHashMap, headers);
+            para.add("coordinates",locationCoordinates);
+            HttpEntity entity = new HttpEntity(locationCoordinates, headers);
             return restTemplate.postForObject(url, entity, Boolean.class);
 
         } catch (Exception e) {

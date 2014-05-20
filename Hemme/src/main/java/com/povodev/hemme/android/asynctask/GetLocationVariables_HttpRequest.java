@@ -6,10 +6,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
+import com.povodev.hemme.android.bean.LocationCoordinates;
+import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.location.LocationChecker;
 import com.povodev.hemme.android.location.LocationVariables;
-import com.povodev.hemme.android.bean.CoordinatesHashMap;
-import com.povodev.hemme.android.dialog.CustomProgressDialog;
 import com.povodev.hemme.android.utils.Header_Creator;
 import com.povodev.hemme.android.utils.SessionManagement;
 
@@ -24,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by Stefano on 19/05/14.
  */
-public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, CoordinatesHashMap/*HashMap<String, Number>*/> {
+public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, LocationCoordinates> {
 
     private String TAG = "GetCoordinates_AsyncTask";
 
@@ -46,7 +46,7 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Coor
     }
 
     @Override
-    protected CoordinatesHashMap doInBackground(Void... params) {
+    protected LocationCoordinates doInBackground(Void... params) {
         try {
 
             //TODO change address
@@ -59,10 +59,10 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Coor
             restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            ResponseEntity<CoordinatesHashMap> request = restTemplate.exchange(url,
+            ResponseEntity<LocationCoordinates> request = restTemplate.exchange(url,
                     HttpMethod.GET,
                     requestEntity,
-                    CoordinatesHashMap.class);
+                    LocationCoordinates.class);
             return request.getBody();
         }
 
@@ -73,13 +73,13 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Coor
     }
 
     @Override
-    protected void onPostExecute(CoordinatesHashMap result) {
+    protected void onPostExecute(LocationCoordinates result) {
         super.onPostExecute(result);
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        double lat = result.get(LocationVariables.LATITUDE_SHAREDPREFERENCES).doubleValue();
-        double lon = result.get(LocationVariables.LONGITUDE_SHAREDPREFERENCES).doubleValue();
-        int radius = result.get(LocationVariables.RADIUS_SHAREDPREFERENCES).intValue();
+        double lat = result.getLat();
+        double lon = result.getLon();
+        int radius = result.getRadius();
 
         LocationVariables.setLat(context,lat);
         LocationVariables.setLon(context, lon);

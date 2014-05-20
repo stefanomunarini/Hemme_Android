@@ -4,8 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.povodev.hemme.android.bean.CoordinatesHashMap;
-import com.povodev.hemme.android.location.LocationVariables;
+import com.povodev.hemme.android.bean.LocationCoordinates;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -100,9 +99,9 @@ public class GetCoordinatesFromGoogleMapApi_HttpRequest extends AsyncTask<Void,V
     protected void onPostExecute(double[] result) {
         super.onPostExecute(result);
 
-        CoordinatesHashMap coordinatesHashMap = new CoordinatesHashMap();
-        coordinatesHashMap.put(LocationVariables.LATITUDE_SHAREDPREFERENCES,result[0]);
-        coordinatesHashMap.put(LocationVariables.LONGITUDE_SHAREDPREFERENCES,result[1]);
+        LocationCoordinates locationCoordinates = new LocationCoordinates();
+        locationCoordinates.setLat(result[0]);
+        locationCoordinates.setLon(result[1]);
 
         //TODO chiamare questa funzione queando lato server è stato implementato
         //new SetLocationVariables_HttpRequest(context,coordinatesHashMap).execute();

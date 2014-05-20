@@ -10,32 +10,28 @@ import com.povodev.hemme.android.utils.SessionManagement;
  */
 public class LocationVariables {
 
-    private float lat = 0;
-    private float lon = 0;
-    private int radius = 0;
-
     public final static String LATITUDE_SHAREDPREFERENCES = "Latitude";
     public final static String LONGITUDE_SHAREDPREFERENCES = "Latitude";
     public final static String RADIUS_SHAREDPREFERENCES = "Latitude";
 
-    public static float getLat(Context context) {
+    public static double getLat(Context context) {
         SharedPreferences preferences = SessionManagement.getPreferences(context);
-        return preferences.getFloat(LATITUDE_SHAREDPREFERENCES,0);
+        return Double.longBitsToDouble(preferences.getLong(LATITUDE_SHAREDPREFERENCES,0));
     }
 
-    public static void setLat(Context context, float lat) {
+    public static void setLat(Context context, double lat) {
         SharedPreferences preferences = SessionManagement.getPreferences(context);
-        preferences.edit().putFloat(LATITUDE_SHAREDPREFERENCES,lat).commit();
+        preferences.edit().putFloat(LATITUDE_SHAREDPREFERENCES,Double.doubleToRawLongBits(lat)).commit();
     }
 
-    public static float getLon(Context context) {
+    public static double getLon(Context context) {
         SharedPreferences preferences = SessionManagement.getPreferences(context);
-        return preferences.getFloat(LONGITUDE_SHAREDPREFERENCES,0);
+        return Double.longBitsToDouble(preferences.getLong(LONGITUDE_SHAREDPREFERENCES,0));
     }
 
-    public static void setLon(Context context, float lon) {
+    public static void setLon(Context context, double lon) {
         SharedPreferences preferences = SessionManagement.getPreferences(context);
-        preferences.edit().putFloat(LONGITUDE_SHAREDPREFERENCES,lon).commit();
+        preferences.edit().putFloat(LONGITUDE_SHAREDPREFERENCES,Double.doubleToRawLongBits(lon)).commit();
     }
 
     public static int getRadius(Context context) {
