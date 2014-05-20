@@ -69,7 +69,7 @@ public class Patient_Activity extends RoboActivity {
     @Override
     public void onStop(){
         super.onStop();
-        scheduleClient.doUnbindService();
+        //scheduleClient.doUnbindService();
     }
 
     private void setComponentsText() {

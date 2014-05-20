@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.activity.Home_Activity;
+import com.povodev.hemme.android.activity.Login_Activity;
 import com.povodev.hemme.android.activity.Registration_Activity;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomProgressDialog;
@@ -53,7 +54,6 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     protected User doInBackground(Void... params) {
 
         try {
-
             HttpHeaders headers = new HttpHeaders();
             String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");
             headers.set("salt", salt);
@@ -98,5 +98,6 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
         Intent intent = new Intent(context, Home_Activity.class);
         context.startActivity(intent);
         ((Registration_Activity)context).finish();
+        ((Login_Activity)context).finish();
     }
 }

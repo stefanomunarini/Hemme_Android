@@ -16,6 +16,8 @@ import android.util.Log;
  */
 public class AlarmTask implements Runnable {
 
+    public static int intent_id = 1234;
+
 	// The android system alarm manager
 	private final AlarmManager am;
 	// Your context to retrieve the alarm manager from
@@ -27,9 +29,10 @@ public class AlarmTask implements Runnable {
 	}
 
     /*
-     * Check for position every 5 minutes
+     * Check patient position every 5 minutes
+     * when he/she exit the area
      */
-    private final static int timer_delay = (1 * 20 * 1000);
+    private final static int timer_delay = (5 * 60 * 1000);
 
 	@Override
 	public void run() {
@@ -37,11 +40,9 @@ public class AlarmTask implements Runnable {
 		// We don't start an activity as we just want to pop up a notification into the system bar not a full activity
 		Intent intent = new Intent(context, NotifyService.class);
 		intent.putExtra(NotifyService.INTENT_NOTIFY, true);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(context, intent_id, intent, 0);
         Log.d(ScheduleClient.TAG, " 3STEP: AlarmTask");
-		
-		// Sets an alarm - note this alarm will be lost if the phone is turned off and on again
+
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timer_delay, pendingIntent);
-		//am.set(AlarmManager.RTC, date.getTimeInMillis(), pendingIntent);
 	}
 }

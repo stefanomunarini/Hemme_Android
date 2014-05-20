@@ -125,10 +125,10 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final EditText viaEditText = new EditText(this);
-        viaEditText.setHint("Via");
+        viaEditText.setHint("Indirizzo");
 
         final EditText numeroCivicoEditText = new EditText(this);
-        numeroCivicoEditText.setHint("Num.");
+        numeroCivicoEditText.setHint("Numero Civico");
 
         final EditText cittaEditText = new EditText(this);
         cittaEditText.setHint("Città");
@@ -137,8 +137,8 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
         container.setOrientation(LinearLayout.VERTICAL);
 
         seekBarValue = new TextView(this);
-        seekBarValue.setText("Range[km] ");
-        seekBarValue.setTextAppearance(context,android.R.style.TextAppearance_DeviceDefault_Small);
+        seekBarValue.setText("Range[km]: 0");
+        seekBarValue.setTextAppearance(context,android.R.style.TextAppearance_DeviceDefault_Medium);
         final SeekBar radiusSeek = new SeekBar(context);
         radiusSeek.setMax(100);
         radiusSeek.setOnSeekBarChangeListener(Home_Activity.this);
@@ -191,7 +191,7 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         radius = progress * 1000;
-        seekBarValue.setText("Range[km] "+String.valueOf(progress));
+        seekBarValue.setText("Range[km]: "+String.valueOf(progress));
     }
 
     @Override

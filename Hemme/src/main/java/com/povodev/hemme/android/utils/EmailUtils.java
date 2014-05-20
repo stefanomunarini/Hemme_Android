@@ -49,6 +49,8 @@ public class EmailUtils {
 
         message = "Attenzione! Il paziente è uscito dall'area di sicurezza e si trova ora presso: " + getAddressFromCoordinates(context);
 
+        message += " " + place;
+
         title = "Attenzione!";
 
         sendEmail(recipient_email, title, message);
@@ -81,6 +83,8 @@ public class EmailUtils {
         }.execute();
     }
 
+    private static String place;
+
     private static String getAddressFromCoordinates(Context context){
         LocationManager locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.getBestProvider(new Criteria(), true);
@@ -90,6 +94,7 @@ public class EmailUtils {
         if(null!=locations && null!=providerList && providerList.size()>0){
             double longitude = locations.getLongitude();
             double latitude = locations.getLatitude();
+            place = "http://maps.google.com/?q="+latitude+","+longitude;
             Geocoder geocoder = new Geocoder(context, Locale.getDefault());
             try {
                 List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);

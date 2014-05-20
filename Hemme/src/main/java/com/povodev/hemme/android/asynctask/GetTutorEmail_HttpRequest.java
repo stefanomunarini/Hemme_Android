@@ -58,7 +58,7 @@ public class GetTutorEmail_HttpRequest extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String tutor_email) {
 
-        if (!tutor_email.equals(null)){
+        if (tutor_email!=null){
 
             Log.d(TAG,tutor_email);
 

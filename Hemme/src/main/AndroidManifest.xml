@@ -133,5 +133,11 @@
             android:name=".TimerTask.ScheduleService"
             android:enabled="true" />
 
+        <receiver android:name=".location.ProximityReceiver" >
+            <intent-filter>
+                <action android:name="com.povodev.hemme.ProximityAlert" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
