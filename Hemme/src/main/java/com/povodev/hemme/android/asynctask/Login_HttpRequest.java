@@ -34,6 +34,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private String password;
     private ProgressDialog progressDialog;
     private String imei;
+    private User tutor_tmp;
 
     public Login_HttpRequest(Context context, String username, String password, String imei){
         progressDialog = new CustomProgressDialog(context,mDialogLoadingMessage);
@@ -91,6 +92,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             if(user.getImei().equals("tmp")){
 
                 final User usr = user;
+                tutor_tmp = user;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Come vuoi registrare questo telefono?")
@@ -143,6 +145,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private void startActivityReg(Context context,User userTmp) {
         Intent intent = new Intent(context, Registration_Activity.class);
         intent.putExtra("nome",userTmp.getName());
+        intent.putExtra("tuor_id",tutor_tmp.getId());
         context.startActivity(intent);
         ((Login_Activity)context).finish();
     }

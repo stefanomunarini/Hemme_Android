@@ -28,14 +28,9 @@ import org.springframework.web.client.RestTemplate;
 public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
 
     private final String TAG = "Registration_AsyncTask";
-    /*
-     * Loading dialog message
-     */
     private final String mDialogLoadingMessage = "Registrazione in corso...";
-    /*
-     * Loading dialog title
-     */
     private final String mDialogTitle = "Benvenuto in HeMMe";
+    public String url = null;
 
     private Context context;
     private User user;
@@ -45,13 +40,19 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
         this.user = user;
         this.context = context;
+        url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
+    }
+    public Registration_HttpRequest(Context context, User user,int tutor){
+        progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
+        this.user = user;
+        this.context = context;
+        url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/association";
     }
 
     @Override
     protected User doInBackground(Void... params) {
 
         try {
-            final String url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
 
             HttpHeaders headers = new HttpHeaders();
             String salt = Encoding_MD5.getMD5EncryptedString("povodevforhemmeABC");

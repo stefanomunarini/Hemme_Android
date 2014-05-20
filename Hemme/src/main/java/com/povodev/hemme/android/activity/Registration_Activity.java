@@ -40,6 +40,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     private Context context;
     private String name_bundle = "no intent";
     private boolean isPatient = false;
+    public int tutor_tmp_id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -53,6 +54,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         Bundle extras = getIntent().getExtras();
         if(extras!=null){
             name_bundle = extras.getString("imei");
+            tutor_tmp_id = extras.getInt("tutor_id");
             isPatient = true;
         }
 
@@ -93,7 +95,11 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         int id = v.getId();
         switch (id){
             case R.id.registration_button:
-                new Registration_HttpRequest(context,getUser()).execute();
+                if (tutor_tmp_id!=0) {
+                    new Registration_HttpRequest(context, getUser()).execute();
+                }else{
+                    new Registration_HttpRequest(context, getUser(),tutor_tmp_id).execute();
+                }
                 break;
         }
     }
