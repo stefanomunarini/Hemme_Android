@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Set an alarm for the date passed into the constructor
@@ -40,6 +41,7 @@ public class AlarmTask implements Runnable {
 		Intent intent = new Intent(context, NotifyService.class);
 		intent.putExtra(NotifyService.INTENT_NOTIFY, true);
         PendingIntent pendingIntent = PendingIntent.getService(context, intent_id, intent, 0);
+        Log.d(ScheduleClient.TAG, " 3STEP: AlarmTask");
 
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timer_delay, pendingIntent);
 	}

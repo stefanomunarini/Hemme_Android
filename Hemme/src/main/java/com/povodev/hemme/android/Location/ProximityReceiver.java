@@ -37,6 +37,9 @@ public class ProximityReceiver extends BroadcastReceiver {
 
         if (state) {
             cancelAlarm(context);
+
+
+
             // Call the Notification Service or anything else that you would like to do here
             Log.d(GetLocationVariables_HttpRequest.TAG, "Welcome to my Area");
         } else {

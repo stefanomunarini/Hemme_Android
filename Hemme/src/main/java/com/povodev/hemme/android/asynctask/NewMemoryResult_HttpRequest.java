@@ -31,7 +31,7 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
     /*
      * Loading dialog message
      */
-    private final String mDialogLoadingMessage = "Caricamento file in corso...";
+    private final String mDialogLoadingMessage = "Salvataggio risultato in corso...";
 
     private Result result;
     private int user_id;
@@ -60,7 +60,8 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
+
+            // /usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();

@@ -3,16 +3,15 @@ package com.povodev.hemme.android.location;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.povodev.hemme.android.TimerTask.ScheduleClient;
-import com.povodev.hemme.android.utils.VibratingToast;
+import com.povodev.hemme.android.asynctask.GetTutorEmail_HttpRequest;
+import com.povodev.hemme.android.utils.SessionManagement;
 
 /**
  * Created by Stefano on 15/05/14.
@@ -34,8 +33,10 @@ public class LocationChecker {
                     // Called when a new location is found by the network
                     // location provider.
                     locationManager.removeUpdates(this);
+
+                    new GetTutorEmail_HttpRequest(context, SessionManagement.getUserInSession(context).getId()).execute();
+
                     Log.d(ScheduleClient.TAG, "onLocationChanged {Lat: " + location.getLatitude() + "} {Long: " + location.getLongitude() + "}");
-                    new VibratingToast(context, "onLocationChanged {Lat: " + location.getLatitude() + "} {Long: " + location.getLongitude() + "}", Toast.LENGTH_SHORT);
                     Log.d(ScheduleClient.TAG, "Localizzazione acquisita");
                 }
 
@@ -91,9 +92,5 @@ public class LocationChecker {
                 -1, // time for this proximity alert, in milliseconds, or -1 to indicate no expiration
                 proximityIntent // will be used to generate an Intent to fire when entry to or exit from the alert region is detected
         );
-
-        IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
-        context.registerReceiver(new ProximityReceiver(), filter);
-
     }
 }
