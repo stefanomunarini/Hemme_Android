@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.asynctask.AssciazioneTutorPaziente;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.utils.SessionManagement;
@@ -40,7 +41,9 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
     private Context context;
     private String name_bundle = "no intent";
     private boolean isPatient = false;
-    public int tutor_tmp_id=0;
+    public static int tutor_tmp_id=0;
+    public static int paziente_tmp_id=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -95,7 +98,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         int id = v.getId();
         switch (id){
             case R.id.registration_button:
-                if (tutor_tmp_id!=0) {
+                if (tutor_tmp_id == 0) {
                     new Registration_HttpRequest(context, getUser()).execute();
                 }else{
                     new Registration_HttpRequest(context, getUser(),tutor_tmp_id).execute();

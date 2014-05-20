@@ -64,6 +64,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                     com.povodev.hemme.android.bean.User.class);
 
             User user = utenteRequest.getBody();
+            tutor_tmp = user;
             return user;
 
         }catch (Exception e) {Log.e(TAG, e.getMessage(), e);}
@@ -92,11 +93,12 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
             if(user.getImei().equals("tmp")){
 
                 final User usr = user;
-                tutor_tmp = user;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
                 builder.setTitle("Come vuoi registrare questo telefono?")
                         .setMessage(mDialogErrorMessage);
+
                 builder.setPositiveButton("Nuovo dispositivo personale", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -110,7 +112,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
                 builder.setNegativeButton("Nuovo Paziente", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivityReg(context,usr);
+                        startActivityReg(context,user);
                         dialog.dismiss();
                     }
                 });
@@ -145,7 +147,7 @@ public class Login_HttpRequest extends AsyncTask<Void, Void, User> {
     private void startActivityReg(Context context,User userTmp) {
         Intent intent = new Intent(context, Registration_Activity.class);
         intent.putExtra("nome",userTmp.getName());
-        intent.putExtra("tuor_id",tutor_tmp.getId());
+        intent.putExtra("tutor_id",userTmp.getId());
         context.startActivity(intent);
         ((Login_Activity)context).finish();
     }
