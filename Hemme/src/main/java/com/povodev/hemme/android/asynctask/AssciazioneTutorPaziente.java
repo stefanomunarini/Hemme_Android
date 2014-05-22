@@ -40,8 +40,6 @@ public class AssciazioneTutorPaziente extends AsyncTask<Void, Void, Boolean> {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         return restTemplate.postForObject(url, requestEntity, Boolean.class);
-
-
     }
 
     @Override

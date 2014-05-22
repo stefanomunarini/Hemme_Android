@@ -41,8 +41,8 @@ public class Login_Activity extends RoboFragmentActivity implements View.OnClick
         SessionManagement.closeSession(this);
 
         //TODO eliminare queste due righe
-        mUsernameEditText.setText("ssteee@gmail.com");
-        mPasswordEditText.setText("ste");
+        /*mUsernameEditText.setText("ssteee@gmail.com");
+        mPasswordEditText.setText("ste");*/
 
         setComponentsListener();
     }

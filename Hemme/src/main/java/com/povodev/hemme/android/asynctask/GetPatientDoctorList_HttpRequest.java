@@ -89,10 +89,6 @@ public class GetPatientDoctorList_HttpRequest extends AsyncTask<Void, Void, Arra
     protected void onPostExecute(ArrayList<PatientDoctorItem> items) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        for (int i=0; i<items.size(); i++){
-            Log.d(TAG, i + " " + items.get(i).getPatient_name());
-        }
-
         if (items!=null){
             Associa_Dispositivi.populateListView(items);
         }

@@ -26,7 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -35,41 +35,43 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/username"
+            android:text="@string/email"
             android:id="@+id/username_textview" />
 
         <EditText
             android:id="@+id/username_edittext"
+            android:layout_alignBaseline="@id/username_textview"
+            android:layout_toRightOf="@+id/password_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:minEms="8"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+            android:inputType="textEmailAddress"
+            android:ems="8"/>
 
         <TextView
+            android:layout_below="@id/username_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/password"
             android:id="@+id/password_textview" />
 
         <EditText
+            android:layout_alignBaseline="@id/password_textview"
+            android:layout_toRightOf="@id/password_textview"
             android:id="@+id/password_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:password="true"
             android:singleLine="true"
-            android:minEms="8"/>
+            android:ems="8"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     </LinearLayout>
 

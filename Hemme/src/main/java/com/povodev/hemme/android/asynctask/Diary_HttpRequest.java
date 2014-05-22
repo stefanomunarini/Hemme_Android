@@ -75,12 +75,14 @@ public class Diary_HttpRequest extends AsyncTask<Void, Void, ArrayList<Document>
         super.onPostExecute(result);
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-        ArrayList<Document> reverseDiary = new ArrayList<Document>();
-        for(int i=0;i<result.size();i++){
-            reverseDiary.add(result.get(result.size()-1-i));
-        }
+        if (result!=null) {
+            ArrayList<Document> reverseDiary = new ArrayList<Document>();
+            for (int i = 0; i < result.size(); i++) {
+                reverseDiary.add(result.get(result.size() - 1 - i));
+            }
 
-        new BitmapDownload(reverseDiary,context).execute();
+            new BitmapDownload(reverseDiary, context).execute();
+        }
 
     }
 }

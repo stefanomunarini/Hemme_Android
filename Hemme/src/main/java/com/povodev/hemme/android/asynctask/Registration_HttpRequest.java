@@ -34,8 +34,11 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     private User user;
     private ProgressDialog progressDialog;
 
-    public int tutor_tmp_id;
+    public int tutor_tmp_id = -1;
 
+    /*
+     * Registrazione tutor o dottore
+     */
     public Registration_HttpRequest(Context context, User user){
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
         this.user = user;
@@ -43,6 +46,9 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
         url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/registration";
     }
 
+    /*
+     * Registrazione Paziente
+     */
     public Registration_HttpRequest(Context context, User user,int tutor_tmp_id){
         progressDialog = new CustomProgressDialog(context,mDialogTitle,mDialogLoadingMessage);
         this.user = user;
@@ -86,16 +92,17 @@ public class Registration_HttpRequest extends AsyncTask<Void, Void, User> {
     protected void onPostExecute(User user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
 
-
-        new AssciazioneTutorPaziente(
-                context,
-                user.getId(),
-                tutor_tmp_id)
-                .execute();
-
-
-
         if (user!=null){
+
+            // Se è nuovo paziente
+            if (tutor_tmp_id!=-1) {
+                new AssciazioneTutorPaziente(
+                        context,
+                        user.getId(),
+                        tutor_tmp_id)
+                        .execute();
+            }
+
             SessionManagement.createLoginSession(context, user);
             try {
                 jumpIntoApp();

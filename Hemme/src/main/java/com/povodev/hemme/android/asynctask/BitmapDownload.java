@@ -88,10 +88,12 @@ public class BitmapDownload extends AsyncTask<Void, Void, ArrayList<Document>> i
 
         if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
 
-        ArrayAdapter adapter = new Document_Adapter(context, R.layout.diary_row_layout,result);
-        Diary diary = (Diary)context;
-        ListView mListView = (ListView)diary.findViewById(R.id.listview);
-        mListView.setAdapter(adapter);
+        if (result!=null) {
+            ArrayAdapter adapter = new Document_Adapter(context, R.layout.diary_row_layout, result);
+            Diary diary = (Diary) context;
+            ListView mListView = (ListView) diary.findViewById(R.id.listview);
+            mListView.setAdapter(adapter);
+        }
 
 
 

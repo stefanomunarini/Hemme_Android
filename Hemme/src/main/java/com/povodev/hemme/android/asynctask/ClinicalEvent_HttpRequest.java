@@ -55,7 +55,7 @@ public class ClinicalEvent_HttpRequest extends AsyncTask<Void, Void, Boolean> {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-            //TODO usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
+            // usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
 

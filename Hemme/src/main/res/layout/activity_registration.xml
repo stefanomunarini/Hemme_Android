@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/registrazione"
+        android:paddingBottom="8dp"
         android:layout_gravity="center_horizontal" />
 
     <LinearLayout
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:singleLine="true"
-            android:minEms="8"/>
+            android:ems="10"/>
 
     </LinearLayout>
 
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:singleLine="true"
-            android:minEms="8"/>
+            android:ems="10"/>
 
     </LinearLayout>
 
@@ -81,8 +82,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:minEms="8"/>
+            android:ems="10"/>
 
     </LinearLayout>
 
@@ -103,7 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:minEms="8"/>
+            android:password="true"
+            android:ems="10"/>
 
     </LinearLayout>
 

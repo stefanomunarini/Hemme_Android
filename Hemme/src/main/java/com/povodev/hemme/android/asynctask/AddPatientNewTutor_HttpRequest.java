@@ -36,7 +36,7 @@ public class AddPatientNewTutor_HttpRequest extends AsyncTask<Void, Void, Boolea
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             return restTemplate.postForObject(url, requestEntity, Boolean.class);
 
-        }catch (Exception e) {Log.e(TAG, "aggiornamento pazienti nuovo disp tutore FAIL" + e.getMessage(), e);}
+        } catch (Exception e) {Log.e(TAG, "aggiornamento pazienti nuovo disp tutore FAIL" + e.getMessage(), e);}
 
         return null;
     }

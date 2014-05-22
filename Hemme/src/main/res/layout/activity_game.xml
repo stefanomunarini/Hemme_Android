@@ -41,13 +41,13 @@
         <GridView
             android:id="@+id/gridview"
             android:layout_below="@id/calling_crono"
-            android:padding="16dp"
+            android:padding="8dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:columnWidth="150dp"
+            android:columnWidth="100dp"
             android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="8dp"
             android:stretchMode="spacingWidthUniform"
             android:gravity="center"
             />

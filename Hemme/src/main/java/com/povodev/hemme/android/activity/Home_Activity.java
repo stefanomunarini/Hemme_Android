@@ -95,13 +95,15 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_actionbar, menu);
 
+        user = SessionManagement.getUserInSession(this);
+
         // If the user is a doctor, hide these menu item (that are just for tutor)
         if (user.getRole()==1) {
-            MenuItem associaDispositivoMenuItem = menu.getItem(R.id.action_associa_dispositivo);
+            MenuItem associaDispositivoMenuItem = menu.getItem(1);
             associaDispositivoMenuItem.setEnabled(false);
             associaDispositivoMenuItem.setVisible(false);
 
-            MenuItem impostaRangeMenuItem = menu.getItem(R.id.action_imposta_range);
+            MenuItem impostaRangeMenuItem = menu.getItem(2);
             impostaRangeMenuItem.setEnabled(false);
             impostaRangeMenuItem.setVisible(false);
         }

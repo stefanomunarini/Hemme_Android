@@ -208,7 +208,6 @@ public class MemoryResultsListFragment extends ListFragment {
                         requestEntity,
                         com.povodev.hemme.android.bean.Test.class);
                 return testRequest.getBody();
-//                return restTemplate.getForObject(url, com.povodev.hemme.android.bean.Test.class);
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
@@ -226,10 +225,10 @@ public class MemoryResultsListFragment extends ListFragment {
         protected void onPostExecute(ArrayList<Result> test) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
-            MemoryResultsListFragment.test = test;
-            populateListView(test);
-
-            Log.d(TAG, "ArrayList size: "+ test.size());
+            if (test!=null) {
+                MemoryResultsListFragment.test = test;
+                populateListView(test);
+            }
         }
     }
 

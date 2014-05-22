@@ -59,11 +59,7 @@ public class GetTutorEmail_HttpRequest extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String tutor_email) {
 
         if (tutor_email!=null){
-
-            Log.d(TAG,tutor_email);
-
             EmailUtils.notifyThatPatientHasExitedTheArea(context,tutor_email);
-
         }
     }
 }

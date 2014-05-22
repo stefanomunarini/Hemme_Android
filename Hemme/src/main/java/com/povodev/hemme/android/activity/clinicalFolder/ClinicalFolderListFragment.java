@@ -270,10 +270,10 @@ public class ClinicalFolderListFragment extends RoboListFragment {
         protected void onPostExecute(ArrayList<ClinicalEvent> clinicalFolder) {
             if (progressDialog.isShowing()) progressDialog.dismiss();
 
-            ClinicalFolderListFragment.clinicalFolder = clinicalFolder;
-            populateListView(clinicalFolder);
-
-            Log.d(TAG,"ArrayList size: "+clinicalFolder.size());
+            if (clinicalFolder!=null) {
+                ClinicalFolderListFragment.clinicalFolder = clinicalFolder;
+                populateListView(clinicalFolder);
+            }
         }
     }
 
