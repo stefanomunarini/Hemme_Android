@@ -1,11 +1,12 @@
 package com.povodev.hemme.android.TimerTask;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.povodev.hemme.android.location.LocationChecker;
+import com.povodev.hemme.android.asynctask.GetLocationVariables_HttpRequest;
 
 /**
  * This service is started when an Alarm has been raised
@@ -36,7 +37,7 @@ public class NotifyService extends Service {
 
 		// If this service was started by out AlarmTask intent then we want to show our notification
 		if(intent.getBooleanExtra(INTENT_NOTIFY, false))
-            checkLocation();
+            checkLocation(this);
 		
 		// We don't care if this service is stopped as we have already delivered our notification
 		return START_NOT_STICKY;
@@ -53,14 +54,11 @@ public class NotifyService extends Service {
 	/*
      * checkLocation
 	 */
-	private void checkLocation() {
+	private void checkLocation(Context context) {
 
-        /*
-         * THE CODE HERE
-         */
+        new GetLocationVariables_HttpRequest(context).execute();
 
-        LocationChecker locationChecker = new LocationChecker();
-        locationChecker.checkLocation(this);
+        //LocationChecker.checkLocation(context);
 		
 		// Stop the service when we are finished
 		stopSelf();

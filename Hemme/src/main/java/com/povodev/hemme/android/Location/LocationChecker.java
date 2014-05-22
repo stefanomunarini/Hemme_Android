@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.povodev.hemme.android.TimerTask.ScheduleClient;
 import com.povodev.hemme.android.asynctask.GetTutorEmail_HttpRequest;
 import com.povodev.hemme.android.utils.SessionManagement;
 
@@ -18,9 +17,11 @@ import com.povodev.hemme.android.utils.SessionManagement;
  */
 public class LocationChecker {
 
-    private Location location;
+    private static final String TAG = "LocationChecker";
 
-    public void checkLocation(final Context context) {
+    private static Location location;
+
+    public static void checkLocation(final Context context) {
 
         // Acquire a reference to the system Location Manager
         final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -36,24 +37,78 @@ public class LocationChecker {
 
                     new GetTutorEmail_HttpRequest(context, SessionManagement.getUserInSession(context).getId()).execute();
 
-                    Log.d(ScheduleClient.TAG, "onLocationChanged {Lat: " + location.getLatitude() + "} {Long: " + location.getLongitude() + "}");
-                    Log.d(ScheduleClient.TAG, "Localizzazione acquisita");
+                    Log.d(TAG, "onLocationChanged {Lat: " + location.getLatitude() + "} {Long: " + location.getLongitude() + "}");
+                    Log.d(TAG, "Localizzazione acquisita");
                 }
 
                 @Override
                 public void onStatusChanged(String provider, int status,
                                             Bundle extras) {
-                    Log.d(ScheduleClient.TAG, "onStatusChanged");
+                    Log.d(TAG, "onStatusChanged");
                 }
 
                 @Override
                 public void onProviderDisabled(String provider) {
-                    Log.d(ScheduleClient.TAG, "onProviderDisabled");
+                    Log.d(TAG, "onProviderDisabled");
                 }
 
                 @Override
                 public void onProviderEnabled(String provider) {
-                    Log.d(ScheduleClient.TAG, "onProviderEnabled");
+                    Log.d(TAG, "onProviderEnabled");
+                }
+            };
+
+            // Register the listener with the Location Manager to receive
+            // location updates
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            else
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        }
+    }
+
+    public static void checkLocation(final Context context, final double lat, final double lon, final int radius) {
+
+        Log.d(TAG,"checkLocation");
+
+        // Acquire a reference to the system Location Manager
+        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        if (location == null) {
+            // Define a listener that responds to location updates
+            LocationListener locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+
+                    // Called when a new location is found by the network
+                    // location provider.
+                    locationManager.removeUpdates(this);
+
+                    if (distFrom(lat,lon,location.getLatitude(),location.getLongitude())>=radius){
+                        Log.d(TAG, "distFrom >= radius");
+                        new GetTutorEmail_HttpRequest(context, SessionManagement.getUserInSession(context).getId()).execute();
+                    }
+
+                    //new GetTutorEmail_HttpRequest(context, SessionManagement.getUserInSession(context).getId()).execute();
+
+                    Log.d(TAG, "onLocationChanged {Lat: " + location.getLatitude() + "} {Long: " + location.getLongitude() + "}");
+                    Log.d(TAG, "{Lat impostata " + lat + "} {Long impostata: " + lon + "}");
+                    Log.d(TAG, "Localizzazione acquisita");
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status,
+                                            Bundle extras) {
+                    Log.d(TAG, "onStatusChanged");
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    Log.d(TAG, "onProviderDisabled");
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                    Log.d(TAG, "onProviderEnabled");
                 }
             };
 
@@ -92,5 +147,22 @@ public class LocationChecker {
                 -1, // time for this proximity alert, in milliseconds, or -1 to indicate no expiration
                 proximityIntent // will be used to generate an Intent to fire when entry to or exit from the alert region is detected
         );
+    }
+
+    public static int distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 3958.75;
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double dist = earthRadius * c;
+
+        int meterConversion = 1609;
+
+        Log.d(TAG,"Distanza tra posizione attuale ed impostata: " + (int) (dist * meterConversion));
+
+        return (int) (dist * meterConversion);
     }
 }

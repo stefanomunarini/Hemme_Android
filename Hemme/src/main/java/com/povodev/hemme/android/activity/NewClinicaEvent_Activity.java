@@ -11,6 +11,7 @@ import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.activity.clinicalFolder.ClinicalFolderDetailFragment;
 import com.povodev.hemme.android.asynctask.ClinicalEvent_HttpRequest;
 import com.povodev.hemme.android.bean.ClinicalEvent;
+import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboActivity;
@@ -83,10 +84,14 @@ public class NewClinicaEvent_Activity extends RoboActivity implements View.OnCli
         switch (id){
             case R.id.insert_new_clinicalevent_button:
                 ClinicalEvent clinicalEvent = getClinicalEvent();
-                if (newClinicalEvent) {
-                    new ClinicalEvent_HttpRequest(context, clinicalEvent, newClinicalEventUrl.concat(patient_id+"")).execute();
+                if (patient_id!=-1) {
+                    if (newClinicalEvent) {
+                        new ClinicalEvent_HttpRequest(context, clinicalEvent, newClinicalEventUrl.concat(patient_id + "")).execute();
+                    } else {
+                        new ClinicalEvent_HttpRequest(context, clinicalEvent, modifyClinicalEventUrl).execute();
+                    }
                 } else {
-                    new ClinicalEvent_HttpRequest(context,clinicalEvent, modifyClinicalEventUrl).execute();
+                    new CustomAlertDialog(context,"Nessun paziente ancora associato.","Attenzione!").show();
                 }
                 break;
         }

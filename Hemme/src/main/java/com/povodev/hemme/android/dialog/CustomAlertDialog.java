@@ -14,6 +14,20 @@ public class CustomAlertDialog extends AlertDialog {
         super(context);
     }
 
+    public CustomAlertDialog(final Context context, String message, final String title){
+        super(context);
+
+        setMessage(message);
+        setTitle(title);
+
+        setButton(BUTTON_NEUTRAL,"Ok", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dismiss();
+            }
+        });
+    }
+
     public CustomAlertDialog(final Context context, String message, final String buttonText, final String buttonAction){
         super(context);
 

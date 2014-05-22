@@ -14,7 +14,6 @@ import android.widget.EditText;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.TimerTask.ScheduleClient;
-import com.povodev.hemme.android.asynctask.GetLocationVariables_HttpRequest;
 import com.povodev.hemme.android.utils.SessionManagement;
 
 import roboguice.activity.RoboActivity;
@@ -48,28 +47,18 @@ public class Patient_Activity extends RoboActivity {
 
         preferences = SessionManagement.getPreferences(this);
 
-        /*scheduleClient = new ScheduleClient(this);
-        scheduleClient.doBindService();*/
-
         setComponentsText();
         setComponentsListener();
 
-        new GetLocationVariables_HttpRequest(this).execute();
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
 
-        //setAlarm();
-    }
-
-    private void setAlarm() {
-
-        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-        scheduleClient.setAlarmForNotification();
-        scheduleClient.doUnbindService();
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        //scheduleClient.doUnbindService();
+        scheduleClient.doUnbindService();
     }
 
     private void setComponentsText() {

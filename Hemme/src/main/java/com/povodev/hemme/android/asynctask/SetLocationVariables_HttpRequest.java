@@ -44,6 +44,7 @@ public class SetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Bool
         Log.d(TAG, locationCoordinates.getLatitude() + "  " + locationCoordinates.getLongitude());
 
         this.user_id = SessionManagement.getPatientIdInSharedPreferences(context);
+
     }
 
     @Override

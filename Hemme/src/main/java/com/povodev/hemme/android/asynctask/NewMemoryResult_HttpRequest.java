@@ -61,7 +61,7 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            // /usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
+            //usato per risolvere bug http://sapandiwakar.in/eofexception-with-spring-rest-template-android/
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
             MultiValueMap<String,Object> para = new LinkedMultiValueMap<String, Object>();
@@ -84,9 +84,6 @@ public class NewMemoryResult_HttpRequest extends AsyncTask<Void, Void, Boolean> 
     @Override
     protected void onPostExecute(Boolean created) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
-
-        if (created) Log.d(TAG, "Result inserted correctly");
-        else Log.d(TAG,"Failed to insert new result");
 
         Intent intent = new Intent(context, MemoryResultsListActivity.class);
         context.startActivity(intent);
