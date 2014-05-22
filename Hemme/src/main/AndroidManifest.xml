@@ -135,7 +135,7 @@
 
         <receiver android:name=".location.ProximityReceiver" >
             <intent-filter>
-                <action android:name="com.povodev.hemme.ProximityAlert" />
+                <action android:name="com.povodev.hemme.ProximityAlert " />
             </intent-filter>
         </receiver>
 

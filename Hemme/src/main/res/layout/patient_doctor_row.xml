@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/patient_doctor_row"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/patient_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Paziente"
+        android:padding="8dp"
+        android:layout_toLeftOf="@+id/doctor_item"
+        android:ellipsize="end"
+        style="?android:attr/textAppearanceSmall"/>
+
+    <TextView
+        android:id="@+id/doctor_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Dottore"
+        android:padding="8dp"
+        style="?android:attr/textAppearanceSmall"/>
+
+</RelativeLayout>

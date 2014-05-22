@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.povodev.hemme.android.R;
-import com.povodev.hemme.android.asynctask.AssciazioneTutorPaziente;
 import com.povodev.hemme.android.asynctask.Registration_HttpRequest;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.utils.SessionManagement;
@@ -82,7 +81,7 @@ public class Registration_Activity extends RoboFragmentActivity implements View.
         SpinnerArray.add("Tutor");
         SpinnerArray.add("Dottore");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, SpinnerArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, SpinnerArray);
 
         mRoleSpinner.setAdapter(adapter);
         mRoleSpinner.setOnItemSelectedListener(this);

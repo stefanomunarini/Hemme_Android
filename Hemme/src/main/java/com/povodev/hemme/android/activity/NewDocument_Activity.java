@@ -114,14 +114,18 @@ public class NewDocument_Activity extends RoboActivity implements View.OnClickLi
                 }
         }
     }
+
     private String getRealPathFromURI(Uri contentURI) {
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) {
             return contentURI.getPath();
         } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            return cursor.getString(idx);
+            if (cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                return cursor.getString(idx);
+            } else {
+                return "";
+            }
         }
     }
 

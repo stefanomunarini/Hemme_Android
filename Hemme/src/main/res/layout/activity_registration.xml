@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/registration"
+        android:text="@string/registrazione"
         android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/card_shadow_layout">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -28,6 +36,8 @@
             android:id="@+id/name_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:singleLine="true"
             android:minEms="8"/>
 
     </LinearLayout>
@@ -48,6 +58,8 @@
             android:id="@+id/surname_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:singleLine="true"
             android:minEms="8"/>
 
     </LinearLayout>
@@ -68,6 +80,8 @@
             android:id="@+id/email_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:singleLine="true"
             android:minEms="8"/>
 
     </LinearLayout>
@@ -88,6 +102,7 @@
             android:id="@+id/password_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:minEms="8"/>
 
     </LinearLayout>
@@ -106,16 +121,22 @@
 
         <Spinner
             android:id="@+id/role_spinner"
+            android:layout_marginLeft="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
+    </LinearLayout>
+
     <Button
         android:id="@+id/registration_button"
-        android:layout_gravity="center"
+        android:background="@drawable/button_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:layout_margin="8dp"
         android:text="@string/registration"/>
 
 </LinearLayout>

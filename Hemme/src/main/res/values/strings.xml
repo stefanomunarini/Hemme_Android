@@ -80,5 +80,7 @@
     <string name="patient">SELEZIONA PAZIENTE</string>
     <string name="confirm">Conferma</string>
     <string name="imposta_range">Imposta Range Paziente</string>
+    <string name="doctor_patient_list">Pazienti già associati:</string>
+    <string name="registrazione">Registrazione</string>
 
 </resources>

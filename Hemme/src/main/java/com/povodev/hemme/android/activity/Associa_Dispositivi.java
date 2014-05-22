@@ -9,19 +9,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.povodev.hemme.android.Configurator;
 import com.povodev.hemme.android.R;
+import com.povodev.hemme.android.adapter.PatientDoctorAdapter;
+import com.povodev.hemme.android.asynctask.GetPatientDoctorList_HttpRequest;
 import com.povodev.hemme.android.asynctask.GetUserList_HttpRequest;
 import com.povodev.hemme.android.asynctask.LinkDoctorPatient_HttpRequest;
+import com.povodev.hemme.android.bean.PatientDoctorItem;
 import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.utils.SessionManagement;
+
+import java.util.ArrayList;
 
 public class Associa_Dispositivi extends FragmentActivity implements View.OnClickListener{
 
     public static Spinner spinner_dottori;
     public static Spinner spinner_pazienti;
+
+    public static ListView patient_doctor_ListView;
 
     private static Context context;
     private String url;
@@ -29,6 +38,8 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
 
     private static User selected_doctor;
     private static User selected_patient;
+
+    static RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,8 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         spinner_dottori= (Spinner)findViewById(R.id.spinner_medici);
         spinner_pazienti = (Spinner) findViewById(R.id.spinner_pazienti);
 
+        patient_doctor_ListView = (ListView) findViewById(R.id.patient_doctor_list);
+
         Button mConfirmButton = (Button) findViewById(R.id.confirm_button);
         mConfirmButton.setOnClickListener(this);
 
@@ -50,6 +63,7 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
         url = "http://"+ Configurator.ip+"/"+Configurator.project_name+"/patientList?tutor_id="+user.getId();
         new GetUserList_HttpRequest(this, "pazienti", url).execute();
 
+        new GetPatientDoctorList_HttpRequest(context).execute();
     }
 
     public static void setAdapterMedici(ArrayAdapter adapter){
@@ -104,5 +118,11 @@ public class Associa_Dispositivi extends FragmentActivity implements View.OnClic
                 new LinkDoctorPatient_HttpRequest(context,url).execute();
                 break;
         }
+    }
+
+    public static void populateListView(ArrayList<PatientDoctorItem> data){
+
+        PatientDoctorAdapter patientDoctorAdapter = new PatientDoctorAdapter(context,R.layout.patient_doctor_row,data);
+        patient_doctor_ListView.setAdapter(patientDoctorAdapter);
     }
 }

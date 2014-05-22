@@ -3,7 +3,6 @@ package com.povodev.hemme.android.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.povodev.hemme.android.R;
 import com.povodev.hemme.android.asynctask.GetCoordinatesFromGoogleMapApi_HttpRequest;
+import com.povodev.hemme.android.bean.User;
 import com.povodev.hemme.android.dialog.CustomAlertDialog;
 import com.povodev.hemme.android.fragment.Fragment_Home;
 import com.povodev.hemme.android.utils.ConnectionChecker;
@@ -37,7 +37,7 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
 
     private Context context;
 
-    private LocationListener mLocationListener;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
             startActivity(intent);
             finish();
         } else {
+            user =  SessionManagement.getUserInSession(context);
             Fragment fragment_home = new Fragment_Home();
             getSupportFragmentManager()
                     .beginTransaction()
@@ -93,6 +94,18 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_actionbar, menu);
+
+        // If the user is a doctor, hide these menu item (that are just for tutor)
+        if (user.getRole()==1) {
+            MenuItem associaDispositivoMenuItem = menu.getItem(R.id.action_associa_dispositivo);
+            associaDispositivoMenuItem.setEnabled(false);
+            associaDispositivoMenuItem.setVisible(false);
+
+            MenuItem impostaRangeMenuItem = menu.getItem(R.id.action_imposta_range);
+            impostaRangeMenuItem.setEnabled(false);
+            impostaRangeMenuItem.setVisible(false);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -113,7 +126,7 @@ public class Home_Activity extends RoboFragmentActivity implements SeekBar.OnSee
             case R.id.action_associa_dispositivo:
                 intent = new Intent(this, Associa_Dispositivi.class);
                 startActivity(intent);
-                finish();
+                //finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

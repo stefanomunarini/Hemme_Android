@@ -36,6 +36,8 @@ public class ProximityReceiver extends BroadcastReceiver {
         boolean state = intent.getBooleanExtra(k, false);
 
         if (state) {
+
+            //TODO testare se funziona
             cancelAlarm(context);
 
 
@@ -65,6 +67,8 @@ public class ProximityReceiver extends BroadcastReceiver {
 
         new GetTutorEmail_HttpRequest(context, SessionManagement.getUserInSession(context).getId()).execute();
 
+        //TODO testare
+        //setta un allarme ogni 5 minuti se si esce dalla zona indicata
         scheduleClient = new ScheduleClient(context);
         scheduleClient.doBindService();
         scheduleClient.setAlarmForNotification();
