@@ -61,14 +61,17 @@ public class Patient_Activity extends RoboActivity {
         scheduleClient.doUnbindService();
     }
 
+    private String nome, indirizzo, numero;
     private void setComponentsText() {
-        String nome = preferences.getString(mNomeValuePreference,null);
-        String indirizzo = preferences.getString(mIndirizzoValuePreference,null);
-        String numero = preferences.getString(mNumeroTelefonoValuePreference,null);
+        nome = preferences.getString(mNomeValuePreference,null);
+        indirizzo = preferences.getString(mIndirizzoValuePreference,null);
+        numero = preferences.getString(mNumeroTelefonoValuePreference,null);
 
         if (nome!=null) mNomeValueEditText.setText(nome);
         if (indirizzo!=null) mIndirizzoValueEditText.setText(indirizzo);
         if (numero!=null) mNumeroTelefonoValueEditText.setText(numero);
+
+        disableEditTexts();
     }
 
     private void setComponentsListener() {
@@ -111,7 +114,9 @@ public class Patient_Activity extends RoboActivity {
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (button_press_counter%2==0){
+
+                setComponentsText();
+                /*if (button_press_counter%2==0){
                     mConfirmButton.setText("Modifica Dati");
                     mNumeroTelefonoValueEditText.setEnabled(false);
                     mNumeroTelefonoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
@@ -119,16 +124,29 @@ public class Patient_Activity extends RoboActivity {
                     mIndirizzoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
                     mNomeValueEditText.setEnabled(false);
                     mNomeValueEditText.setTextColor(getResources().getColor(android.R.color.black));
-                } else {
+                } else {*/
+                /*disableEditTexts();
                     mConfirmButton.setText("Conferma");
                     mNumeroTelefonoValueEditText.setEnabled(true);
                     mIndirizzoValueEditText.setEnabled(true);
                     mNomeValueEditText.setEnabled(true);
                     mNomeValueEditText.requestFocus();
-                }
-                button_press_counter++;
+            //    }
+                button_press_counter++;*/
             }
         });
+    }
+
+    public void disableEditTexts(){
+        if (nome!=null && indirizzo!=null && numero!=null) {
+            mConfirmButton.setVisibility(View.GONE);
+            mNumeroTelefonoValueEditText.setEnabled(false);
+            mNumeroTelefonoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+            mIndirizzoValueEditText.setEnabled(false);
+            mIndirizzoValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+            mNomeValueEditText.setEnabled(false);
+            mNomeValueEditText.setTextColor(getResources().getColor(android.R.color.black));
+        }
     }
 
     @Override
