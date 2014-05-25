@@ -102,7 +102,7 @@ public class GetLocationVariables_HttpRequest extends AsyncTask<Void, Void, Loca
             double lon = result.getLongitude();
             int radius = result.getRadius();
 
-            Log.d(TAG, "Lat " +lat + "  Lon "+lon);
+            Log.d(TAG, "Tutor: Lat " +lat + "  Lon "+lon);
 
             LocationVariables.setLat(context,lat);
             LocationVariables.setLon(context, lon);

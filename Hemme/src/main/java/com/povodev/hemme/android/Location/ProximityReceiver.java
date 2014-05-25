@@ -38,7 +38,7 @@ public class ProximityReceiver extends BroadcastReceiver {
         if (state) {
 
             //TODO testare se funziona
-            cancelAlarm(context);
+            //cancelAlarm(context);
 
 
 
@@ -71,8 +71,5 @@ public class ProximityReceiver extends BroadcastReceiver {
         //setta un allarme ogni 5 minuti se si esce dalla zona indicata
         scheduleClient = new ScheduleClient(context);
         scheduleClient.doBindService();
-        //scheduleClient.setAlarmForNotification();
-        //scheduleClient.doUnbindService();
-
     }
 }

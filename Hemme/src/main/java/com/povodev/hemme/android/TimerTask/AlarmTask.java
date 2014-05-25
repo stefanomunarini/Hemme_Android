@@ -32,7 +32,7 @@ public class AlarmTask implements Runnable {
      * Check patient position every 5 minutes
      * when he/she exit the area
      */
-    public static int timer_delay = (5 * 60 * 1000);
+    public static int timer_delay = (1 * 30 * 1000);
 
 	@Override
 	public void run() {

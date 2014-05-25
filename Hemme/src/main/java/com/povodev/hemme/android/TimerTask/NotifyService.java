@@ -13,6 +13,15 @@ import com.povodev.hemme.android.asynctask.GetLocationVariables_HttpRequest;
  */
 public class NotifyService extends Service {
 
+    NotifyService notifyService;
+
+    public NotifyService getInstance(){
+        if (notifyService==null)
+            return new NotifyService();
+        else
+            return notifyService;
+    }
+
 	/**
 	 * Class for clients to access
 	 */
